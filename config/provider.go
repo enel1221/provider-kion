@@ -10,6 +10,7 @@ import (
 
 	ujconfig "github.com/crossplane/upjet/pkg/config"
 
+	"github.com/enel1221/provider-kion/config"
 	"github.com/enel1221/provider-kion/config/branch"
 	"github.com/enel1221/provider-kion/config/repository"
 )
@@ -34,6 +35,15 @@ func GetProvider() *ujconfig.Provider {
 		ujconfig.WithDefaultResourceOptions(
 			ExternalNameConfigurations(),
 		))
+
+	// Give Upjet your config
+    pc.AddResourceConfigurator("kion_organization", func(r *config.Resource) {
+        r.ShortGroup = "organization"
+        // If you need references, do them here
+    })
+    pc.AddResourceConfigurator("kion_project", func(r *config.Resource) {
+        r.ShortGroup = "project"
+    })
 
 	for _, configure := range []func(provider *ujconfig.Provider){
 		// add custom config functions
