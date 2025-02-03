@@ -1,0 +1,25 @@
+apiVersion: kion.upbound.io/v1alpha1
+kind: Role
+metadata:
+  annotations:
+    meta.upbound.io/example-id: kion/v1alpha1/role
+  labels:
+    testing.upbound.io/example-name: ar1
+  name: ar1
+spec:
+  forProvider:
+    description: A test role created by our Terraform provider.
+    name: Test Role
+    ownerUserGroups:
+    - id: 1
+    ownerUsers:
+    - id: 1
+    rolePermissions: |
+      {
+          "actions": [
+              "Microsoft.Authorization/roleDefinitions/read"
+          ],
+          "notActions": [],
+          "dataActions": [],
+          "notDataActions": []
+      }

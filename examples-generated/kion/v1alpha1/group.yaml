@@ -1,0 +1,19 @@
+apiVersion: kion.upbound.io/v1alpha1
+kind: Group
+metadata:
+  annotations:
+    meta.upbound.io/example-id: kion/v1alpha1/group
+  labels:
+    testing.upbound.io/example-name: ug1
+  name: ug1
+spec:
+  forProvider:
+    description: This is a sample user group.
+    idmsId: 1
+    name: sample-user-group2
+    ownerGroups:
+    - id: 1
+    ownerUsers:
+    - id: 1
+    users:
+    - id: 1

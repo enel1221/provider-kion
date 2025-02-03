@@ -1,0 +1,18 @@
+apiVersion: kion.upbound.io/v1alpha1
+kind: IAMRole
+metadata:
+  annotations:
+    meta.upbound.io/example-id: kion/v1alpha1/iamrole
+  labels:
+    testing.upbound.io/example-name: gr1
+  name: gr1
+spec:
+  forProvider:
+    description: Allow user to list & get IAM roles.
+    gcpRoleLaunchStage: 4
+    name: Read permissions
+    ownerUsers:
+    - id: 1
+    rolePermissions:
+    - iam.roles.get
+    - iam.roles.list

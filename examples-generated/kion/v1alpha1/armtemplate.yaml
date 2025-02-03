@@ -1,0 +1,26 @@
+apiVersion: kion.upbound.io/v1alpha1
+kind: ArmTemplate
+metadata:
+  annotations:
+    meta.upbound.io/example-id: kion/v1alpha1/armtemplate
+  labels:
+    testing.upbound.io/example-name: arm1
+  name: arm1
+spec:
+  forProvider:
+    deploymentMode: 2
+    description: A test Azure ARM template created via our Terraform provider.
+    name: tf test
+    ownerUsers:
+    - id: 1
+    resourceGroupName: 3797RGI
+    resourceGroupRegionId: 41
+    template: |
+      {
+          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "parameters": {},
+          "variables": {},
+          "resources": [],
+          "outputs": {}
+      }

@@ -1,0 +1,18 @@
+apiVersion: kion.upbound.io/v1alpha1
+kind: Ou
+metadata:
+  annotations:
+    meta.upbound.io/example-id: kion/v1alpha1/ou
+  labels:
+    testing.upbound.io/example-name: ou1
+  name: ou1
+spec:
+  forProvider:
+    description: Sample OU.
+    name: sample-ou
+    ownerUserGroups:
+    - id: 1
+    ownerUsers:
+    - id: 1
+    parentOuId: 0
+    permissionSchemeId: 2

@@ -1,0 +1,13 @@
+apiVersion: kion.upbound.io/v1alpha1
+kind: Label
+metadata:
+  annotations:
+    meta.upbound.io/example-id: kion/v1alpha1/label
+  labels:
+    testing.upbound.io/example-name: cost_center_x
+  name: cost-center-x
+spec:
+  forProvider:
+    color: '#123abc'
+    key: cost_center
+    value: x
