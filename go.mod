@@ -1,4 +1,4 @@
-module github.com/upbound/upjet-provider-template
+module github.com/enel1221/provider-kion
 
 go 1.21
 

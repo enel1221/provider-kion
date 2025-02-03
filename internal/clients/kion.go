@@ -15,7 +15,7 @@ import (
 
 	"github.com/crossplane/upjet/pkg/terraform"
 
-	"github.com/upbound/upjet-provider-template/apis/v1beta1"
+	"github.com/enel1221/provider-kion/apis/v1beta1"
 )
 
 const (
@@ -24,11 +24,16 @@ const (
 	errGetProviderConfig    = "cannot get referenced ProviderConfig"
 	errTrackUsage           = "cannot track ProviderConfig usage"
 	errExtractCredentials   = "cannot extract credentials"
-	errUnmarshalCredentials = "cannot unmarshal template credentials as JSON"
+	errUnmarshalCredentials = "cannot unmarshal kion credentials as JSON"
+
+	// Kion provider keys
+	keyAPIKey            = "apikey"
+	keyURL               = "url"
+	keySkipSSLValidation = "skip_ssl_validation"
 )
 
 // TerraformSetupBuilder builds Terraform a terraform.SetupFn function which
-// returns Terraform provider setup configuration
+// returns Terraform provider setup configuration.
 func TerraformSetupBuilder(version, providerSource, providerVersion string) terraform.SetupFn {
 	return func(ctx context.Context, client client.Client, mg resource.Managed) (terraform.Setup, error) {
 		ps := terraform.Setup{
@@ -63,10 +68,17 @@ func TerraformSetupBuilder(version, providerSource, providerVersion string) terr
 		}
 
 		// Set credentials in Terraform provider configuration.
-		/*ps.Configuration = map[string]any{
-			"username": creds["username"],
-			"password": creds["password"],
-		}*/
+		ps.Configuration = map[string]any{}
+		if v, ok := creds[keyAPIKey]; ok {
+			ps.Configuration[keyAPIKey] = v
+		}
+		if v, ok := creds[keyURL]; ok {
+			ps.Configuration[keyURL] = v
+		}
+		if v, ok := creds[keySkipSSLValidation]; ok {
+			ps.Configuration[keySkipSSLValidation] = v
+		}
+
 		return ps, nil
 	}
 }
