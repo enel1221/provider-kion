@@ -9,7 +9,7 @@ import (
 
 	"github.com/crossplane/upjet/pkg/controller"
 
-	resource "github.com/enel1221/provider-kion/internal/controller/null/resource"
+	project "github.com/enel1221/provider-kion/internal/controller/project/project"
 	providerconfig "github.com/enel1221/provider-kion/internal/controller/providerconfig"
 )
 
@@ -17,7 +17,7 @@ import (
 // the supplied manager.
 func Setup(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
-		resource.Setup,
+		project.Setup,
 		providerconfig.Setup,
 	} {
 		if err := setup(mgr, o); err != nil {

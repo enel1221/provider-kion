@@ -1,40 +1,1362 @@
-name: hashicorp/null
+name: kionsoftware/kion
 resources:
-    null_resource:
+    Kion Provider:
         subCategory: ""
-        description: The null_resource resource implements the standard resource lifecycle but takes no further action. On Terraform 1.4 and later, use the terraform_data resource type https://developer.hashicorp.com/terraform/language/resources/terraform-data instead. The triggers argument allows specifying an arbitrary set of values that, when changed, will cause the resource to be replaced.
-        name: null_resource
-        title: null_resource Resource - terraform-provider-null
+        description: The Kion provider allows you to interact with an installation of Kion.
+        name: Kion Provider
+        title: Kion Provider
+        argumentDocs:
+            apikey: '(String, Sensitive) The API key generated from Kion. Example: app_1_XXXXXXXXXXXX.'
+            apipath: (String) The base path of the API. Defaults to /api
+            skipsslvalidation: (Boolean) If true, will skip SSL validation.
+            url: '(String) The URL of a Kion installation. Example: https://kion.example.com.'
+        importStatements: []
+    kion_account Data Source - terraform-provider-kion:
+        subCategory: ""
+        name: kion_account Data Source - terraform-provider-kion
+        title: kion_account Data Source - terraform-provider-kion
+        argumentDocs:
+            account_alias: (String)
+            account_number: (String)
+            account_type_id: (Number)
+            car_external_id: (String)
+            created_at: (String)
+            email: (String)
+            filter: (Block List) (see below for nested schema)
+            id: (String) The ID of this resource.
+            include_linked_account_spend: (Boolean)
+            linked_account_number: (String)
+            linked_role: (String)
+            list: (List of Object) This is where Kion makes the discovered data available as a list of resources. (see below for nested schema)
+            name: (String) The field name whose values you wish to filter by.
+            payer_id: (Number)
+            project_id: (Number)
+            regex: (Boolean) Dictates if the values provided should be treated as regular expressions.
+            service_external_id: (String)
+            skip_access_checking: (Boolean)
+            start_datecode: (String)
+            use_org_account_info: (Boolean)
+            values: (List of String) The values of the field name you specified.
+        importStatements: []
+    kion_aws_account:
+        subCategory: ""
+        description: 'Creates or imports an AWS Account and adds it to a Kion project or the Kion account cache. If account_number is provided, an existing account will be imported into Kion, otherwise a new AWS account will be created.  If project_id is provided the account will be added to the corresponding project, otherwise the account will be added to the account cache. Once added, an account can be moved between projects or in and out of the account cache by changing the project_id.  When moving accounts between projects, use move_project_settings to control how financials will be treated between the old and new project. When importing an existing Kion account into terraform state (different from using terraform to import an existing AWS account into Kion), you must use the account_id= or account_cache_id= ID prefix to indicate whether the ID is an account ID or a cached account ID. For example: terraform import kion_aws_account.test-account account_id=123 terraform import kion_aws_account.test-cached-account account_cache_id=321'
+        name: kion_aws_account
+        title: kion_aws_account Resource - terraform-provider-kion
         examples:
-            - name: cluster
+            - name: test2
               manifest: |-
                 {
-                  "connection": [
+                  "aws_organizational_unit": [
                     {
-                      "host": "${element(aws_instance.cluster[*].public_ip, 0)}"
+                      "name": "test name",
+                      "org_unit_id": "123456"
                     }
                   ],
-                  "provisioner": {
-                    "remote-exec": [
-                      {
-                        "inline": [
-                          "bootstrap-cluster.sh ${join(\" \",\n      aws_instance.cluster[*].private_ip)}"
-                        ]
-                      }
-                    ]
-                  },
-                  "triggers": {
-                    "cluster_instance_ids": "${join(\",\", aws_instance.cluster[*].id)}"
+                  "commercial_account_name": "Test Account",
+                  "create_govcloud": false,
+                  "name": "Terraform Created AWS Account - 2",
+                  "payer_id": 1
+                }
+        argumentDocs:
+            account_alias: (String) Account alias is an optional short unique name that helps identify the account within Kion.
+            account_number: (String) The account number of the AWS account.  If account_number is provided, the existing account will be imported into Kion.  If account_number is omitted, a new account will be created.
+            account_type_id: (Number) An ID representing the account type within Kion.
+            aws_organizational_unit: '(Block Set, Max: 1) Where to place this account within AWS Organization when creating an account. (see below for nested schema)'
+            car_external_id: (String) The external ID used when assuming cloud access roles.
+            commercial_account_name: (String) The name used when creating new commercial account.
+            create_govcloud: (Boolean) True to create an AWS GovCloud account.
+            created_at: (String)
+            email: (String) The root email address to associate with a new account.  Required when creating a new account unless an account placeholder email has been set.
+            financials: (String) One of "move" or "preserve".  If "move", financial history will be moved to the new project beginning on the date specified by the move_datecode parameter.  If "preserve", financial history will be preserved on the current project.
+            gov_account_name: (String) The name used when creating new GovCloud account.
+            id: (String) The ID of this resource.
+            include_linked_account_spend: (Boolean) True to associate spend from a linked GovCloud account with this account.
+            labels: (Map of String) A map of labels to assign to the account. The labels must already exist in Kion.
+            last_updated: (String)
+            linked_account_number: (String) For AWS GovCloud accounts, this is the linked commercial account.  Otherwise this is empty.
+            linked_role: (String) The AWS organization service role.
+            location: (String) Where the account is attached.  Either "project" or "cache".
+            move_datecode: (Number) The start date to use when moving financial data in YYYYMM format.  This only applies when financials is set to move.  If provided, only financial data from this date to the current month will be moved to the new project.  If omitted or 0, all financial data will be moved to the new project.
+            move_project_settings: '(Block Set, Max: 1) Parameters used when moving an account between Kion projects.  These settings are ignored unless moving an account. (see below for nested schema)'
+            name: (String) The name of the AWS account within Kion.
+            org_unit_id: (String) OUID of the AWS Organization unit.
+            payer_id: (Number) The ID of the billing source containing billing data for this account.
+            project_id: (Number) The ID of the Kion project to place this account within.  If empty, the account will be placed within the account cache.
+            service_external_id: (String) The external ID used for automated internal actions using the service role for this account.
+            skip_access_checking: (Boolean) True to skip periodic access checking on the account.
+            start_datecode: (String) Date when the AWS account will starting submitting payments against a funding source (YYYY-MM).  Required if placing an account within a project.
+            use_org_account_info: (Boolean) True to keep the account name and email address in Kion in sync with the account name and email address as set in AWS Organization.
+        importStatements: []
+    kion_aws_cloudformation_template:
+        subCategory: ""
+        name: kion_aws_cloudformation_template
+        title: kion_aws_cloudformation_template Resource - terraform-provider-kion
+        examples:
+            - name: t1
+              manifest: |-
+                {
+                  "name": "sample-resource",
+                  "owner_user_groups": [
+                    {
+                      "id": 1
+                    }
+                  ],
+                  "owner_users": [
+                    {
+                      "id": 1
+                    }
+                  ],
+                  "policy": "{\n    \"AWSTemplateFormatVersion\": \"2010-09-09\",\n    \"Description\": \"Creates a test IAM role.\",\n    \"Metadata\": {\n        \"VersionDate\": {\n            \"Value\": \"20180718\"\n        },\n        \"Identifier\": {\n            \"Value\": \"blank-role.json\"\n        }\n    },\n    \"Resources\": {\n        \"EnvTestRole\": {\n            \"Type\": \"AWS::IAM::Role\",\n            \"Properties\": {\n                \"RoleName\": \"env-test-role\",\n                \"Path\": \"/\",\n                \"Policies\": [],\n                \"AssumeRolePolicyDocument\": {\n                    \"Statement\": [\n                        {\n                            \"Effect\": \"Allow\",\n                            \"Principal\": {\n                                \"Service\": [\n                                    \"ec2.amazonaws.com\"\n                                ]\n                            },\n                            \"Action\": [\n                                \"sts:AssumeRole\"\n                            ]\n                        }\n                    ]\n                }\n            }\n        }\n    }\n}\n",
+                  "regions": [
+                    "us-east-1"
+                  ],
+                  "tags": {
+                    "Department": "DevOps",
+                    "Owner": "jdoe"
                   }
                 }
-              dependencies:
-                aws_instance.cluster: |-
-                    {
-                      "ami": "ami-0dcc1e21636832c5d",
-                      "count": 3,
-                      "instance_type": "m5.large"
-                    }
         argumentDocs:
-            id: (String) This is set to a random value at create time.
-            triggers: (Map of String) A map of arbitrary strings that, when changed, will force the null resource to be replaced, re-running any associated provisioners.
+            description: (String)
+            id: (String) The ID of this resource.
+            last_updated: (String)
+            name: (String)
+            owner_user_groups: (Block Set) Must provide at least the owner_user_groups field or the owner_users field. (see below for nested schema)
+            owner_users: (Block Set) Must provide at least the owner_user_groups field or the owner_users field. (see below for nested schema)
+            policy: (String)
+            region: (String)
+            regions: (Set of String)
+            sns_arns: (String)
+            tags: (Map of String) Stack-level tags will apply to all supported resources in a CloudFormation stack.  Requires Kion >= 3.7.1.
+            template_parameters: (String)
+            termination_protection: (Boolean)
+        importStatements: []
+    kion_aws_cloudformation_template Data Source - terraform-provider-kion:
+        subCategory: ""
+        name: kion_aws_cloudformation_template Data Source - terraform-provider-kion
+        title: kion_aws_cloudformation_template Data Source - terraform-provider-kion
+        argumentDocs:
+            description: (String)
+            filter: (Block List) (see below for nested schema)
+            id: (String) The ID of this resource.
+            list: (List of Object) This is where Kion makes the discovered data available as a list of resources. (see below for nested schema)
+            name: (String) The field name whose values you wish to filter by.
+            owner_user_groups: (List of Object) (see below for nested schema)
+            owner_users: (List of Object) (see below for nested schema)
+            policy: (String)
+            regex: (Boolean) Dictates if the values provided should be treated as regular expressions.
+            region: (String)
+            regions: (List of String)
+            sns_arns: (String)
+            tags: (Map of String)
+            template_parameters: (String)
+            termination_protection: (Boolean)
+            values: (List of String) The values of the field name you specified.
+        importStatements: []
+    kion_aws_iam_policy:
+        subCategory: ""
+        name: kion_aws_iam_policy
+        title: kion_aws_iam_policy Resource - terraform-provider-kion
+        examples:
+            - name: p1
+              manifest: |-
+                {
+                  "name": "sample-resource",
+                  "owner_user_groups": [
+                    {
+                      "id": 1
+                    }
+                  ],
+                  "owner_users": [
+                    {
+                      "id": 1
+                    }
+                  ],
+                  "policy": "{\n    \"Version\": \"2012-10-17\",\n    \"Statement\": [\n        {\n            \"Effect\": \"Allow\",\n            \"Action\": \"*\",\n            \"Resource\": \"*\"\n        }\n    ]\n}\n"
+                }
+        argumentDocs:
+            aws_iam_path: (String)
+            aws_managed_policy: (Boolean)
+            description: (String)
+            id: (String) The ID of this resource.
+            last_updated: (String)
+            name: (String)
+            owner_user_groups: (Block Set) Must provide at least the owner_user_groups field or the owner_users field. (see below for nested schema)
+            owner_users: (Block Set) Must provide at least the owner_user_groups field or the owner_users field. (see below for nested schema)
+            path_suffix: (String)
+            policy: (String)
+            system_managed_policy: (Boolean)
+        importStatements: []
+    kion_aws_iam_policy Data Source - terraform-provider-kion:
+        subCategory: ""
+        name: kion_aws_iam_policy Data Source - terraform-provider-kion
+        title: kion_aws_iam_policy Data Source - terraform-provider-kion
+        argumentDocs:
+            aws_iam_path: (String)
+            aws_managed_policy: (Boolean)
+            description: (String)
+            filter: (Block List) (see below for nested schema)
+            id: (String) The ID of this resource.
+            list: (List of Object) This is where Kion makes the discovered data available as a list of resources. (see below for nested schema)
+            name: (String) The field name whose values you wish to filter by.
+            owner_user_groups: (List of Object) (see below for nested schema)
+            owner_users: (List of Object) (see below for nested schema)
+            path_suffix: (String)
+            policy: (String)
+            regex: (Boolean) Dictates if the values provided should be treated as regular expressions.
+            system_managed_policy: (Boolean)
+            values: (List of String) The values of the field name you specified.
+        importStatements: []
+    kion_azure_account:
+        subCategory: ""
+        description: 'Creates or imports an Azure Subscription and adds it to a Kion project or the Kion account cache. If subscription_uuid is provided, an existing subscription will be imported into Kion, otherwise a new Azure subscription will be created.  If project_id is provided the account will be added to the corresponding project, otherwise the account will be added to the account cache. Once added, an account can be moved between projects or in and out of the account cache by changing the project_id.  When moving accounts between projects, use move_project_settings to control how financials will be treated between the old and new project. When importing an existing Kion account into terraform state (different from using terraform to import an existing Azure subscription into Kion), you must use the account_id= or account_cache_id= ID prefix to indicate whether the ID is an account ID or a cached account ID. For example: terraform import kion_azure_account.test-account account_id=123 terraform import kion_azure_account.test-cached-account account_cache_id=321'
+        name: kion_azure_account
+        title: kion_azure_account Resource - terraform-provider-kion
+        examples:
+            - name: test6
+              manifest: |-
+                {
+                  "mca": [
+                    {
+                      "billing_account": "5e98e158-xxxx-xxxx-xxxx-xxxxxxxxxxxx:xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx_xxxx-xx-xx",
+                      "billing_profile": "AW4F-xxxx-xxx-xxx",
+                      "billing_profile_invoice": "SH3V-xxxx-xxx-xxx"
+                    }
+                  ],
+                  "name": "Terraform Created Azure Subscription - 5",
+                  "payer_id": 3,
+                  "subscription_name": "terraform-test-create"
+                }
+        argumentDocs:
+            account: (String) Azure EA account number
+            account_alias: (String) Account alias is an optional short unique name that helps identify the account within Kion.
+            account_type_id: (Number) An ID representing the account type within Kion.
+            billing_account: (String) Azure billing account number
+            billing_cycle: (String) Azure CSP billing cycle
+            billing_profile: (String) Azure MCA billing profile number
+            billing_profile_invoice: (String) Azure MCA billing profile invoice section number
+            created_at: (String)
+            csp: '(Block Set, Max: 1) Parameters used when creating a new Azure CSP subscription. (see below for nested schema)'
+            ea: '(Block Set, Max: 1) Parameters used when creating a new Azure EA subscription. (see below for nested schema)'
+            financials: (String) One of "move" or "preserve".  If "move", financial history will be moved to the new project beginning on the date specified by the move_datecode parameter.  If "preserve", financial history will be preserved on the current project.
+            id: (String) The ID of this resource.
+            labels: (Map of String) A map of labels to assign to the account. The labels must already exist in Kion.
+            last_updated: (String)
+            location: (String) Where the account is attached.  Either "project" or "cache".
+            mca: '(Block Set, Max: 1) Parameters used when creating a new Azure MCA subscription. (see below for nested schema)'
+            move_datecode: (Number) The start date to use when moving financial data in YYYYMM format.  This only applies when financials is set to move.  If provided, only financial data from this date to the current month will be moved to the new project.  If omitted or 0, all financial data will be moved to the new project.
+            move_project_settings: '(Block Set, Max: 1) Parameters used when moving an account between Kion projects.  These settings are ignored unless moving an account. (see below for nested schema)'
+            name: (String) The name of the Azure account within Kion.
+            offer_id: (String) Azure CSP offer id
+            parent_management_group_id: (String) The parent management group ID when creating an Azure subscription. If provided, the subscription will be created under the provided management group.  If not provided, the subscription will be created at the root level
+            payer_id: (Number) The ID of the billing source containing billing data for this account.
+            project_id: (Number) The ID of the Kion project to place this account within.  If empty, the account will be placed within the account cache.
+            skip_access_checking: (Boolean) True to skip periodic access checking on the account.
+            start_datecode: (String) Date when the Azure account will starting submitting payments against a funding source (YYYY-MM).  Required if placing an account within a project.
+            subscription_name: (String) Name of the subscription as it appears in Azure.
+            subscription_uuid: (String) The UUID of the Azure subscription.  If subscription_uuid is provided, the existing subscription will be imported into Kion.  If subscription_uuid is omitted, a new subscription will be created.
+        importStatements: []
+    kion_azure_arm_template:
+        subCategory: ""
+        name: kion_azure_arm_template
+        title: kion_azure_arm_template Resource - terraform-provider-kion
+        examples:
+            - name: arm1
+              manifest: |-
+                {
+                  "deployment_mode": 2,
+                  "description": "A test Azure ARM template created via our Terraform provider.",
+                  "name": "tf test",
+                  "owner_users": [
+                    {
+                      "id": 1
+                    }
+                  ],
+                  "resource_group_name": "3797RGI",
+                  "resource_group_region_id": 41,
+                  "template": "{\n    \"$schema\": \"https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#\",\n    \"contentVersion\": \"1.0.0.0\",\n    \"parameters\": {},\n    \"variables\": {},\n    \"resources\": [],\n    \"outputs\": {}\n}\n"
+                }
+        argumentDocs:
+            ct_managed: (Boolean)
+            deployment_mode: (Number)
+            description: (String)
+            id: (String) The ID of this resource.
+            last_updated: (String)
+            name: (String)
+            owner_user_groups: (Block Set) Must provide at least the owner_user_groups field or the owner_users field. (see below for nested schema)
+            owner_users: (Block Set) Must provide at least the owner_user_groups field or the owner_users field. (see below for nested schema)
+            resource_group_name: (String)
+            resource_group_region_id: (Number)
+            template: (String)
+            template_parameters: (String)
+            version: (Number)
+        importStatements: []
+    kion_azure_arm_template Data Source - terraform-provider-kion:
+        subCategory: ""
+        name: kion_azure_arm_template Data Source - terraform-provider-kion
+        title: kion_azure_arm_template Data Source - terraform-provider-kion
+        argumentDocs:
+            ct_managed: (Boolean)
+            deployment_mode: (Number)
+            description: (String)
+            filter: (Block List) (see below for nested schema)
+            id: (String) The ID of this resource.
+            list: (List of Object) This is where Kion makes the discovered data available as a list of resources. (see below for nested schema)
+            name: (String) The field name whose values you wish to filter by.
+            owner_user_groups: (List of Object) (see below for nested schema)
+            owner_users: (List of Object) (see below for nested schema)
+            regex: (Boolean) Dictates if the values provided should be treated as regular expressions.
+            resource_group_name: (String)
+            resource_group_region_id: (Number)
+            template: (String)
+            template_parameters: (String)
+            values: (List of String) The values of the field name you specified.
+            version: (Number)
+        importStatements: []
+    kion_azure_policy Data Source - terraform-provider-kion:
+        subCategory: ""
+        name: kion_azure_policy Data Source - terraform-provider-kion
+        title: kion_azure_policy Data Source - terraform-provider-kion
+        argumentDocs:
+            azure_managed_policy_def_id: (String)
+            ct_managed: (Boolean)
+            description: (String)
+            filter: (Block List) (see below for nested schema)
+            id: (String) The ID of this resource.
+            list: (List of Object) This is where Kion makes the discovered data available as a list of resources. (see below for nested schema)
+            name: (String) The field name whose values you wish to filter by.
+            owner_user_groups: (List of Object) (see below for nested schema)
+            owner_users: (List of Object) (see below for nested schema)
+            parameters: (String)
+            policy: (String)
+            regex: (Boolean) Dictates if the values provided should be treated as regular expressions.
+            values: (List of String) The values of the field name you specified.
+        importStatements: []
+    kion_azure_policy Resource - terraform-provider-kion:
+        subCategory: ""
+        name: kion_azure_policy Resource - terraform-provider-kion
+        title: kion_azure_policy Resource - terraform-provider-kion
+        argumentDocs:
+            azure_managed_policy_def_id: (String)
+            ct_managed: (Boolean)
+            description: (String)
+            id: (String) The ID of this resource.
+            last_updated: (String)
+            name: (String)
+            owner_user_groups: (Block Set) Must provide at least the owner_user_groups field or the owner_users field. (see below for nested schema)
+            owner_users: (Block Set) Must provide at least the owner_user_groups field or the owner_users field. (see below for nested schema)
+            parameters: (String)
+            policy: (String)
+        importStatements: []
+    kion_azure_role:
+        subCategory: ""
+        name: kion_azure_role
+        title: kion_azure_role Resource - terraform-provider-kion
+        examples:
+            - name: ar1
+              manifest: |-
+                {
+                  "description": "A test role created by our Terraform provider.",
+                  "name": "Test Role",
+                  "owner_user_groups": [
+                    {
+                      "id": 1
+                    }
+                  ],
+                  "owner_users": [
+                    {
+                      "id": 1
+                    }
+                  ],
+                  "role_permissions": "{\n    \"actions\": [\n        \"Microsoft.Authorization/roleDefinitions/read\"\n    ],\n    \"notActions\": [],\n    \"dataActions\": [],\n    \"notDataActions\": []\n}\n"
+                }
+        argumentDocs:
+            azure_managed_policy: (Boolean)
+            description: (String)
+            id: (String) The ID of this resource.
+            last_updated: (String)
+            name: (String)
+            owner_user_groups: (Block Set) Must provide at least the owner_user_groups field or the owner_users field. (see below for nested schema)
+            owner_users: (Block Set) Must provide at least the owner_user_groups field or the owner_users field. (see below for nested schema)
+            role_permissions: (String)
+            system_managed_policy: (Boolean)
+        importStatements: []
+    kion_azure_role Data Source - terraform-provider-kion:
+        subCategory: ""
+        name: kion_azure_role Data Source - terraform-provider-kion
+        title: kion_azure_role Data Source - terraform-provider-kion
+        argumentDocs:
+            azure_managed_policy: (Boolean)
+            description: (String)
+            filter: (Block List) (see below for nested schema)
+            id: (String) The ID of this resource.
+            list: (List of Object) This is where Kion makes the discovered data available as a list of resources. (see below for nested schema)
+            name: (String) The field name whose values you wish to filter by.
+            owner_user_groups: (List of Object) (see below for nested schema)
+            owner_users: (List of Object) (see below for nested schema)
+            regex: (Boolean) Dictates if the values provided should be treated as regular expressions.
+            role_permissions: (String)
+            system_managed_policy: (Boolean)
+            values: (List of String) The values of the field name you specified.
+        importStatements: []
+    kion_cached_account Data Source - terraform-provider-kion:
+        subCategory: ""
+        name: kion_cached_account Data Source - terraform-provider-kion
+        title: kion_cached_account Data Source - terraform-provider-kion
+        argumentDocs:
+            account_alias: (String)
+            account_number: (String)
+            account_type_id: (Number)
+            car_external_id: (String)
+            created_at: (String)
+            email: (String)
+            filter: (Block List) (see below for nested schema)
+            id: (String) The ID of this resource.
+            include_linked_account_spend: (Boolean)
+            linked_account_number: (String)
+            linked_role: (String)
+            list: (List of Object) This is where Kion makes the discovered data available as a list of resources. (see below for nested schema)
+            name: (String) The field name whose values you wish to filter by.
+            payer_id: (Number)
+            project_id: (Number)
+            regex: (Boolean) Dictates if the values provided should be treated as regular expressions.
+            service_external_id: (String)
+            skip_access_checking: (Boolean)
+            start_datecode: (String)
+            use_org_account_info: (Boolean)
+            values: (List of String) The values of the field name you specified.
+        importStatements: []
+    kion_cloud_rule:
+        subCategory: ""
+        name: kion_cloud_rule
+        title: kion_cloud_rule Resource - terraform-provider-kion
+        examples:
+            - name: cr1
+              manifest: |-
+                {
+                  "aws_iam_policies": [
+                    {
+                      "id": 1
+                    }
+                  ],
+                  "description": "Sample cloud rule.",
+                  "name": "sample-resource",
+                  "owner_user_groups": [
+                    {
+                      "id": 1
+                    }
+                  ],
+                  "owner_users": [
+                    {
+                      "id": 1
+                    }
+                  ]
+                }
+        argumentDocs:
+            aws_cloudformation_templates: (Block List) (see below for nested schema)
+            aws_iam_policies: (Block Set) (see below for nested schema)
+            azure_arm_template_definitions: (Block List) (see below for nested schema)
+            azure_policy_definitions: (Block Set) (see below for nested schema)
+            azure_role_definitions: (Block Set) (see below for nested schema)
+            built_in: (Boolean)
+            compliance_standards: (Block Set) (see below for nested schema)
+            description: (String)
+            gcp_iam_roles: (Block Set) (see below for nested schema)
+            id: (String) The ID of this resource.
+            internal_aws_amis: (Block Set) (see below for nested schema)
+            internal_aws_service_catalog_portfolios: (Block Set) (see below for nested schema)
+            labels: (Map of String) A map of labels to assign to the cloud rule. The labels must already exist in Kion.
+            last_updated: (String)
+            name: (String)
+            ous: (Block Set) (see below for nested schema)
+            owner_user_groups: (Block Set) Must provide at least the owner_user_groups field or the owner_users field. (see below for nested schema)
+            owner_users: (Block Set) Must provide at least the owner_user_groups field or the owner_users field. (see below for nested schema)
+            post_webhook_id: (Number)
+            pre_webhook_id: (Number)
+            projects: (Block Set) (see below for nested schema)
+            service_control_policies: (Block Set) (see below for nested schema)
+        importStatements: []
+    kion_cloud_rule Data Source - terraform-provider-kion:
+        subCategory: ""
+        name: kion_cloud_rule Data Source - terraform-provider-kion
+        title: kion_cloud_rule Data Source - terraform-provider-kion
+        argumentDocs:
+            built_in: (Boolean)
+            description: (String)
+            filter: (Block List) (see below for nested schema)
+            id: (String) The ID of this resource.
+            list: (List of Object) This is where Kion makes the discovered data available as a list of resources. (see below for nested schema)
+            name: (String) The field name whose values you wish to filter by.
+            post_webhook_id: (Number)
+            pre_webhook_id: (Number)
+            regex: (Boolean) Dictates if the values provided should be treated as regular expressions.
+            values: (List of String) The values of the field name you specified.
+        importStatements: []
+    kion_compliance_check:
+        subCategory: ""
+        name: kion_compliance_check
+        title: kion_compliance_check Resource - terraform-provider-kion
+        examples:
+            - name: c1
+              manifest: |-
+                {
+                  "cloud_provider_id": 1,
+                  "compliance_check_type_id": 1,
+                  "name": "sample-resource",
+                  "owner_user_groups": [
+                    {
+                      "id": 1
+                    }
+                  ],
+                  "owner_users": [
+                    {
+                      "id": 1
+                    }
+                  ]
+                }
+        argumentDocs:
+            azure_policy_id: (Number)
+            body: (String)
+            cloud_provider_id: (Number)
+            compliance_check_type_id: (Number)
+            created_at: (String)
+            created_by_user_id: (Number)
+            ct_managed: (Boolean)
+            description: (String)
+            frequency_minutes: (Number)
+            frequency_type_id: (Number)
+            id: (String) The ID of this resource.
+            is_all_regions: (Boolean)
+            is_auto_archived: (Boolean)
+            last_scan_id: (Number)
+            last_updated: (String)
+            name: (String)
+            owner_user_groups: (Block Set) Must provide at least the owner_user_groups field or the owner_users field. (see below for nested schema)
+            owner_users: (Block Set) Must provide at least the owner_user_groups field or the owner_users field. (see below for nested schema)
+            regions: (Set of String)
+            severity_type_id: (Number)
+        importStatements: []
+    kion_compliance_check Data Source - terraform-provider-kion:
+        subCategory: ""
+        name: kion_compliance_check Data Source - terraform-provider-kion
+        title: kion_compliance_check Data Source - terraform-provider-kion
+        argumentDocs:
+            azure_policy_id: (Number)
+            body: (String)
+            cloud_provider_id: (Number)
+            compliance_check_type_id: (Number)
+            created_at: (String)
+            created_by_user_id: (Number)
+            ct_managed: (Boolean)
+            description: (String)
+            filter: (Block List) (see below for nested schema)
+            frequency_minutes: (Number)
+            frequency_type_id: (Number)
+            id: (String) The ID of this resource.
+            is_all_regions: (Boolean)
+            is_auto_archived: (Boolean)
+            last_scan_id: (Number)
+            list: (List of Object) This is where Kion makes the discovered data available as a list of resources. (see below for nested schema)
+            name: (String) The field name whose values you wish to filter by.
+            regex: (Boolean) Dictates if the values provided should be treated as regular expressions.
+            regions: (List of String)
+            severity_type_id: (Number)
+            values: (List of String) The values of the field name you specified.
+        importStatements: []
+    kion_compliance_standard:
+        subCategory: ""
+        name: kion_compliance_standard
+        title: kion_compliance_standard Resource - terraform-provider-kion
+        examples:
+            - name: s1
+              manifest: |-
+                {
+                  "created_by_user_id": 1,
+                  "name": "sample-resource",
+                  "owner_user_groups": [
+                    {
+                      "id": 1
+                    }
+                  ],
+                  "owner_users": [
+                    {
+                      "id": 1
+                    }
+                  ]
+                }
+        argumentDocs:
+            compliance_checks: (Block Set) (see below for nested schema)
+            created_at: (String)
+            created_by_user_id: (Number)
+            ct_managed: (Boolean)
+            description: (String)
+            id: (String) The ID of this resource.
+            last_updated: (String)
+            name: (String)
+            owner_user_groups: (Block Set) Must provide at least the owner_user_groups field or the owner_users field. (see below for nested schema)
+            owner_users: (Block Set) Must provide at least the owner_user_groups field or the owner_users field. (see below for nested schema)
+        importStatements: []
+    kion_compliance_standard Data Source - terraform-provider-kion:
+        subCategory: ""
+        name: kion_compliance_standard Data Source - terraform-provider-kion
+        title: kion_compliance_standard Data Source - terraform-provider-kion
+        argumentDocs:
+            created_at: (String)
+            created_by_user_id: (Number)
+            ct_managed: (Boolean)
+            description: (String)
+            filter: (Block List) (see below for nested schema)
+            id: (String) The ID of this resource.
+            list: (List of Object) This is where Kion makes the discovered data available as a list of resources. (see below for nested schema)
+            name: (String) The field name whose values you wish to filter by.
+            regex: (Boolean) Dictates if the values provided should be treated as regular expressions.
+            values: (List of String) The values of the field name you specified.
+        importStatements: []
+    kion_funding_source:
+        subCategory: ""
+        name: kion_funding_source
+        title: kion_funding_source Resource - terraform-provider-kion
+        examples:
+            - name: fs1
+              manifest: |-
+                {
+                  "amount": 10000,
+                  "description": "Sample funding source created via terraform",
+                  "end_datecode": "2023-12",
+                  "name": "Test Funding",
+                  "ou_id": 1,
+                  "owner_user_groups": [
+                    {
+                      "id": 3
+                    }
+                  ],
+                  "owner_users": [
+                    {
+                      "id": 1
+                    }
+                  ],
+                  "permission_scheme_id": 4,
+                  "start_datecode": "2023-01"
+                }
+        argumentDocs:
+            amount: (Number)
+            description: (String)
+            end_datecode: (String)
+            id: (String) The ID of this resource.
+            labels: (Map of String) A map of labels to assign to the funding source. The labels must already exist in Kion.
+            last_updated: (String)
+            name: (String)
+            ou_id: (Number)
+            owner_user_groups: (Block Set) Must provide at least the owner_user_groups field or the owner_users field. (see below for nested schema)
+            owner_users: (Block Set) Must provide at least the owner_user_groups field or the owner_users field. (see below for nested schema)
+            permission_scheme_id: (Number)
+            start_datecode: (String)
+        importStatements: []
+    kion_funding_source Data Source - terraform-provider-kion:
+        subCategory: ""
+        name: kion_funding_source Data Source - terraform-provider-kion
+        title: kion_funding_source Data Source - terraform-provider-kion
+        argumentDocs:
+            amount: (Number)
+            description: (String)
+            end_datecode: (String)
+            filter: (Block List) (see below for nested schema)
+            id: (String) The ID of this resource.
+            list: (List of Object) This is where Kion makes the discovered data available as a list of resources. (see below for nested schema)
+            name: (String) The field name whose values you wish to filter by.
+            ou_id: (Number)
+            regex: (Boolean) Dictates if the values provided should be treated as regular expressions.
+            start_datecode: (String)
+            values: (List of String) The values of the field name you specified.
+        importStatements: []
+    kion_funding_source_permission_mapping Data Source - terraform-provider-kion:
+        subCategory: ""
+        name: kion_funding_source_permission_mapping Data Source - terraform-provider-kion
+        title: kion_funding_source_permission_mapping Data Source - terraform-provider-kion
+        argumentDocs:
+            app_role_id: (Number)
+            funding_source_id: (Number) ID of the funding source to fetch permission mappings for.
+            id: (String) The ID of this resource.
+            list: (List of Object) List of permission mappings. (see below for nested schema)
+            user_groups_ids: (Set of Number)
+            user_ids: (Set of Number)
+        importStatements: []
+    kion_funding_source_permission_mapping Resource - terraform-provider-kion:
+        subCategory: ""
+        name: kion_funding_source_permission_mapping Resource - terraform-provider-kion
+        title: kion_funding_source_permission_mapping Resource - terraform-provider-kion
+        argumentDocs:
+            app_role_id: (Number) Application role ID for the permission mapping.
+            funding_source_id: (Number) ID of the Funding Source to manage permission mappings for.
+            id: (String) The ID of this resource.
+            user_groups_ids: (Set of Number) Set of user group IDs for the permission mapping (must be provided in numerical order).
+            user_ids: (Set of Number) Set of user IDs for the permission mapping (must be provided in numerical order).
+        importStatements: []
+    kion_gcp_account:
+        subCategory: ""
+        description: 'Creates or imports a Google Cloud Project and adds it to a Kion project or the Kion account cache. If create_mode is set to import, an existing project will be imported into Kion, otherwise if create_mode is set to create, a new GCP Project will be created.  If project_id is provided the account will be added to the corresponding project, otherwise the account will be added to the account cache. Once added, an account can be moved between projects or in and out of the account cache by changing the project_id.  When moving accounts between projects, use move_project_settings to control how financials will be treated between the old and new project. When importing an existing Kion account into terraform state (different from using terraform to import an existing GCP Project into Kion), you must use the account_id= or account_cache_id= ID prefix to indicate whether the ID is an account ID or a cached account ID. For example: terraform import kion_gcp_account.test-account account_id=123 terraform import kion_gcp_account.test-cached-account account_cache_id=321'
+        name: kion_gcp_account
+        title: kion_gcp_account Resource - terraform-provider-kion
+        examples:
+            - name: test4
+              manifest: |-
+                {
+                  "create_mode": "create",
+                  "google_cloud_project_id": "terraform-test-create",
+                  "name": "Terraform Created GCP Project - 4",
+                  "payer_id": 2,
+                  "project_id": "${kion_project.test1.id}",
+                  "start_datecode": "2023-01"
+                }
+              references:
+                project_id: kion_project.test1.id
+        argumentDocs:
+            account_alias: (String) Account alias is an optional short unique name that helps identify the account within Kion.
+            account_type_id: (Number) An ID representing the account type within Kion.
+            create_mode: (String) One of "create" or "import".  If "create", Kion will attempt to create a new Google Cloud Project.  If "import", Kion will import the existing Google Cloud Project as specified by google_cloud_project_id.
+            created_at: (String)
+            financials: (String) One of "move" or "preserve".  If "move", financial history will be moved to the new project beginning on the date specified by the move_datecode parameter.  If "preserve", financial history will be preserved on the current project.
+            google_cloud_parent_name: (String) The GCP resource identifier of the parent of this GCP Project.
+            google_cloud_project_id: (String) The Google Cloud project ID.
+            id: (String) The ID of this resource.
+            labels: (Map of String) A map of labels to assign to the account. The labels must already exist in Kion.
+            last_updated: (String)
+            location: (String) Where the account is attached.  Either "project" or "cache".
+            move_datecode: (Number) The start date to use when moving financial data in YYYYMM format.  This only applies when financials is set to move.  If provided, only financial data from this date to the current month will be moved to the new project.  If omitted or 0, all financial data will be moved to the new project.
+            move_project_settings: '(Block Set, Max: 1) Parameters used when moving an account between Kion projects.  These settings are ignored unless moving an account. (see below for nested schema)'
+            name: (String) The name of the Google Cloud account within Kion.
+            payer_id: (Number) The ID of the billing source containing billing data for this account.
+            project_id: (Number) The ID of the Kion project to place this account within.  If empty, the account will be placed within the account cache.
+            skip_access_checking: (Boolean) True to skip periodic access checking on the account.
+            start_datecode: (String) Date when the Google Cloud account will starting submitting payments against a funding source (YYYY-MM).  Required if placing an account within a project.
+        importStatements: []
+    kion_gcp_iam_role:
+        subCategory: ""
+        name: kion_gcp_iam_role
+        title: kion_gcp_iam_role Resource - terraform-provider-kion
+        examples:
+            - name: gr1
+              manifest: |-
+                {
+                  "description": "Allow user to list \u0026 get IAM roles.",
+                  "gcp_role_launch_stage": 4,
+                  "name": "Read permissions",
+                  "owner_users": [
+                    {
+                      "id": 1
+                    }
+                  ],
+                  "role_permissions": [
+                    "iam.roles.get",
+                    "iam.roles.list"
+                  ]
+                }
+        argumentDocs:
+            description: (String)
+            gcp_id: (String)
+            gcp_managed_policy: (Boolean)
+            gcp_role_launch_stage: (Number)
+            id: (String) The ID of this resource.
+            last_updated: (String)
+            name: (String)
+            owner_user_groups: (Block Set) Must provide at least the owner_user_groups field or the owner_users field. (see below for nested schema)
+            owner_users: (Block Set) Must provide at least the owner_user_groups field or the owner_users field. (see below for nested schema)
+            role_permissions: (Set of String)
+            system_managed_policy: (Boolean)
+        importStatements: []
+    kion_gcp_iam_role Data Source - terraform-provider-kion:
+        subCategory: ""
+        name: kion_gcp_iam_role Data Source - terraform-provider-kion
+        title: kion_gcp_iam_role Data Source - terraform-provider-kion
+        argumentDocs:
+            description: (String)
+            filter: (Block List) (see below for nested schema)
+            gcp_id: (String)
+            gcp_managed_policy: (Boolean)
+            gcp_role_launch_stage: (Number)
+            id: (String) The ID of this resource.
+            list: (List of Object) This is where Kion makes the discovered data available as a list of resources. (see below for nested schema)
+            name: (String) The field name whose values you wish to filter by.
+            owner_user_groups: (List of Object) (see below for nested schema)
+            owner_users: (List of Object) (see below for nested schema)
+            regex: (Boolean) Dictates if the values provided should be treated as regular expressions.
+            role_permissions: (List of String)
+            system_managed_policy: (Boolean)
+            values: (List of String) The values of the field name you specified.
+        importStatements: []
+    kion_global_permission_mapping Data Source - terraform-provider-kion:
+        subCategory: ""
+        name: kion_global_permission_mapping Data Source - terraform-provider-kion
+        title: kion_global_permission_mapping Data Source - terraform-provider-kion
+        argumentDocs:
+            app_role_id: (Number)
+            id: (String) The ID of this resource.
+            list: (List of Object) List of global permission mappings. (see below for nested schema)
+            user_groups_ids: (Set of Number)
+            user_ids: (Set of Number)
+        importStatements: []
+    kion_global_permission_mapping Resource - terraform-provider-kion:
+        subCategory: ""
+        name: kion_global_permission_mapping Resource - terraform-provider-kion
+        title: kion_global_permission_mapping Resource - terraform-provider-kion
+        argumentDocs:
+            app_role_id: (Number) Application role ID for the permission mapping.
+            id: (String) The ID of this resource.
+            user_groups_ids: (Set of Number) Set of user group IDs for the permission mapping.
+            user_ids: (Set of Number) Set of user IDs for the permission mapping.
+        importStatements: []
+    kion_label:
+        subCategory: ""
+        name: kion_label
+        title: kion_label Resource - terraform-provider-kion
+        examples:
+            - name: cost_center_x
+              manifest: |-
+                {
+                  "color": "#123abc",
+                  "key": "cost_center",
+                  "value": "x"
+                }
+        argumentDocs:
+            color: (String) The color of the label in hex format, (#123abc)
+            id: (String) The ID of this resource.
+            key: (String)
+            value: (String)
+        importStatements: []
+    kion_label Data Source - terraform-provider-kion:
+        subCategory: ""
+        name: kion_label Data Source - terraform-provider-kion
+        title: kion_label Data Source - terraform-provider-kion
+        argumentDocs:
+            color: (String)
+            filter: (Block List) (see below for nested schema)
+            id: (String) The ID of this resource.
+            key: (String)
+            list: (List of Object) This is where Kion makes the discovered data available as a list of resources. (see below for nested schema)
+            name: (String) The field name whose values you wish to filter by.
+            regex: (Boolean) Dictates if the values provided should be treated as regular expressions.
+            value: (String)
+            values: (List of String) The values of the field name you specified.
+        importStatements: []
+    kion_ou:
+        subCategory: ""
+        name: kion_ou
+        title: kion_ou Resource - terraform-provider-kion
+        examples:
+            - name: ou1
+              manifest: |-
+                {
+                  "description": "Sample OU.",
+                  "name": "sample-ou",
+                  "owner_user_groups": [
+                    {
+                      "id": 1
+                    }
+                  ],
+                  "owner_users": [
+                    {
+                      "id": 1
+                    }
+                  ],
+                  "parent_ou_id": 0,
+                  "permission_scheme_id": 2
+                }
+        argumentDocs:
+            created_at: (String)
+            description: (String)
+            id: (String) The ID of this resource.
+            labels: (Map of String) A map of labels to assign to the OU. The labels must already exist in Kion.
+            last_updated: (String)
+            name: (String)
+            owner_user_groups: (Block Set) Must provide at least the owner_user_groups field or the owner_users field. (see below for nested schema)
+            owner_users: (Block Set) Must provide at least the owner_user_groups field or the owner_users field. (see below for nested schema)
+            parent_ou_id: (Number)
+            permission_scheme_id: (Number)
+        importStatements: []
+    kion_ou Data Source - terraform-provider-kion:
+        subCategory: ""
+        name: kion_ou Data Source - terraform-provider-kion
+        title: kion_ou Data Source - terraform-provider-kion
+        argumentDocs:
+            created_at: (String)
+            description: (String)
+            filter: (Block List) (see below for nested schema)
+            id: (String) The ID of this resource.
+            list: (List of Object) This is where Kion makes the discovered data available as a list of resources. (see below for nested schema)
+            name: (String) The field name whose values you wish to filter by.
+            parent_ou_id: (Number)
+            permission_scheme_id: (Number)
+            regex: (Boolean) Dictates if the values provided should be treated as regular expressions.
+            values: (List of String) The values of the field name you specified.
+        importStatements: []
+    kion_ou_cloud_access_role:
+        subCategory: ""
+        name: kion_ou_cloud_access_role
+        title: kion_ou_cloud_access_role Resource - terraform-provider-kion
+        examples:
+            - name: carou1
+              manifest: |-
+                {
+                  "aws_iam_policies": [
+                    {
+                      "id": 628
+                    }
+                  ],
+                  "aws_iam_role_name": "sample-car",
+                  "long_term_access_keys": true,
+                  "name": "sample-car",
+                  "ou_id": 3,
+                  "short_term_access_keys": true,
+                  "user_groups": [
+                    {
+                      "id": 1
+                    }
+                  ],
+                  "users": [
+                    {
+                      "id": 1
+                    }
+                  ],
+                  "web_access": true
+                }
+        argumentDocs:
+            aws_iam_path: (String)
+            aws_iam_permissions_boundary: (Number)
+            aws_iam_policies: (Block Set) (see below for nested schema)
+            aws_iam_role_name: (String)
+            azure_role_definitions: (Block Set) (see below for nested schema)
+            gcp_iam_roles: (Block Set) (see below for nested schema)
+            id: (String) The ID of this resource.
+            last_updated: (String)
+            long_term_access_keys: (Boolean)
+            name: (String)
+            ou_id: (Number)
+            short_term_access_keys: (Boolean)
+            user_groups: (Block Set) (see below for nested schema)
+            users: (Block Set) (see below for nested schema)
+            web_access: (Boolean)
+        importStatements: []
+    kion_ou_permission_mapping Data Source - terraform-provider-kion:
+        subCategory: ""
+        name: kion_ou_permission_mapping Data Source - terraform-provider-kion
+        title: kion_ou_permission_mapping Data Source - terraform-provider-kion
+        argumentDocs:
+            app_role_id: (Number)
+            id: (String) The ID of this resource.
+            list: (List of Object) List of permission mappings. (see below for nested schema)
+            ou_id: (Number) ID of the OU to fetch permission mappings for.
+            user_groups_ids: (Set of Number)
+            user_ids: (Set of Number)
+        importStatements: []
+    kion_ou_permission_mapping Resource - terraform-provider-kion:
+        subCategory: ""
+        name: kion_ou_permission_mapping Resource - terraform-provider-kion
+        title: kion_ou_permission_mapping Resource - terraform-provider-kion
+        argumentDocs:
+            app_role_id: (Number) Application role ID for the permission mapping.
+            id: (String) The ID of this resource.
+            ou_id: (Number) ID of the OU to manage permission mappings for.
+            user_groups_ids: (Set of Number) Set of user group IDs for the permission mapping (must be provided in numerical order).
+            user_ids: (Set of Number) Set of user IDs for the permission mapping (must be provided in numerical order).
+        importStatements: []
+    kion_project:
+        subCategory: ""
+        name: kion_project
+        title: kion_project Resource - terraform-provider-kion
+        examples:
+            - name: p1
+              manifest: |-
+                {
+                  "description": "This is a sample project.",
+                  "name": "Tech Project I",
+                  "ou_id": 1,
+                  "owner_user_ids": [
+                    {
+                      "id": 1
+                    }
+                  ],
+                  "permission_scheme_id": 3,
+                  "project_funding": [
+                    {
+                      "amount": 1000,
+                      "end_datecode": "2022-01",
+                      "funding_order": 1,
+                      "funding_source_id": 1,
+                      "start_datecode": "2021-01"
+                    }
+                  ]
+                }
+        argumentDocs:
+            amount: (Number) Total amount for the budget. This is required if data is not specified. Budget entries are created between start_datecode and end_datecode (exclusive) with the amount evenly distributed across the months.
+            archived: (Boolean)
+            auto_pay: (Boolean)
+            budget: (Block Set) (see below for nested schema)
+            data: (Block Set) Total amount for the budget. This is required if data is not specified. Budget entries are created between start_datecode and end_datecode (exclusive) with the amount evenly distributed across the months. (see below for nested schema)
+            datecode: (String) Year and month for the budget data entry (i.e 2023-01).
+            default_aws_region: (String)
+            description: (String)
+            end_datecode: (String) Year and month the budget ends. This is an exclusive date.
+            funding_order: (Number)
+            funding_source_id: (Number) ID of funding source for the budget entry.
+            funding_source_ids: (Set of Number) Funding source IDs to use when data is not specified. This value is ignored is data is specified. If specified, the amount is distributed evenly across months and funding sources. Funding sources will be processed in order from first to last.
+            id: (String) The ID of this resource.
+            labels: (Map of String) A map of labels to assign to the project. The labels must already exist in Kion.
+            last_updated: (String)
+            name: (String)
+            ou_id: (Number)
+            owner_user_group_ids: (Block Set) Must provide at least the owner_user_groups field or the owner_users field. (see below for nested schema)
+            owner_user_ids: (Block Set) Must provide at least the owner_user_groups field or the owner_users field. (see below for nested schema)
+            permission_scheme_id: (Number)
+            priority: (Number) Priority order of the budget entry. This is required if funding_source_id is specified
+            project_funding: (Block Set) (see below for nested schema)
+            start_datecode: (String) Year and month the budget starts.
+        importStatements: []
+    kion_project Data Source - terraform-provider-kion:
+        subCategory: ""
+        name: kion_project Data Source - terraform-provider-kion
+        title: kion_project Data Source - terraform-provider-kion
+        argumentDocs:
+            archived: (Boolean)
+            auto_pay: (Boolean)
+            default_aws_region: (String)
+            description: (String)
+            filter: (Block List) (see below for nested schema)
+            id: (String) The ID of this resource.
+            list: (List of Object) This is where Kion makes the discovered data available as a list of resources. (see below for nested schema)
+            name: (String) The field name whose values you wish to filter by.
+            ou_id: (Number)
+            regex: (Boolean) Dictates if the values provided should be treated as regular expressions.
+            values: (List of String) The values of the field name you specified.
+        importStatements: []
+    kion_project_cloud_access_role:
+        subCategory: ""
+        name: kion_project_cloud_access_role
+        title: kion_project_cloud_access_role Resource - terraform-provider-kion
+        examples:
+            - name: carp1
+              manifest: |-
+                {
+                  "aws_iam_permissions_boundary": 1,
+                  "aws_iam_policies": [
+                    {
+                      "id": 1
+                    }
+                  ],
+                  "aws_iam_role_name": "sample-car",
+                  "future_accounts": true,
+                  "long_term_access_keys": true,
+                  "name": "sample-car",
+                  "project_id": 1,
+                  "short_term_access_keys": true,
+                  "user_groups": [
+                    {
+                      "id": 1
+                    }
+                  ],
+                  "users": [
+                    {
+                      "id": 1
+                    }
+                  ],
+                  "web_access": true
+                }
+        argumentDocs:
+            accounts: '(Block Set) This field will be ignored if ''apply_to_all_accounts'' is set to: true. (see below for nested schema)'
+            apply_to_all_accounts: (Boolean)
+            aws_iam_path: (String)
+            aws_iam_permissions_boundary: (Number)
+            aws_iam_policies: (Block Set) (see below for nested schema)
+            aws_iam_role_name: (String)
+            azure_role_definitions: (Block Set) (see below for nested schema)
+            future_accounts: (Boolean)
+            gcp_iam_roles: (Block Set) (see below for nested schema)
+            id: (String) The ID of this resource.
+            last_updated: (String)
+            long_term_access_keys: (Boolean)
+            name: (String)
+            project_id: (Number)
+            short_term_access_keys: (Boolean)
+            user_groups: (Block Set) (see below for nested schema)
+            users: (Block Set) (see below for nested schema)
+            web_access: (Boolean)
+        importStatements: []
+    kion_project_enforcement Data Source - terraform-provider-kion:
+        subCategory: ""
+        name: kion_project_enforcement Data Source - terraform-provider-kion
+        title: kion_project_enforcement Data Source - terraform-provider-kion
+        argumentDocs:
+            amount_type: (String)
+            cloud_rule_id: (Number)
+            description: (String)
+            enabled: (Boolean)
+            enforcements: (List of Object) List of project enforcement policies configured in the system. (see below for nested schema)
+            filter: (Block List) (see below for nested schema)
+            id: (String) The ID of this resource.
+            name: (String) The field name whose values you wish to filter by.
+            notification_frequency: (String)
+            ou_id: (Number)
+            project_id: (Number)
+            regex: (Boolean) Dictates if the values provided should be treated as regular expressions.
+            service_id: (Number)
+            spend_option: (String)
+            threshold: (Number)
+            threshold_type: (String)
+            timeframe: (String)
+            triggered: (Boolean)
+            user_group_ids: (List of Number)
+            user_ids: (List of Number)
+            values: (List of String) The values of the field name you specified.
+        importStatements: []
+    kion_project_enforcement Resource - terraform-provider-kion:
+        subCategory: ""
+        description: Manages enforcement rules for projects to control service usage based on various criteria likespend limits and timeframe restrictions. . This resource allows for creating, reading, updating, and deleting project-specific enforcement settings.
+        name: kion_project_enforcement Resource - terraform-provider-kion
+        title: kion_project_enforcement Resource - terraform-provider-kion
+        argumentDocs:
+            amount_type: (String) Type of the amount. Valid values are 'custom', 'last_month'.
+            cloud_rule_id: (Number) Defines a Cloud Rule ID associated with the enforcement.
+            description: (String) Optional, user-provided description of the enforcement.
+            enabled: (Boolean) Flag that specifies if the enforcement is enabled.
+            id: (String) The ID of this resource.
+            notification_frequency: (String) Frequency at which notifications are sent for this enforcement.
+            overburn: (Boolean) Flag that specifies if enforcement will place project in an overburn state when triggered.
+            project_id: (Number) ID of the project under enforcement.
+            service_id: (Number) ID of the service related to the enforcement.
+            spend_option: (String) Type of spend option. Valid values are 'spend', 'remaining'.
+            threshold: (Number) Threshold value. Either a dollar amount or a percentage, depending on the threshold type.
+            threshold_type: (String) Type of the threshold value. Valid values are 'dollar', 'percent'.
+            timeframe: (String) Timeframe of the enforcement. Valid values are 'lifetime', 'month', 'year', 'funding_source'.
+            triggered: (Boolean) Flag that specifies if the enforcement is currently triggered.
+            user_group_ids: (List of Number) List of user group IDs that will receive notifications from the enforcement.
+            user_ids: (List of Number) List of user IDs that will receive notifications from the enforcement.
+        importStatements: []
+    kion_project_permission_mapping Data Source - terraform-provider-kion:
+        subCategory: ""
+        name: kion_project_permission_mapping Data Source - terraform-provider-kion
+        title: kion_project_permission_mapping Data Source - terraform-provider-kion
+        argumentDocs:
+            app_role_id: (Number)
+            id: (String) The ID of this resource.
+            list: (List of Object) List of permission mappings. (see below for nested schema)
+            project_id: (Number) ID of the project to fetch permission mappings for.
+            user_groups_ids: (Set of Number)
+            user_ids: (Set of Number)
+        importStatements: []
+    kion_project_permission_mapping Resource - terraform-provider-kion:
+        subCategory: ""
+        name: kion_project_permission_mapping Resource - terraform-provider-kion
+        title: kion_project_permission_mapping Resource - terraform-provider-kion
+        argumentDocs:
+            app_role_id: (Number) Application role ID for the permission mapping.
+            id: (String) The ID of this resource.
+            project_id: (Number) ID of the project to manage permission mappings for.
+            user_groups_ids: (Set of Number) Set of user group IDs for the permission mapping (must be provided in numerical order).
+            user_ids: (Set of Number) Set of user IDs for the permission mapping (must be provided in numerical order).
+        importStatements: []
+    kion_saml_group_association:
+        subCategory: ""
+        name: kion_saml_group_association
+        title: kion_saml_group_association Resource - terraform-provider-kion
+        examples:
+            - name: sa1
+              manifest: |-
+                {
+                  "assertion_name": "memberOf",
+                  "assertion_regex": "^kion-admins",
+                  "idms_id": 5,
+                  "update_on_login": true,
+                  "user_group_id": 1
+                }
+        argumentDocs:
+            assertion_name: (String)
+            assertion_regex: (String)
+            id: (String) The ID of this resource.
+            idms_id: (Number)
+            idms_saml_id: (Number)
+            last_updated: (String)
+            should_update_on_login: (Boolean)
+            update_on_login: (Boolean)
+            user_group_id: (Number)
+        importStatements: []
+    kion_saml_group_association Data Source - terraform-provider-kion:
+        subCategory: ""
+        name: kion_saml_group_association Data Source - terraform-provider-kion
+        title: kion_saml_group_association Data Source - terraform-provider-kion
+        argumentDocs:
+            assertion_name: (String)
+            assertion_regex: (String)
+            filter: (Block List) (see below for nested schema)
+            id: (String) The ID of this resource.
+            idms_id: (Number)
+            idms_saml_id: (Number)
+            list: (List of Object) This is where Kion makes the discovered data available as a list of resources. (see below for nested schema)
+            name: (String) The field name whose values you wish to filter by.
+            regex: (Boolean) Dictates if the values provided should be treated as regular expressions.
+            should_update_on_login: (Boolean)
+            user_group_id: (Number)
+            values: (List of String) The values of the field name you specified.
+        importStatements: []
+    kion_service_control_policy:
+        subCategory: ""
+        name: kion_service_control_policy
+        title: kion_service_control_policy Resource - terraform-provider-kion
+        examples:
+            - name: scp1
+              manifest: |-
+                {
+                  "description": "This is a sample SCP.",
+                  "name": "Test SCP",
+                  "owner_user_groups": [
+                    {
+                      "id": 1
+                    }
+                  ],
+                  "owner_users": [
+                    {
+                      "id": 1
+                    }
+                  ],
+                  "policy": "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Effect\": \"Deny\",\n      \"Action\": [\n        \"config:StopConfigurationRecorder\"\n      ],\n      \"Resource\": \"*\"\n    }\n  ]\n}\n"
+                }
+        argumentDocs:
+            aws_managed_policy: (Boolean)
+            created_by_user_id: (Number)
+            description: (String)
+            id: (String) The ID of this resource.
+            last_updated: (String)
+            name: (String)
+            owner_user_groups: (Block Set) Must provide at least the owner_user_groups field or the owner_users field. (see below for nested schema)
+            owner_users: (Block Set) Must provide at least the owner_user_groups field or the owner_users field. (see below for nested schema)
+            policy: (String)
+            system_managed_policy: (Boolean)
+        importStatements: []
+    kion_service_control_policy Data Source - terraform-provider-kion:
+        subCategory: ""
+        name: kion_service_control_policy Data Source - terraform-provider-kion
+        title: kion_service_control_policy Data Source - terraform-provider-kion
+        argumentDocs:
+            aws_managed_policy: (Boolean)
+            created_by_user_id: (Number)
+            description: (String)
+            filter: (Block List) (see below for nested schema)
+            id: (String) The ID of this resource.
+            list: (List of Object) This is where Kion makes the discovered data available as a list of resources. (see below for nested schema)
+            name: (String) The field name whose values you wish to filter by.
+            owner_user_groups: (List of Object) (see below for nested schema)
+            owner_users: (List of Object) (see below for nested schema)
+            policy: (String)
+            regex: (Boolean) Dictates if the values provided should be treated as regular expressions.
+            system_managed_policy: (Boolean)
+            values: (List of String) The values of the field name you specified.
+        importStatements: []
+    kion_user Data Source - terraform-provider-kion:
+        subCategory: ""
+        name: kion_user Data Source - terraform-provider-kion
+        title: kion_user Data Source - terraform-provider-kion
+        argumentDocs:
+            enabled: (Boolean) Filter by whether the user is enabled.
+            filter: (Block List) (see below for nested schema)
+            id: (String) The ID of this resource.
+            list: (List of Number) This is where Kion makes the discovered data available as a list of user IDs.
+            username: (String) The username you wish to filter by.
+        importStatements: []
+    kion_user Resource - terraform-provider-kion:
+        subCategory: ""
+        name: kion_user Resource - terraform-provider-kion
+        title: kion_user Resource - terraform-provider-kion
+        argumentDocs:
+            id: (String) The ID of this resource.
+        importStatements: []
+    kion_user_group:
+        subCategory: ""
+        name: kion_user_group
+        title: kion_user_group Resource - terraform-provider-kion
+        examples:
+            - name: ug1
+              manifest: |-
+                {
+                  "description": "This is a sample user group.",
+                  "idms_id": 1,
+                  "name": "sample-user-group2",
+                  "owner_groups": [
+                    {
+                      "id": 1
+                    }
+                  ],
+                  "owner_users": [
+                    {
+                      "id": 1
+                    }
+                  ],
+                  "users": [
+                    {
+                      "id": 1
+                    }
+                  ]
+                }
+        argumentDocs:
+            created_at: (String)
+            description: (String)
+            enabled: (Boolean)
+            id: (String) The ID of this resource.
+            idms_id: (Number)
+            last_updated: (String)
+            name: (String)
+            owner_groups: (Block Set) Must provide at least the owner_user_groups field or the owner_users field. (see below for nested schema)
+            owner_users: (Block Set) Must provide at least the owner_user_groups field or the owner_users field. (see below for nested schema)
+            users: (Block Set) (see below for nested schema)
+        importStatements: []
+    kion_user_group Data Source - terraform-provider-kion:
+        subCategory: ""
+        name: kion_user_group Data Source - terraform-provider-kion
+        title: kion_user_group Data Source - terraform-provider-kion
+        argumentDocs:
+            created_at: (String)
+            description: (String)
+            enabled: (Boolean)
+            filter: (Block List) (see below for nested schema)
+            id: (String) The ID of this resource.
+            idms_id: (Number)
+            list: (List of Object) This is where Kion makes the discovered data available as a list of resources. (see below for nested schema)
+            name: (String) The field name whose values you wish to filter by.
+            regex: (Boolean) Dictates if the values provided should be treated as regular expressions.
+            values: (List of String) The values of the field name you specified.
+        importStatements: []
+    kion_webhook Data Source - terraform-provider-kion:
+        subCategory: ""
+        name: kion_webhook Data Source - terraform-provider-kion
+        title: kion_webhook Data Source - terraform-provider-kion
+        argumentDocs:
+            callout_url: (String) The URL to which the webhook will send requests.
+            description: (String) Description of the webhook.
+            id: (String) The ID of the webhook to retrieve.
+            name: (String) The name of the webhook.
+            owner_user_group_ids: (Set of Number) Set of user group IDs that own the webhook.
+            owner_user_ids: (Set of Number) Set of user IDs that own the webhook.
+            request_body: (String) The request body to be sent with the webhook.
+            request_headers: (String) Headers to be included in the webhook request.
+            request_method: (String) HTTP method to be used for the webhook (GET, POST, etc.).
+            should_send_secure_info: (Boolean) Whether the webhook should send secure information.
+            skip_ssl: (Boolean) Whether to skip SSL verification.
+            timeout_in_seconds: (Number) Timeout for the webhook request in seconds.
+            use_request_headers: (Boolean) Whether to use request headers in the webhook request.
+        importStatements: []
+    kion_webhook Resource - terraform-provider-kion:
+        subCategory: ""
+        name: kion_webhook Resource - terraform-provider-kion
+        title: kion_webhook Resource - terraform-provider-kion
+        argumentDocs:
+            callout_url: (String) The URL to which the webhook will send requests.
+            description: (String) Description of the webhook.
+            id: (String) The ID of this resource.
+            name: (String) The name of the webhook.
+            owner_user_group_ids: (Set of Number) Set of user group IDs that own the webhook.
+            owner_user_ids: (Set of Number) Set of user IDs that own the webhook.
+            request_body: (String) The request body to be sent with the webhook.
+            request_headers: (String) HTTP headers to use when the webhook is triggered
+            request_method: (String) HTTP method to be used for the webhook (GET, POST, etc.).
+            should_send_secure_info: (Boolean) Whether the webhook should send secure information.
+            skip_ssl: (Boolean) Whether to skip SSL verification.
+            timeout_in_seconds: (Number) The number of seconds the application will wait before considering the webhook 'timed out'
+            use_request_headers: (Boolean) Whether to use request headers in the webhook request.
         importStatements: []
