@@ -8,9 +8,9 @@ import (
 	// Note(turkenh): we are importing this to embed provider schema document
 	_ "embed"
 
+	"github.com/crossplane/upjet/pkg/config"
 	ujconfig "github.com/crossplane/upjet/pkg/config"
 
-	"github.com/enel1221/provider-kion/config"
 	"github.com/enel1221/provider-kion/config/branch"
 	"github.com/enel1221/provider-kion/config/repository"
 )
