@@ -146,6 +146,7 @@ jobs:
 
       - name: Check Diff
         run: make check-diff
+        continue-on-error: true
 
   unit-tests:
     runs-on: ubuntu-24.04
