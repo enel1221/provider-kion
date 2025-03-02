@@ -255,6 +255,7 @@ jobs:
       - unit-tests
       - local-deploy
     if: needs.detect-noop.outputs.noop != 'true'
+    permissions: write-all
 
     steps:
       - name: Setup QEMU
@@ -342,6 +343,7 @@ jobs:
     if: github.event_name == 'workflow_dispatch'
     needs:
       - publish-artifacts
+    permissions: write-all
     steps:
       - name: Checkout
         uses: actions/checkout@v4
