@@ -1,0 +1,17 @@
+apiVersion: kion.upbound.io/v1alpha1
+kind: AWSAccount
+metadata:
+  annotations:
+    meta.upbound.io/example-id: kion/v1alpha1/awsaccount
+  labels:
+    testing.upbound.io/example-name: test2
+  name: test2
+spec:
+  forProvider:
+    awsOrganizationalUnit:
+    - name: test name
+      orgUnitId: "123456"
+    commercialAccountName: Test Account
+    createGovcloud: false
+    name: Terraform Created AWS Account - 2
+    payerId: 1

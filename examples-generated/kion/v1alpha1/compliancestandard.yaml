@@ -1,0 +1,16 @@
+apiVersion: kion.upbound.io/v1alpha1
+kind: ComplianceStandard
+metadata:
+  annotations:
+    meta.upbound.io/example-id: kion/v1alpha1/compliancestandard
+  labels:
+    testing.upbound.io/example-name: s1
+  name: s1
+spec:
+  forProvider:
+    createdByUserId: 1
+    name: sample-resource
+    ownerUserGroups:
+    - id: 1
+    ownerUsers:
+    - id: 1

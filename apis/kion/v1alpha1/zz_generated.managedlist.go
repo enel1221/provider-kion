@@ -8,8 +8,17 @@ package v1alpha1
 
 import resource "github.com/crossplane/crossplane-runtime/pkg/resource"
 
-// GetItems of this AccountList.
-func (l *AccountList) GetItems() []resource.Managed {
+// GetItems of this AWSAccountList.
+func (l *AWSAccountList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this AWSIAMPolicyList.
+func (l *AWSIAMPolicyList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
 	for i := range l.Items {
 		items[i] = &l.Items[i]
@@ -26,8 +35,8 @@ func (l *ArmTemplateList) GetItems() []resource.Managed {
 	return items
 }
 
-// GetItems of this CheckList.
-func (l *CheckList) GetItems() []resource.Managed {
+// GetItems of this AzureAccountList.
+func (l *AzureAccountList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
 	for i := range l.Items {
 		items[i] = &l.Items[i]
@@ -35,8 +44,17 @@ func (l *CheckList) GetItems() []resource.Managed {
 	return items
 }
 
-// GetItems of this CloudAccessRoleList.
-func (l *CloudAccessRoleList) GetItems() []resource.Managed {
+// GetItems of this AzurePolicyList.
+func (l *AzurePolicyList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this AzureRoleList.
+func (l *AzureRoleList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
 	for i := range l.Items {
 		items[i] = &l.Items[i]
@@ -53,8 +71,8 @@ func (l *CloudFormationTemplateList) GetItems() []resource.Managed {
 	return items
 }
 
-// GetItems of this ControlPolicyList.
-func (l *ControlPolicyList) GetItems() []resource.Managed {
+// GetItems of this CloudRuleList.
+func (l *CloudRuleList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
 	for i := range l.Items {
 		items[i] = &l.Items[i]
@@ -62,8 +80,53 @@ func (l *ControlPolicyList) GetItems() []resource.Managed {
 	return items
 }
 
-// GetItems of this EnforcementList.
-func (l *EnforcementList) GetItems() []resource.Managed {
+// GetItems of this ComplianceCheckList.
+func (l *ComplianceCheckList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this ComplianceStandardList.
+func (l *ComplianceStandardList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this FundingSourceList.
+func (l *FundingSourceList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this GCPAccountList.
+func (l *GCPAccountList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this GCPIAMRoleList.
+func (l *GCPIAMRoleList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this GlobalPermissionMappingList.
+func (l *GlobalPermissionMappingList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
 	for i := range l.Items {
 		items[i] = &l.Items[i]
@@ -89,26 +152,26 @@ func (l *GroupList) GetItems() []resource.Managed {
 	return items
 }
 
-// GetItems of this IAMPolicyList.
-func (l *IAMPolicyList) GetItems() []resource.Managed {
-	items := make([]resource.Managed, len(l.Items))
-	for i := range l.Items {
-		items[i] = &l.Items[i]
-	}
-	return items
-}
-
-// GetItems of this IAMRoleList.
-func (l *IAMRoleList) GetItems() []resource.Managed {
-	items := make([]resource.Managed, len(l.Items))
-	for i := range l.Items {
-		items[i] = &l.Items[i]
-	}
-	return items
-}
-
 // GetItems of this LabelList.
 func (l *LabelList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this OUCloudAccessRoleList.
+func (l *OUCloudAccessRoleList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this OUPermissionMappingList.
+func (l *OUPermissionMappingList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
 	for i := range l.Items {
 		items[i] = &l.Items[i]
@@ -125,8 +188,8 @@ func (l *OuList) GetItems() []resource.Managed {
 	return items
 }
 
-// GetItems of this PermissionMappingList.
-func (l *PermissionMappingList) GetItems() []resource.Managed {
+// GetItems of this ProjectCloudAccessRoleList.
+func (l *ProjectCloudAccessRoleList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
 	for i := range l.Items {
 		items[i] = &l.Items[i]
@@ -134,8 +197,8 @@ func (l *PermissionMappingList) GetItems() []resource.Managed {
 	return items
 }
 
-// GetItems of this PolicyList.
-func (l *PolicyList) GetItems() []resource.Managed {
+// GetItems of this ProjectEnforcementList.
+func (l *ProjectEnforcementList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
 	for i := range l.Items {
 		items[i] = &l.Items[i]
@@ -152,8 +215,8 @@ func (l *ProjectList) GetItems() []resource.Managed {
 	return items
 }
 
-// GetItems of this RoleList.
-func (l *RoleList) GetItems() []resource.Managed {
+// GetItems of this ProjectPermissionMappingList.
+func (l *ProjectPermissionMappingList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
 	for i := range l.Items {
 		items[i] = &l.Items[i]
@@ -161,17 +224,8 @@ func (l *RoleList) GetItems() []resource.Managed {
 	return items
 }
 
-// GetItems of this RuleList.
-func (l *RuleList) GetItems() []resource.Managed {
-	items := make([]resource.Managed, len(l.Items))
-	for i := range l.Items {
-		items[i] = &l.Items[i]
-	}
-	return items
-}
-
-// GetItems of this SourceList.
-func (l *SourceList) GetItems() []resource.Managed {
+// GetItems of this ServiceControlPolicyList.
+func (l *ServiceControlPolicyList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
 	for i := range l.Items {
 		items[i] = &l.Items[i]
@@ -181,15 +235,6 @@ func (l *SourceList) GetItems() []resource.Managed {
 
 // GetItems of this SourcePermissionMappingList.
 func (l *SourcePermissionMappingList) GetItems() []resource.Managed {
-	items := make([]resource.Managed, len(l.Items))
-	for i := range l.Items {
-		items[i] = &l.Items[i]
-	}
-	return items
-}
-
-// GetItems of this StandardList.
-func (l *StandardList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
 	for i := range l.Items {
 		items[i] = &l.Items[i]

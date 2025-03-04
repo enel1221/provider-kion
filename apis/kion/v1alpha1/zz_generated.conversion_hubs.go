@@ -7,25 +7,46 @@
 package v1alpha1
 
 // Hub marks this type as a conversion hub.
-func (tr *Account) Hub() {}
-
-// Hub marks this type as a conversion hub.
 func (tr *ArmTemplate) Hub() {}
 
 // Hub marks this type as a conversion hub.
-func (tr *Check) Hub() {}
+func (tr *AWSAccount) Hub() {}
 
 // Hub marks this type as a conversion hub.
-func (tr *CloudAccessRole) Hub() {}
+func (tr *AWSIAMPolicy) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *AzureAccount) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *AzurePolicy) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *AzureRole) Hub() {}
 
 // Hub marks this type as a conversion hub.
 func (tr *CloudFormationTemplate) Hub() {}
 
 // Hub marks this type as a conversion hub.
-func (tr *ControlPolicy) Hub() {}
+func (tr *CloudRule) Hub() {}
 
 // Hub marks this type as a conversion hub.
-func (tr *Enforcement) Hub() {}
+func (tr *ComplianceCheck) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *ComplianceStandard) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *FundingSource) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *GCPAccount) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *GCPIAMRole) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *GlobalPermissionMapping) Hub() {}
 
 // Hub marks this type as a conversion hub.
 func (tr *Group) Hub() {}
@@ -34,40 +55,34 @@ func (tr *Group) Hub() {}
 func (tr *GroupAssociation) Hub() {}
 
 // Hub marks this type as a conversion hub.
-func (tr *IAMPolicy) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *IAMRole) Hub() {}
-
-// Hub marks this type as a conversion hub.
 func (tr *Label) Hub() {}
 
 // Hub marks this type as a conversion hub.
 func (tr *Ou) Hub() {}
 
 // Hub marks this type as a conversion hub.
-func (tr *PermissionMapping) Hub() {}
+func (tr *OUCloudAccessRole) Hub() {}
 
 // Hub marks this type as a conversion hub.
-func (tr *Policy) Hub() {}
+func (tr *OUPermissionMapping) Hub() {}
 
 // Hub marks this type as a conversion hub.
 func (tr *Project) Hub() {}
 
 // Hub marks this type as a conversion hub.
-func (tr *Role) Hub() {}
+func (tr *ProjectCloudAccessRole) Hub() {}
 
 // Hub marks this type as a conversion hub.
-func (tr *Rule) Hub() {}
+func (tr *ProjectEnforcement) Hub() {}
 
 // Hub marks this type as a conversion hub.
-func (tr *Source) Hub() {}
+func (tr *ProjectPermissionMapping) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *ServiceControlPolicy) Hub() {}
 
 // Hub marks this type as a conversion hub.
 func (tr *SourcePermissionMapping) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *Standard) Hub() {}
 
 // Hub marks this type as a conversion hub.
 func (tr *User) Hub() {}

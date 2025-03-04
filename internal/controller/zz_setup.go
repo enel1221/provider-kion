@@ -9,27 +9,32 @@ import (
 
 	"github.com/crossplane/upjet/pkg/controller"
 
-	account "github.com/enel1221/provider-kion/internal/controller/kion/account"
 	armtemplate "github.com/enel1221/provider-kion/internal/controller/kion/armtemplate"
-	check "github.com/enel1221/provider-kion/internal/controller/kion/check"
-	cloudaccessrole "github.com/enel1221/provider-kion/internal/controller/kion/cloudaccessrole"
+	awsaccount "github.com/enel1221/provider-kion/internal/controller/kion/awsaccount"
+	awsiampolicy "github.com/enel1221/provider-kion/internal/controller/kion/awsiampolicy"
+	azureaccount "github.com/enel1221/provider-kion/internal/controller/kion/azureaccount"
+	azurepolicy "github.com/enel1221/provider-kion/internal/controller/kion/azurepolicy"
+	azurerole "github.com/enel1221/provider-kion/internal/controller/kion/azurerole"
 	cloudformationtemplate "github.com/enel1221/provider-kion/internal/controller/kion/cloudformationtemplate"
-	controlpolicy "github.com/enel1221/provider-kion/internal/controller/kion/controlpolicy"
-	enforcement "github.com/enel1221/provider-kion/internal/controller/kion/enforcement"
+	cloudrule "github.com/enel1221/provider-kion/internal/controller/kion/cloudrule"
+	compliancecheck "github.com/enel1221/provider-kion/internal/controller/kion/compliancecheck"
+	compliancestandard "github.com/enel1221/provider-kion/internal/controller/kion/compliancestandard"
+	fundingsource "github.com/enel1221/provider-kion/internal/controller/kion/fundingsource"
+	gcpaccount "github.com/enel1221/provider-kion/internal/controller/kion/gcpaccount"
+	gcpiamrole "github.com/enel1221/provider-kion/internal/controller/kion/gcpiamrole"
+	globalpermissionmapping "github.com/enel1221/provider-kion/internal/controller/kion/globalpermissionmapping"
 	group "github.com/enel1221/provider-kion/internal/controller/kion/group"
 	groupassociation "github.com/enel1221/provider-kion/internal/controller/kion/groupassociation"
-	iampolicy "github.com/enel1221/provider-kion/internal/controller/kion/iampolicy"
-	iamrole "github.com/enel1221/provider-kion/internal/controller/kion/iamrole"
 	label "github.com/enel1221/provider-kion/internal/controller/kion/label"
 	ou "github.com/enel1221/provider-kion/internal/controller/kion/ou"
-	permissionmapping "github.com/enel1221/provider-kion/internal/controller/kion/permissionmapping"
-	policy "github.com/enel1221/provider-kion/internal/controller/kion/policy"
+	oucloudaccessrole "github.com/enel1221/provider-kion/internal/controller/kion/oucloudaccessrole"
+	oupermissionmapping "github.com/enel1221/provider-kion/internal/controller/kion/oupermissionmapping"
 	project "github.com/enel1221/provider-kion/internal/controller/kion/project"
-	role "github.com/enel1221/provider-kion/internal/controller/kion/role"
-	rule "github.com/enel1221/provider-kion/internal/controller/kion/rule"
-	source "github.com/enel1221/provider-kion/internal/controller/kion/source"
+	projectcloudaccessrole "github.com/enel1221/provider-kion/internal/controller/kion/projectcloudaccessrole"
+	projectenforcement "github.com/enel1221/provider-kion/internal/controller/kion/projectenforcement"
+	projectpermissionmapping "github.com/enel1221/provider-kion/internal/controller/kion/projectpermissionmapping"
+	servicecontrolpolicy "github.com/enel1221/provider-kion/internal/controller/kion/servicecontrolpolicy"
 	sourcepermissionmapping "github.com/enel1221/provider-kion/internal/controller/kion/sourcepermissionmapping"
-	standard "github.com/enel1221/provider-kion/internal/controller/kion/standard"
 	user "github.com/enel1221/provider-kion/internal/controller/kion/user"
 	webhook "github.com/enel1221/provider-kion/internal/controller/kion/webhook"
 	providerconfig "github.com/enel1221/provider-kion/internal/controller/providerconfig"
@@ -39,32 +44,32 @@ import (
 // the supplied manager.
 func Setup(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
-		account.Setup,
-		account.Setup,
-		account.Setup,
 		armtemplate.Setup,
-		check.Setup,
-		cloudaccessrole.Setup,
-		cloudaccessrole.Setup,
+		awsaccount.Setup,
+		awsiampolicy.Setup,
+		azureaccount.Setup,
+		azurepolicy.Setup,
+		azurerole.Setup,
 		cloudformationtemplate.Setup,
-		controlpolicy.Setup,
-		enforcement.Setup,
+		cloudrule.Setup,
+		compliancecheck.Setup,
+		compliancestandard.Setup,
+		fundingsource.Setup,
+		gcpaccount.Setup,
+		gcpiamrole.Setup,
+		globalpermissionmapping.Setup,
 		group.Setup,
 		groupassociation.Setup,
-		iampolicy.Setup,
-		iamrole.Setup,
 		label.Setup,
 		ou.Setup,
-		permissionmapping.Setup,
-		permissionmapping.Setup,
-		permissionmapping.Setup,
-		policy.Setup,
+		oucloudaccessrole.Setup,
+		oupermissionmapping.Setup,
 		project.Setup,
-		role.Setup,
-		rule.Setup,
-		source.Setup,
+		projectcloudaccessrole.Setup,
+		projectenforcement.Setup,
+		projectpermissionmapping.Setup,
+		servicecontrolpolicy.Setup,
 		sourcepermissionmapping.Setup,
-		standard.Setup,
 		user.Setup,
 		webhook.Setup,
 		providerconfig.Setup,

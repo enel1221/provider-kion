@@ -1,0 +1,766 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.14.0
+  name: azureaccounts.kion.upbound.io
+spec:
+  group: kion.upbound.io
+  names:
+    categories:
+    - crossplane
+    - managed
+    - kion
+    kind: AzureAccount
+    listKind: AzureAccountList
+    plural: azureaccounts
+    singular: azureaccount
+  scope: Cluster
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Synced')].status
+      name: SYNCED
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: READY
+      type: string
+    - jsonPath: .metadata.annotations.crossplane\.io/external-name
+      name: EXTERNAL-NAME
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: AzureAccount is the Schema for the AzureAccounts API. Creates
+          or imports an Azure Subscription and adds it to a Kion project or the Kion
+          account cache. If subscription_uuid is provided, an existing subscription
+          will be imported into Kion, otherwise a new Azure subscription will be created.  If
+          project_id is provided the account will be added to the corresponding project,
+          otherwise the account will be added to the account cache. Once added, an
+          account can be moved between projects or in and out of the account cache
+          by changing the project_id.  When moving accounts between projects, use
+          move_project_settings to control how financials will be treated between
+          the old and new project.test-cached-account account_cache_id=321
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: AzureAccountSpec defines the desired state of AzureAccount
+            properties:
+              deletionPolicy:
+                default: Delete
+                description: |-
+                  DeletionPolicy specifies what will happen to the underlying external
+                  when this managed resource is deleted - either "Delete" or "Orphan" the
+                  external resource.
+                  This field is planned to be deprecated in favor of the ManagementPolicies
+                  field in a future release. Currently, both could be set independently and
+                  non-default values would be honored if the feature flag is enabled.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                enum:
+                - Orphan
+                - Delete
+                type: string
+              forProvider:
+                properties:
+                  accountAlias:
+                    description: |-
+                      (String) Account alias is an optional short unique name that helps identify the account within Kion.
+                      Account alias is an optional short unique name that helps identify the account within Kion.
+                    type: string
+                  accountTypeId:
+                    description: |-
+                      (Number) An ID representing the account type within Kion.
+                      An ID representing the account type within Kion.
+                    type: number
+                  csp:
+                    description: |-
+                      (Block Set, Max: 1) Parameters used when creating a new Azure CSP subscription. (see below for nested schema)
+                      Parameters used when creating a new Azure CSP subscription.
+                    items:
+                      properties:
+                        billingCycle:
+                          description: |-
+                            (String) Azure CSP billing cycle
+                            Azure CSP billing cycle
+                          type: string
+                        offerId:
+                          description: |-
+                            (String) Azure CSP offer id
+                            Azure CSP offer id
+                          type: string
+                      type: object
+                    type: array
+                  ea:
+                    description: |-
+                      (Block Set, Max: 1) Parameters used when creating a new Azure EA subscription. (see below for nested schema)
+                      Parameters used when creating a new Azure EA subscription.
+                    items:
+                      properties:
+                        account:
+                          description: |-
+                            (String) Azure EA account number
+                            Azure EA account number
+                          type: string
+                        billingAccount:
+                          description: |-
+                            (String) Azure billing account number
+                            Azure billing account number
+                          type: string
+                      type: object
+                    type: array
+                  labels:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      (Map of String) A map of labels to assign to the account. The labels must already exist in Kion.
+                      A map of labels to assign to the account. The labels must already exist in Kion.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  lastUpdated:
+                    description: (String)
+                    type: string
+                  mca:
+                    description: |-
+                      (Block Set, Max: 1) Parameters used when creating a new Azure MCA subscription. (see below for nested schema)
+                      Parameters used when creating a new Azure MCA subscription.
+                    items:
+                      properties:
+                        billingAccount:
+                          description: |-
+                            (String) Azure billing account number
+                            Azure MCA billing account number
+                          type: string
+                        billingProfile:
+                          description: |-
+                            (String) Azure MCA billing profile number
+                            Azure MCA billing profile number
+                          type: string
+                        billingProfileInvoice:
+                          description: |-
+                            (String) Azure MCA billing profile invoice section number
+                            Azure MCA billing profile invoice section number
+                          type: string
+                      type: object
+                    type: array
+                  moveProjectSettings:
+                    description: |-
+                      (Block Set, Max: 1) Parameters used when moving an account between Kion projects.  These settings are ignored unless moving an account. (see below for nested schema)
+                      Parameters used when moving an account between Kion projects.  These settings are ignored unless moving an account.
+                    items:
+                      properties:
+                        financials:
+                          description: |-
+                            (String) One of "move" or "preserve".  If "move", financial history will be moved to the new project beginning on the date specified by the move_datecode parameter.  If "preserve", financial history will be preserved on the current project.
+                            One of "move" or "preserve".  If "move", financial history will be moved to the new project beginning on the date specified by the move_datecode parameter.  If "preserve", financial history will be preserved on the current project.
+                          type: string
+                        moveDatecode:
+                          description: |-
+                            (Number) The start date to use when moving financial data in YYYYMM format.  This only applies when financials is set to move.  If provided, only financial data from this date to the current month will be moved to the new project.  If omitted or 0, all financial data will be moved to the new project.
+                            The start date to use when moving financial data in YYYYMM format.  This only applies when financials is set to move.  If provided, only financial data from this date to the current month will be moved to the new project.  If omitted or 0, all financial data will be moved to the new project.
+                          type: number
+                      type: object
+                    type: array
+                  name:
+                    description: |-
+                      (String) The name of the Azure account within Kion.
+                      The name of the Azure account within Kion.
+                    type: string
+                  parentManagementGroupId:
+                    description: |-
+                      (String) The parent management group ID when creating an Azure subscription. If provided, the subscription will be created under the provided management group.  If not provided, the subscription will be created at the root level
+                      The parent management group ID when creating an Azure subscription. If provided, the subscription will be created under the provided management group.  If not provided, the subscription will be created at the root level
+                    type: string
+                  payerId:
+                    description: |-
+                      (Number) The ID of the billing source containing billing data for this account.
+                      The ID of the billing source containing billing data for this account.
+                    type: number
+                  projectId:
+                    description: |-
+                      (Number) The ID of the Kion project to place this account within.  If empty, the account will be placed within the account cache.
+                      The ID of the Kion project to place this account within.  If empty, the account will be placed within the account cache.
+                    type: number
+                  skipAccessChecking:
+                    description: |-
+                      (Boolean) True to skip periodic access checking on the account.
+                      True to skip periodic access checking on the account.
+                    type: boolean
+                  startDatecode:
+                    description: |-
+                      MM).  Required if placing an account within a project.
+                      Date when the Azure account will starting submitting payments against a funding source (YYYY-MM).  Required if placing an account within a project.
+                    type: string
+                  subscriptionName:
+                    description: |-
+                      (String) Name of the subscription as it appears in Azure.
+                      Name of the subscription as it appears in Azure.
+                    type: string
+                  subscriptionUuid:
+                    description: |-
+                      (String) The UUID of the Azure subscription.  If subscription_uuid is provided, the existing subscription will be imported into Kion.  If subscription_uuid is omitted, a new subscription will be created.
+                      The UUID of the Azure subscription.  If subscription_uuid is provided, the existing subscription will be imported into Kion.  If subscription_uuid is omitted, a new subscription will be created.
+                    type: string
+                type: object
+              initProvider:
+                description: |-
+                  THIS IS A BETA FIELD. It will be honored
+                  unless the Management Policies feature flag is disabled.
+                  InitProvider holds the same fields as ForProvider, with the exception
+                  of Identifier and other resource reference fields. The fields that are
+                  in InitProvider are merged into ForProvider when the resource is created.
+                  The same fields are also added to the terraform ignore_changes hook, to
+                  avoid updating them after creation. This is useful for fields that are
+                  required on creation, but we do not desire to update them after creation,
+                  for example because of an external controller is managing them, like an
+                  autoscaler.
+                properties:
+                  accountAlias:
+                    description: |-
+                      (String) Account alias is an optional short unique name that helps identify the account within Kion.
+                      Account alias is an optional short unique name that helps identify the account within Kion.
+                    type: string
+                  accountTypeId:
+                    description: |-
+                      (Number) An ID representing the account type within Kion.
+                      An ID representing the account type within Kion.
+                    type: number
+                  csp:
+                    description: |-
+                      (Block Set, Max: 1) Parameters used when creating a new Azure CSP subscription. (see below for nested schema)
+                      Parameters used when creating a new Azure CSP subscription.
+                    items:
+                      properties:
+                        billingCycle:
+                          description: |-
+                            (String) Azure CSP billing cycle
+                            Azure CSP billing cycle
+                          type: string
+                        offerId:
+                          description: |-
+                            (String) Azure CSP offer id
+                            Azure CSP offer id
+                          type: string
+                      type: object
+                    type: array
+                  ea:
+                    description: |-
+                      (Block Set, Max: 1) Parameters used when creating a new Azure EA subscription. (see below for nested schema)
+                      Parameters used when creating a new Azure EA subscription.
+                    items:
+                      properties:
+                        account:
+                          description: |-
+                            (String) Azure EA account number
+                            Azure EA account number
+                          type: string
+                        billingAccount:
+                          description: |-
+                            (String) Azure billing account number
+                            Azure billing account number
+                          type: string
+                      type: object
+                    type: array
+                  labels:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      (Map of String) A map of labels to assign to the account. The labels must already exist in Kion.
+                      A map of labels to assign to the account. The labels must already exist in Kion.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  lastUpdated:
+                    description: (String)
+                    type: string
+                  mca:
+                    description: |-
+                      (Block Set, Max: 1) Parameters used when creating a new Azure MCA subscription. (see below for nested schema)
+                      Parameters used when creating a new Azure MCA subscription.
+                    items:
+                      properties:
+                        billingAccount:
+                          description: |-
+                            (String) Azure billing account number
+                            Azure MCA billing account number
+                          type: string
+                        billingProfile:
+                          description: |-
+                            (String) Azure MCA billing profile number
+                            Azure MCA billing profile number
+                          type: string
+                        billingProfileInvoice:
+                          description: |-
+                            (String) Azure MCA billing profile invoice section number
+                            Azure MCA billing profile invoice section number
+                          type: string
+                      type: object
+                    type: array
+                  moveProjectSettings:
+                    description: |-
+                      (Block Set, Max: 1) Parameters used when moving an account between Kion projects.  These settings are ignored unless moving an account. (see below for nested schema)
+                      Parameters used when moving an account between Kion projects.  These settings are ignored unless moving an account.
+                    items:
+                      properties:
+                        financials:
+                          description: |-
+                            (String) One of "move" or "preserve".  If "move", financial history will be moved to the new project beginning on the date specified by the move_datecode parameter.  If "preserve", financial history will be preserved on the current project.
+                            One of "move" or "preserve".  If "move", financial history will be moved to the new project beginning on the date specified by the move_datecode parameter.  If "preserve", financial history will be preserved on the current project.
+                          type: string
+                        moveDatecode:
+                          description: |-
+                            (Number) The start date to use when moving financial data in YYYYMM format.  This only applies when financials is set to move.  If provided, only financial data from this date to the current month will be moved to the new project.  If omitted or 0, all financial data will be moved to the new project.
+                            The start date to use when moving financial data in YYYYMM format.  This only applies when financials is set to move.  If provided, only financial data from this date to the current month will be moved to the new project.  If omitted or 0, all financial data will be moved to the new project.
+                          type: number
+                      type: object
+                    type: array
+                  name:
+                    description: |-
+                      (String) The name of the Azure account within Kion.
+                      The name of the Azure account within Kion.
+                    type: string
+                  parentManagementGroupId:
+                    description: |-
+                      (String) The parent management group ID when creating an Azure subscription. If provided, the subscription will be created under the provided management group.  If not provided, the subscription will be created at the root level
+                      The parent management group ID when creating an Azure subscription. If provided, the subscription will be created under the provided management group.  If not provided, the subscription will be created at the root level
+                    type: string
+                  payerId:
+                    description: |-
+                      (Number) The ID of the billing source containing billing data for this account.
+                      The ID of the billing source containing billing data for this account.
+                    type: number
+                  projectId:
+                    description: |-
+                      (Number) The ID of the Kion project to place this account within.  If empty, the account will be placed within the account cache.
+                      The ID of the Kion project to place this account within.  If empty, the account will be placed within the account cache.
+                    type: number
+                  skipAccessChecking:
+                    description: |-
+                      (Boolean) True to skip periodic access checking on the account.
+                      True to skip periodic access checking on the account.
+                    type: boolean
+                  startDatecode:
+                    description: |-
+                      MM).  Required if placing an account within a project.
+                      Date when the Azure account will starting submitting payments against a funding source (YYYY-MM).  Required if placing an account within a project.
+                    type: string
+                  subscriptionName:
+                    description: |-
+                      (String) Name of the subscription as it appears in Azure.
+                      Name of the subscription as it appears in Azure.
+                    type: string
+                  subscriptionUuid:
+                    description: |-
+                      (String) The UUID of the Azure subscription.  If subscription_uuid is provided, the existing subscription will be imported into Kion.  If subscription_uuid is omitted, a new subscription will be created.
+                      The UUID of the Azure subscription.  If subscription_uuid is provided, the existing subscription will be imported into Kion.  If subscription_uuid is omitted, a new subscription will be created.
+                    type: string
+                type: object
+              managementPolicies:
+                default:
+                - '*'
+                description: |-
+                  THIS IS A BETA FIELD. It is on by default but can be opted out
+                  through a Crossplane feature flag.
+                  ManagementPolicies specify the array of actions Crossplane is allowed to
+                  take on the managed and external resources.
+                  This field is planned to replace the DeletionPolicy field in a future
+                  release. Currently, both could be set independently and non-default
+                  values would be honored if the feature flag is enabled. If both are
+                  custom, the DeletionPolicy field will be ignored.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md
+                items:
+                  description: |-
+                    A ManagementAction represents an action that the Crossplane controllers
+                    can take on an external resource.
+                  enum:
+                  - Observe
+                  - Create
+                  - Update
+                  - Delete
+                  - LateInitialize
+                  - '*'
+                  type: string
+                type: array
+              providerConfigRef:
+                default:
+                  name: default
+                description: |-
+                  ProviderConfigReference specifies how the provider that will be used to
+                  create, observe, update, and delete this managed resource should be
+                  configured.
+                properties:
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                  policy:
+                    description: Policies for referencing.
+                    properties:
+                      resolution:
+                        default: Required
+                        description: |-
+                          Resolution specifies whether resolution of this reference is required.
+                          The default is 'Required', which means the reconcile will fail if the
+                          reference cannot be resolved. 'Optional' means this reference will be
+                          a no-op if it cannot be resolved.
+                        enum:
+                        - Required
+                        - Optional
+                        type: string
+                      resolve:
+                        description: |-
+                          Resolve specifies when this reference should be resolved. The default
+                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                          the corresponding field is not present. Use 'Always' to resolve the
+                          reference on every reconcile.
+                        enum:
+                        - Always
+                        - IfNotPresent
+                        type: string
+                    type: object
+                required:
+                - name
+                type: object
+              publishConnectionDetailsTo:
+                description: |-
+                  PublishConnectionDetailsTo specifies the connection secret config which
+                  contains a name, metadata and a reference to secret store config to
+                  which any connection details for this managed resource should be written.
+                  Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                properties:
+                  configRef:
+                    default:
+                      name: default
+                    description: |-
+                      SecretStoreConfigRef specifies which secret store config should be used
+                      for this ConnectionSecret.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  metadata:
+                    description: Metadata is the metadata for connection secret.
+                    properties:
+                      annotations:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          Annotations are the annotations to be added to connection secret.
+                          - For Kubernetes secrets, this will be used as "metadata.annotations".
+                          - It is up to Secret Store implementation for others store types.
+                        type: object
+                      labels:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          Labels are the labels/tags to be added to connection secret.
+                          - For Kubernetes secrets, this will be used as "metadata.labels".
+                          - It is up to Secret Store implementation for others store types.
+                        type: object
+                      type:
+                        description: |-
+                          Type is the SecretType for the connection secret.
+                          - Only valid for Kubernetes Secret Stores.
+                        type: string
+                    type: object
+                  name:
+                    description: Name is the name of the connection secret.
+                    type: string
+                required:
+                - name
+                type: object
+              writeConnectionSecretToRef:
+                description: |-
+                  WriteConnectionSecretToReference specifies the namespace and name of a
+                  Secret to which any connection details for this managed resource should
+                  be written. Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                  This field is planned to be replaced in a future release in favor of
+                  PublishConnectionDetailsTo. Currently, both could be set independently
+                  and connection details would be published to both without affecting
+                  each other.
+                properties:
+                  name:
+                    description: Name of the secret.
+                    type: string
+                  namespace:
+                    description: Namespace of the secret.
+                    type: string
+                required:
+                - name
+                - namespace
+                type: object
+            required:
+            - forProvider
+            type: object
+            x-kubernetes-validations:
+            - message: spec.forProvider.name is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.name)
+                || (has(self.initProvider) && has(self.initProvider.name))'
+            - message: spec.forProvider.payerId is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.payerId)
+                || (has(self.initProvider) && has(self.initProvider.payerId))'
+          status:
+            description: AzureAccountStatus defines the observed state of AzureAccount.
+            properties:
+              atProvider:
+                properties:
+                  accountAlias:
+                    description: |-
+                      (String) Account alias is an optional short unique name that helps identify the account within Kion.
+                      Account alias is an optional short unique name that helps identify the account within Kion.
+                    type: string
+                  accountTypeId:
+                    description: |-
+                      (Number) An ID representing the account type within Kion.
+                      An ID representing the account type within Kion.
+                    type: number
+                  createdAt:
+                    description: (String)
+                    type: string
+                  csp:
+                    description: |-
+                      (Block Set, Max: 1) Parameters used when creating a new Azure CSP subscription. (see below for nested schema)
+                      Parameters used when creating a new Azure CSP subscription.
+                    items:
+                      properties:
+                        billingCycle:
+                          description: |-
+                            (String) Azure CSP billing cycle
+                            Azure CSP billing cycle
+                          type: string
+                        offerId:
+                          description: |-
+                            (String) Azure CSP offer id
+                            Azure CSP offer id
+                          type: string
+                      type: object
+                    type: array
+                  ea:
+                    description: |-
+                      (Block Set, Max: 1) Parameters used when creating a new Azure EA subscription. (see below for nested schema)
+                      Parameters used when creating a new Azure EA subscription.
+                    items:
+                      properties:
+                        account:
+                          description: |-
+                            (String) Azure EA account number
+                            Azure EA account number
+                          type: string
+                        billingAccount:
+                          description: |-
+                            (String) Azure billing account number
+                            Azure billing account number
+                          type: string
+                      type: object
+                    type: array
+                  id:
+                    description: (String) The ID of this resource.
+                    type: string
+                  labels:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      (Map of String) A map of labels to assign to the account. The labels must already exist in Kion.
+                      A map of labels to assign to the account. The labels must already exist in Kion.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  lastUpdated:
+                    description: (String)
+                    type: string
+                  location:
+                    description: |-
+                      (String) Where the account is attached.  Either "project" or "cache".
+                      Where the account is attached.  Either "project" or "cache".
+                    type: string
+                  mca:
+                    description: |-
+                      (Block Set, Max: 1) Parameters used when creating a new Azure MCA subscription. (see below for nested schema)
+                      Parameters used when creating a new Azure MCA subscription.
+                    items:
+                      properties:
+                        billingAccount:
+                          description: |-
+                            (String) Azure billing account number
+                            Azure MCA billing account number
+                          type: string
+                        billingProfile:
+                          description: |-
+                            (String) Azure MCA billing profile number
+                            Azure MCA billing profile number
+                          type: string
+                        billingProfileInvoice:
+                          description: |-
+                            (String) Azure MCA billing profile invoice section number
+                            Azure MCA billing profile invoice section number
+                          type: string
+                      type: object
+                    type: array
+                  moveProjectSettings:
+                    description: |-
+                      (Block Set, Max: 1) Parameters used when moving an account between Kion projects.  These settings are ignored unless moving an account. (see below for nested schema)
+                      Parameters used when moving an account between Kion projects.  These settings are ignored unless moving an account.
+                    items:
+                      properties:
+                        financials:
+                          description: |-
+                            (String) One of "move" or "preserve".  If "move", financial history will be moved to the new project beginning on the date specified by the move_datecode parameter.  If "preserve", financial history will be preserved on the current project.
+                            One of "move" or "preserve".  If "move", financial history will be moved to the new project beginning on the date specified by the move_datecode parameter.  If "preserve", financial history will be preserved on the current project.
+                          type: string
+                        moveDatecode:
+                          description: |-
+                            (Number) The start date to use when moving financial data in YYYYMM format.  This only applies when financials is set to move.  If provided, only financial data from this date to the current month will be moved to the new project.  If omitted or 0, all financial data will be moved to the new project.
+                            The start date to use when moving financial data in YYYYMM format.  This only applies when financials is set to move.  If provided, only financial data from this date to the current month will be moved to the new project.  If omitted or 0, all financial data will be moved to the new project.
+                          type: number
+                      type: object
+                    type: array
+                  name:
+                    description: |-
+                      (String) The name of the Azure account within Kion.
+                      The name of the Azure account within Kion.
+                    type: string
+                  parentManagementGroupId:
+                    description: |-
+                      (String) The parent management group ID when creating an Azure subscription. If provided, the subscription will be created under the provided management group.  If not provided, the subscription will be created at the root level
+                      The parent management group ID when creating an Azure subscription. If provided, the subscription will be created under the provided management group.  If not provided, the subscription will be created at the root level
+                    type: string
+                  payerId:
+                    description: |-
+                      (Number) The ID of the billing source containing billing data for this account.
+                      The ID of the billing source containing billing data for this account.
+                    type: number
+                  projectId:
+                    description: |-
+                      (Number) The ID of the Kion project to place this account within.  If empty, the account will be placed within the account cache.
+                      The ID of the Kion project to place this account within.  If empty, the account will be placed within the account cache.
+                    type: number
+                  skipAccessChecking:
+                    description: |-
+                      (Boolean) True to skip periodic access checking on the account.
+                      True to skip periodic access checking on the account.
+                    type: boolean
+                  startDatecode:
+                    description: |-
+                      MM).  Required if placing an account within a project.
+                      Date when the Azure account will starting submitting payments against a funding source (YYYY-MM).  Required if placing an account within a project.
+                    type: string
+                  subscriptionName:
+                    description: |-
+                      (String) Name of the subscription as it appears in Azure.
+                      Name of the subscription as it appears in Azure.
+                    type: string
+                  subscriptionUuid:
+                    description: |-
+                      (String) The UUID of the Azure subscription.  If subscription_uuid is provided, the existing subscription will be imported into Kion.  If subscription_uuid is omitted, a new subscription will be created.
+                      The UUID of the Azure subscription.  If subscription_uuid is provided, the existing subscription will be imported into Kion.  If subscription_uuid is omitted, a new subscription will be created.
+                    type: string
+                type: object
+              conditions:
+                description: Conditions of the resource.
+                items:
+                  description: A Condition that may apply to a resource.
+                  properties:
+                    lastTransitionTime:
+                      description: |-
+                        LastTransitionTime is the last time this condition transitioned from one
+                        status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: |-
+                        A Message containing details about this condition's last transition from
+                        one status to another, if any.
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration represents the .metadata.generation that the condition was set based upon.
+                        For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: A Reason for this condition's last transition from
+                        one status to another.
+                      type: string
+                    status:
+                      description: Status of this condition; is it currently True,
+                        False, or Unknown?
+                      type: string
+                    type:
+                      description: |-
+                        Type of this condition. At most one of each condition type may apply to
+                        a resource at any point in time.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+                x-kubernetes-list-map-keys:
+                - type
+                x-kubernetes-list-type: map
+              observedGeneration:
+                description: |-
+                  ObservedGeneration is the latest metadata.generation
+                  which resulted in either a ready state, or stalled due to error
+                  it can not recover from without human intervention.
+                format: int64
+                type: integer
+            type: object
+        required:
+        - spec
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}

@@ -1,0 +1,16 @@
+apiVersion: kion.upbound.io/v1alpha1
+kind: GCPAccount
+metadata:
+  annotations:
+    meta.upbound.io/example-id: kion/v1alpha1/gcpaccount
+  labels:
+    testing.upbound.io/example-name: test4
+  name: test4
+spec:
+  forProvider:
+    createMode: create
+    googleCloudProjectId: terraform-test-create
+    name: Terraform Created GCP Project - 4
+    payerId: 2
+    projectId: ${kion_project.test1.id}
+    startDatecode: 2023-01

@@ -1,0 +1,22 @@
+apiVersion: kion.upbound.io/v1alpha1
+kind: OUCloudAccessRole
+metadata:
+  annotations:
+    meta.upbound.io/example-id: kion/v1alpha1/oucloudaccessrole
+  labels:
+    testing.upbound.io/example-name: carou1
+  name: carou1
+spec:
+  forProvider:
+    awsIamPolicies:
+    - id: 628
+    awsIamRoleName: sample-car
+    longTermAccessKeys: true
+    name: sample-car
+    ouId: 3
+    shortTermAccessKeys: true
+    userGroups:
+    - id: 1
+    users:
+    - id: 1
+    webAccess: true

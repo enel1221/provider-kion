@@ -1,0 +1,17 @@
+apiVersion: kion.upbound.io/v1alpha1
+kind: AzureAccount
+metadata:
+  annotations:
+    meta.upbound.io/example-id: kion/v1alpha1/azureaccount
+  labels:
+    testing.upbound.io/example-name: test6
+  name: test6
+spec:
+  forProvider:
+    mca:
+    - billingAccount: 5e98e158-xxxx-xxxx-xxxx-xxxxxxxxxxxx:xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx_xxxx-xx-xx
+      billingProfile: AW4F-xxxx-xxx-xxx
+      billingProfileInvoice: SH3V-xxxx-xxx-xxx
+    name: Terraform Created Azure Subscription - 5
+    payerId: 3
+    subscriptionName: terraform-test-create

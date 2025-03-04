@@ -1,0 +1,17 @@
+apiVersion: kion.upbound.io/v1alpha1
+kind: ComplianceCheck
+metadata:
+  annotations:
+    meta.upbound.io/example-id: kion/v1alpha1/compliancecheck
+  labels:
+    testing.upbound.io/example-name: c1
+  name: c1
+spec:
+  forProvider:
+    cloudProviderId: 1
+    complianceCheckTypeId: 1
+    name: sample-resource
+    ownerUserGroups:
+    - id: 1
+    ownerUsers:
+    - id: 1
