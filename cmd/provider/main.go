@@ -63,12 +63,14 @@ func main() {
 
 	zl := zap.New(zap.UseDevMode(*debug))
 	log := logging.NewLogrLogger(zl.WithName("provider-kion"))
-	if *debug {
-		// The controller-runtime runs with a no-op logger by default. It is
-		// *very* verbose even at info level, so we only provide it a real
-		// logger when we're running in debug mode.
-		ctrl.SetLogger(zl)
-	}
+	// if *debug {
+	// 	// The controller-runtime runs with a no-op logger by default. It is
+	// 	// *very* verbose even at info level, so we only provide it a real
+	// 	// logger when we're running in debug mode.
+	// 	ctrl.SetLogger(zl)
+	// }
+	// Always set the controller-runtime logger, but use appropriate verbosity based on debug flag
+	ctrl.SetLogger(zl)
 
 	log.Debug("Starting", "sync-period", syncPeriod.String(), "poll-interval", pollInterval.String(), "max-reconcile-rate", *maxReconcileRate)
 
