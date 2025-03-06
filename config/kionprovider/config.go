@@ -158,17 +158,17 @@ func Configure(p *config.Provider) {
 		r.ShortGroup = shortGroup
 
 		// Initialize SchemaElementOptions if nil
-        if r.SchemaElementOptions == nil {
-            r.SchemaElementOptions = make(config.SchemaElementOptions)
-        }
+		if r.SchemaElementOptions == nil {
+			r.SchemaElementOptions = make(config.SchemaElementOptions)
+		}
 
-        // Ensure owner_users and users are lists, not embedded objects
-        r.SchemaElementOptions["owner_users"] = &config.SchemaElementOption{
-            EmbeddedObject: false, // Default, but explicit for clarity
-        }
-        r.SchemaElementOptions["users"] = &config.SchemaElementOption{
-            EmbeddedObject: false,
-        }
+		// Ensure owner_users and users are lists, not embedded objects
+		r.SchemaElementOptions["owner_users"] = &config.SchemaElementOption{
+			EmbeddedObject: false, // Default, but explicit for clarity
+		}
+		r.SchemaElementOptions["users"] = &config.SchemaElementOption{
+			EmbeddedObject: false,
+		}
 	})
 
 	p.AddResourceConfigurator("kion_webhook", func(r *config.Resource) {
