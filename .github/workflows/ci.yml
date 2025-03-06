@@ -6,7 +6,12 @@ on:
       - main
       - release-*
   pull_request: {}
-  workflow_dispatch: {}
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to release (e.g., 0.1.0)'
+        required: true
+        type: string
 
 env:
   # Common versions
@@ -250,6 +255,7 @@ jobs:
       - unit-tests
       - local-deploy
     if: needs.detect-noop.outputs.noop != 'true'
+    permissions: write-all
 
     steps:
       - name: Setup QEMU
@@ -263,13 +269,19 @@ jobs:
           version: ${{ env.DOCKER_BUILDX_VERSION }}
           install: true
 
-      - name: Login to Upbound
+      - name: Login to GitHub Container Registry
         uses: docker/login-action@v3
-        if: env.UPBOUND_MARKETPLACE_PUSH_ROBOT_USR != ''
         with:
-          registry: xpkg.upbound.io
-          username: ${{ secrets.UPBOUND_MARKETPLACE_PUSH_ROBOT_USR }}
-          password: ${{ secrets.UPBOUND_MARKETPLACE_PUSH_ROBOT_PSW }}
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      # - name: Login to Upbound
+      #   uses: docker/login-action@v3
+      #   if: env.UPBOUND_MARKETPLACE_PUSH_ROBOT_USR != ''
+      #   with:
+      #     registry: xpkg.upbound.io
+      #     username: ${{ secrets.UPBOUND_MARKETPLACE_PUSH_ROBOT_USR }}
+      #     password: ${{ secrets.UPBOUND_MARKETPLACE_PUSH_ROBOT_PSW }}
 
       - name: Checkout
         uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
@@ -318,6 +330,56 @@ jobs:
           name: output
           path: _output/**
 
+      # - name: Publish Artifacts
+      #   if: env.UPBOUND_MARKETPLACE_PUSH_ROBOT_USR != ''
+      #   run: make publish BRANCH_NAME=${GITHUB_REF##*/}
       - name: Publish Artifacts
-        if: env.UPBOUND_MARKETPLACE_PUSH_ROBOT_USR != ''
-        run: make publish BRANCH_NAME=${GITHUB_REF##*/}
+        run: |
+          export XPKG_REG_ORGS=ghcr.io/enel1221
+          make publish BRANCH_NAME=${GITHUB_REF##*/}
+
+  create-release:
+    runs-on: ubuntu-24.04
+    if: github.event_name == 'workflow_dispatch'
+    needs:
+      - publish-artifacts
+    permissions: write-all
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
+          fetch-depth: 0
+
+      - name: Create Tag
+        run: |
+          if git rev-parse "v${{ inputs.version }}" >/dev/null 2>&1; then
+            echo "Tag v${{ inputs.version }} already exists."
+            exit 1
+          fi
+          git tag v${{ inputs.version }}
+          git push origin v${{ inputs.version }}
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v${{ inputs.version }}
+          release_name: Release v${{ inputs.version }}
+          draft: false
+          prerelease: false
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Pull and Tag Image
+        run: |
+          docker pull ghcr.io/${{ github.repository }}:${{ github.ref_name }}
+          docker tag ghcr.io/${{ github.repository }}:${{ github.ref_name }} ghcr.io/${{ github.repository }}:v${{ inputs.version }}
+          docker push ghcr.io/${{ github.repository }}:v${{ inputs.version }}
