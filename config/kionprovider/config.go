@@ -18,7 +18,7 @@ func Configure(p *config.Provider) {
 		// 	TerraformName: "kion_aws_account",
 		// }
 		r.Kind = "AWSAccount"
-                r.UseAsync = true  // Enable async for long-running AWS account operations
+		r.UseAsync = true // Enable async for long-running AWS account operations
 	})
 
 	p.AddResourceConfigurator("kion_aws_cloudformation_template", func(r *config.Resource) {
