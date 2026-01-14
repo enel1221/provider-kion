@@ -29,7 +29,7 @@ const (
 	// Kion provider keys
 	keyAPIKey            = "apikey"
 	keyURL               = "url"
-	keySkipSSLValidation = "skip_ssl_validation"
+	keySkipSSLValidation = "skipsslvalidation"
 )
 
 // TerraformSetupBuilder builds Terraform a terraform.SetupFn function which

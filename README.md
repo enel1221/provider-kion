@@ -10,7 +10,7 @@ Kion API.
 Install the provider by using the following command after changing the image tag
 to the [latest release](https://marketplace.upbound.io/providers/enel1221/provider-kion):
 ```
-up ctp provider install ghcr.io/enel1221/provider-kion:0.1.3
+up ctp provider install ghcr.io/enel1221/provider-kion:0.1.4
 ```
 
 Alternatively, you can use declarative installation:
@@ -21,7 +21,7 @@ kind: Provider
 metadata:
   name: provider-kion
 spec:
-  package: ghcr.io/enel1221/provider-kion:0.1.3
+  package: ghcr.io/enel1221/provider-kion:0.1.4
 EOF
 ```
 
