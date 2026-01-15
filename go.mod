@@ -1,6 +1,6 @@
 module github.com/enel1221/provider-kion
 
-go 1.24.0
+go 1.24.11
 
 require (
 	dario.cat/mergo v1.0.1
