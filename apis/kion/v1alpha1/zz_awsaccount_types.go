@@ -75,16 +75,16 @@ type AWSAccountInitParameters struct {
 	// The ID of the billing source containing billing data for this account.
 	PayerID *float64 `json:"payerId,omitempty" tf:"payer_id,omitempty"`
 
-	// (Number) The ID of the Kion project to place this account within.  If empty, the account will be placed within the account cache.
-	// The ID of the Kion project to place this account within.  If empty, the account will be placed within the account cache.
+	// (Number) The ID of the Kion project to place this account within. If empty, the account will be placed within the account cache.
+	// The ID of the Kion project to place this account within. If empty, the account will be placed within the account cache.
 	ProjectID *float64 `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
 	// (Boolean) True to skip periodic access checking on the account.
 	// True to skip periodic access checking on the account.
 	SkipAccessChecking *bool `json:"skipAccessChecking,omitempty" tf:"skip_access_checking,omitempty"`
 
-	// MM).  Required if placing an account within a project.
-	// Date when the AWS account will starting submitting payments against a funding source (YYYY-MM).  Required if placing an account within a project.
+	// MM). Required if placing an account within a project.
+	// Date when the AWS account will starting submitting payments against a funding source (YYYY-MM). Required if placing an account within a project.
 	StartDatecode *string `json:"startDatecode,omitempty" tf:"start_datecode,omitempty"`
 
 	// (Boolean) True to keep the account name and email address in Kion in sync with the account name and email address as set in AWS Organization.
@@ -156,8 +156,8 @@ type AWSAccountObservation struct {
 	// The AWS organization service role.
 	LinkedRole *string `json:"linkedRole,omitempty" tf:"linked_role,omitempty"`
 
-	// (String) Where the account is attached.  Either "project" or "cache".
-	// Where the account is attached.  Either "project" or "cache".
+	// (String) Where the account is attached. Either "project" or "cache".
+	// Where the account is attached. Either "project" or "cache".
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 
 	// (Block Set, Max: 1) Parameters used when moving an account between Kion projects.  These settings are ignored unless moving an account. (see below for nested schema)
@@ -172,8 +172,8 @@ type AWSAccountObservation struct {
 	// The ID of the billing source containing billing data for this account.
 	PayerID *float64 `json:"payerId,omitempty" tf:"payer_id,omitempty"`
 
-	// (Number) The ID of the Kion project to place this account within.  If empty, the account will be placed within the account cache.
-	// The ID of the Kion project to place this account within.  If empty, the account will be placed within the account cache.
+	// (Number) The ID of the Kion project to place this account within. If empty, the account will be placed within the account cache.
+	// The ID of the Kion project to place this account within. If empty, the account will be placed within the account cache.
 	ProjectID *float64 `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
 	// (String) The external ID used for automated internal actions using the service role for this account.
@@ -184,8 +184,8 @@ type AWSAccountObservation struct {
 	// True to skip periodic access checking on the account.
 	SkipAccessChecking *bool `json:"skipAccessChecking,omitempty" tf:"skip_access_checking,omitempty"`
 
-	// MM).  Required if placing an account within a project.
-	// Date when the AWS account will starting submitting payments against a funding source (YYYY-MM).  Required if placing an account within a project.
+	// MM). Required if placing an account within a project.
+	// Date when the AWS account will starting submitting payments against a funding source (YYYY-MM). Required if placing an account within a project.
 	StartDatecode *string `json:"startDatecode,omitempty" tf:"start_datecode,omitempty"`
 
 	// (Boolean) True to keep the account name and email address in Kion in sync with the account name and email address as set in AWS Organization.
@@ -270,8 +270,8 @@ type AWSAccountParameters struct {
 	// +kubebuilder:validation:Optional
 	PayerID *float64 `json:"payerId,omitempty" tf:"payer_id,omitempty"`
 
-	// (Number) The ID of the Kion project to place this account within.  If empty, the account will be placed within the account cache.
-	// The ID of the Kion project to place this account within.  If empty, the account will be placed within the account cache.
+	// (Number) The ID of the Kion project to place this account within. If empty, the account will be placed within the account cache.
+	// The ID of the Kion project to place this account within. If empty, the account will be placed within the account cache.
 	// +kubebuilder:validation:Optional
 	ProjectID *float64 `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
@@ -280,8 +280,8 @@ type AWSAccountParameters struct {
 	// +kubebuilder:validation:Optional
 	SkipAccessChecking *bool `json:"skipAccessChecking,omitempty" tf:"skip_access_checking,omitempty"`
 
-	// MM).  Required if placing an account within a project.
-	// Date when the AWS account will starting submitting payments against a funding source (YYYY-MM).  Required if placing an account within a project.
+	// MM). Required if placing an account within a project.
+	// Date when the AWS account will starting submitting payments against a funding source (YYYY-MM). Required if placing an account within a project.
 	// +kubebuilder:validation:Optional
 	StartDatecode *string `json:"startDatecode,omitempty" tf:"start_datecode,omitempty"`
 
@@ -388,7 +388,7 @@ type AWSAccountStatus struct {
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 
-// AWSAccount is the Schema for the AWSAccounts API. Creates or imports an AWS Account and adds it to a Kion project or the Kion account cache. If account_number is provided, an existing account will be imported into Kion, otherwise a new AWS account will be created.  If project_id is provided the account will be added to the corresponding project, otherwise the account will be added to the account cache. Once added, an account can be moved between projects or in and out of the account cache by changing the project_id.  When moving accounts between projects, use move_project_settings to control how financials will be treated between the old and new project.test-cached-account account_cache_id=321
+// AWSAccount is the Schema for the AWSAccounts API. Creates or imports an AWS Account and adds it to a Kion project or the Kion account cache. If account_number is provided, an existing account will be imported into Kion, otherwise a new AWS account will be created.  If project_id is provided the account will be added to the corresponding project, otherwise the account will be added to the account cache. Once added, an account can be moved between projects or in and out of the account cache by changing the project_id.  When moving accounts between projects, use move_project_settings to control how financials will be treated between the old and new project
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

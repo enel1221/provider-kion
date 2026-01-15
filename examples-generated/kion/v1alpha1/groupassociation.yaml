@@ -4,12 +4,12 @@ metadata:
   annotations:
     meta.upbound.io/example-id: kion/v1alpha1/groupassociation
   labels:
-    testing.upbound.io/example-name: sa1
-  name: sa1
+    testing.upbound.io/example-name: devops_mapping
+  name: devops-mapping
 spec:
   forProvider:
-    assertionName: memberOf
-    assertionRegex: ^kion-admins
+    assertionName: groups
+    assertionRegex: ^devops-team
     idmsId: 5
     updateOnLogin: true
-    userGroupId: 1
+    userGroupId: 10

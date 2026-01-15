@@ -126,6 +126,11 @@ spec:
                           type: number
                       type: object
                     type: array
+                  concurrentCftSync:
+                    description: |-
+                      (Boolean) Whether to run CFTs concurrently or not. If true, templates deploy in parallel (faster). If false, templates deploy sequentially (slower).
+                      Whether to run CFTs concurrently or not. If true, templates deploy in parallel (faster). If false, templates deploy sequentially (slower).
+                    type: boolean
                   description:
                     description: (String)
                     type: string
@@ -293,6 +298,11 @@ spec:
                           type: number
                       type: object
                     type: array
+                  concurrentCftSync:
+                    description: |-
+                      (Boolean) Whether to run CFTs concurrently or not. If true, templates deploy in parallel (faster). If false, templates deploy sequentially (slower).
+                      Whether to run CFTs concurrently or not. If true, templates deploy in parallel (faster). If false, templates deploy sequentially (slower).
+                    type: boolean
                   description:
                     description: (String)
                     type: string
@@ -627,6 +637,11 @@ spec:
                           type: number
                       type: object
                     type: array
+                  concurrentCftSync:
+                    description: |-
+                      (Boolean) Whether to run CFTs concurrently or not. If true, templates deploy in parallel (faster). If false, templates deploy sequentially (slower).
+                      Whether to run CFTs concurrently or not. If true, templates deploy in parallel (faster). If false, templates deploy sequentially (slower).
+                    type: boolean
                   description:
                     description: (String)
                     type: string

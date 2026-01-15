@@ -4,18 +4,25 @@ metadata:
   annotations:
     meta.upbound.io/example-id: kion/v1alpha1/fundingsource
   labels:
-    testing.upbound.io/example-name: fs1
-  name: fs1
+    testing.upbound.io/example-name: complete_example
+  name: complete-example
 spec:
   forProvider:
-    amount: 10000
-    description: Sample funding source created via terraform
-    endDatecode: 2023-12
-    name: Test Funding
+    amount: 1000000
+    description: Main cloud infrastructure budget for fiscal year 2024
+    endDatecode: 2024-12
+    labels:
+      cost_center: "12345"
+      department: it
+      environment: production
+      fiscal_year: "2024"
+    name: Annual Cloud Budget 2024
     ouId: 1
     ownerUserGroups:
-    - id: 3
+    - id: 1
+    - id: 2
     ownerUsers:
     - id: 1
+    - id: 2
     permissionSchemeId: 4
-    startDatecode: 2023-01
+    startDatecode: 2024-01

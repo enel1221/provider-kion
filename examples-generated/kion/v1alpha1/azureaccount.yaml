@@ -4,14 +4,18 @@ metadata:
   annotations:
     meta.upbound.io/example-id: kion/v1alpha1/azureaccount
   labels:
-    testing.upbound.io/example-name: test6
-  name: test6
+    testing.upbound.io/example-name: mca_example
+  name: mca-example
 spec:
   forProvider:
+    accountAlias: mca-dev
+    accountTypeId: 2
     mca:
     - billingAccount: 5e98e158-xxxx-xxxx-xxxx-xxxxxxxxxxxx:xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx_xxxx-xx-xx
       billingProfile: AW4F-xxxx-xxx-xxx
       billingProfileInvoice: SH3V-xxxx-xxx-xxx
-    name: Terraform Created Azure Subscription - 5
-    payerId: 3
-    subscriptionName: terraform-test-create
+    name: MCA Subscription Example
+    payerId: 1
+    projectId: 42
+    startDatecode: 2024-03
+    subscriptionName: terraform-mca-subscription

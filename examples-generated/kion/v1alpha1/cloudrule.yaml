@@ -4,15 +4,44 @@ metadata:
   annotations:
     meta.upbound.io/example-id: kion/v1alpha1/cloudrule
   labels:
-    testing.upbound.io/example-name: cr1
-  name: cr1
+    testing.upbound.io/example-name: complete_example
+  name: complete-example
 spec:
   forProvider:
+    awsCloudformationTemplates:
+    - id: 1
     awsIamPolicies:
     - id: 1
-    description: Sample cloud rule.
-    name: sample-resource
-    ownerUserGroups:
+    azureArmTemplateDefinitions:
     - id: 1
+    azurePolicyDefinitions:
+    - id: 1
+    azureRoleDefinitions:
+    - id: 1
+    complianceStandards:
+    - id: 1
+    concurrentCftSync: true
+    description: A comprehensive example of a cloud rule with all supported options.
+    gcpIamRoles:
+    - id: 1
+    internalAwsAmis:
+    - id: 1
+    internalAwsServiceCatalogPortfolios:
+    - id: 1
+    labels:
+      cost_center: "12345"
+      environment: production
+      team: security
+    name: Complete Cloud Rule Example
+    ous:
+    - id: 1
+    ownerUserGroups:
+    - id: 2
     ownerUsers:
+    - id: 1
+    postWebhookId: 2
+    preWebhookId: 1
+    projects:
+    - id: 1
+    serviceControlPolicies:
     - id: 1

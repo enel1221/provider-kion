@@ -15,16 +15,20 @@ import (
 
 type OUPermissionMappingInitParameters struct {
 
+	// (Number) Application role ID for the permission mapping.
 	// Application role ID for the permission mapping.
 	AppRoleID *float64 `json:"appRoleId,omitempty" tf:"app_role_id,omitempty"`
 
+	// (Number) ID of the OU to manage permission mappings for.
 	// ID of the OU to manage permission mappings for.
 	OuID *float64 `json:"ouId,omitempty" tf:"ou_id,omitempty"`
 
+	// (Set of Number) Set of user group IDs for the permission mapping (must be provided in numerical order).
 	// Set of user group IDs for the permission mapping (must be provided in numerical order).
 	// +listType=set
 	UserGroupsIds []*float64 `json:"userGroupsIds,omitempty" tf:"user_groups_ids,omitempty"`
 
+	// (Set of Number) Set of user IDs for the permission mapping (must be provided in numerical order).
 	// Set of user IDs for the permission mapping (must be provided in numerical order).
 	// +listType=set
 	UserIds []*float64 `json:"userIds,omitempty" tf:"user_ids,omitempty"`
@@ -32,18 +36,23 @@ type OUPermissionMappingInitParameters struct {
 
 type OUPermissionMappingObservation struct {
 
+	// (Number) Application role ID for the permission mapping.
 	// Application role ID for the permission mapping.
 	AppRoleID *float64 `json:"appRoleId,omitempty" tf:"app_role_id,omitempty"`
 
+	// (String) The ID of this resource.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// (Number) ID of the OU to manage permission mappings for.
 	// ID of the OU to manage permission mappings for.
 	OuID *float64 `json:"ouId,omitempty" tf:"ou_id,omitempty"`
 
+	// (Set of Number) Set of user group IDs for the permission mapping (must be provided in numerical order).
 	// Set of user group IDs for the permission mapping (must be provided in numerical order).
 	// +listType=set
 	UserGroupsIds []*float64 `json:"userGroupsIds,omitempty" tf:"user_groups_ids,omitempty"`
 
+	// (Set of Number) Set of user IDs for the permission mapping (must be provided in numerical order).
 	// Set of user IDs for the permission mapping (must be provided in numerical order).
 	// +listType=set
 	UserIds []*float64 `json:"userIds,omitempty" tf:"user_ids,omitempty"`
@@ -51,19 +60,23 @@ type OUPermissionMappingObservation struct {
 
 type OUPermissionMappingParameters struct {
 
+	// (Number) Application role ID for the permission mapping.
 	// Application role ID for the permission mapping.
 	// +kubebuilder:validation:Optional
 	AppRoleID *float64 `json:"appRoleId,omitempty" tf:"app_role_id,omitempty"`
 
+	// (Number) ID of the OU to manage permission mappings for.
 	// ID of the OU to manage permission mappings for.
 	// +kubebuilder:validation:Optional
 	OuID *float64 `json:"ouId,omitempty" tf:"ou_id,omitempty"`
 
+	// (Set of Number) Set of user group IDs for the permission mapping (must be provided in numerical order).
 	// Set of user group IDs for the permission mapping (must be provided in numerical order).
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	UserGroupsIds []*float64 `json:"userGroupsIds,omitempty" tf:"user_groups_ids,omitempty"`
 
+	// (Set of Number) Set of user IDs for the permission mapping (must be provided in numerical order).
 	// Set of user IDs for the permission mapping (must be provided in numerical order).
 	// +kubebuilder:validation:Optional
 	// +listType=set
@@ -97,7 +110,7 @@ type OUPermissionMappingStatus struct {
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 
-// OUPermissionMapping is the Schema for the OUPermissionMappings API. <no value>
+// OUPermissionMapping is the Schema for the OUPermissionMappings API.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

@@ -15,153 +15,197 @@ import (
 
 type ProjectEnforcementInitParameters struct {
 
+	// (String) Type of the amount. Valid values are 'custom', 'last_month'.
 	// Type of the amount. Valid values are 'custom', 'last_month'.
 	AmountType *string `json:"amountType,omitempty" tf:"amount_type,omitempty"`
 
+	// (Number) Defines a Cloud Rule ID associated with the enforcement.
 	// Defines a Cloud Rule ID associated with the enforcement.
 	CloudRuleID *float64 `json:"cloudRuleId,omitempty" tf:"cloud_rule_id,omitempty"`
 
+	// provided description of the enforcement.
 	// Optional, user-provided description of the enforcement.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// (Boolean) Flag that specifies if the enforcement is enabled.
 	// Flag that specifies if the enforcement is enabled.
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 
+	// (String) Frequency at which notifications are sent for this enforcement.
 	// Frequency at which notifications are sent for this enforcement.
 	NotificationFrequency *string `json:"notificationFrequency,omitempty" tf:"notification_frequency,omitempty"`
 
+	// (Boolean) Flag that specifies if enforcement will place project in an overburn state when triggered.
 	// Flag that specifies if enforcement will place project in an overburn state when triggered.
 	Overburn *bool `json:"overburn,omitempty" tf:"overburn,omitempty"`
 
+	// (Number) ID of the project under enforcement.
 	// ID of the project under enforcement.
 	ProjectID *float64 `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
+	// (Number) ID of the service related to the enforcement.
 	// ID of the service related to the enforcement.
 	ServiceID *float64 `json:"serviceId,omitempty" tf:"service_id,omitempty"`
 
+	// (String) Type of spend option. Valid values are 'spend', 'remaining'.
 	// Type of spend option. Valid values are 'spend', 'remaining'.
 	SpendOption *string `json:"spendOption,omitempty" tf:"spend_option,omitempty"`
 
+	// (Number) Threshold value. Either a dollar amount or a percentage, depending on the threshold type.
 	// Threshold value. Either a dollar amount or a percentage, depending on the threshold type.
 	Threshold *float64 `json:"threshold,omitempty" tf:"threshold,omitempty"`
 
+	// (String) Type of the threshold value. Valid values are 'dollar', 'percent'.
 	// Type of the threshold value. Valid values are 'dollar', 'percent'.
 	ThresholdType *string `json:"thresholdType,omitempty" tf:"threshold_type,omitempty"`
 
+	// (String) Timeframe of the enforcement. Valid values are 'lifetime', 'month', 'year', 'funding_source'.
 	// Timeframe of the enforcement. Valid values are 'lifetime', 'month', 'year', 'funding_source'.
 	Timeframe *string `json:"timeframe,omitempty" tf:"timeframe,omitempty"`
 
+	// (List of Number) List of user group IDs that will receive notifications from the enforcement.
 	// List of user group IDs that will receive notifications from the enforcement.
 	UserGroupIds []*float64 `json:"userGroupIds,omitempty" tf:"user_group_ids,omitempty"`
 
+	// (List of Number) List of user IDs that will receive notifications from the enforcement.
 	// List of user IDs that will receive notifications from the enforcement.
 	UserIds []*float64 `json:"userIds,omitempty" tf:"user_ids,omitempty"`
 }
 
 type ProjectEnforcementObservation struct {
 
+	// (String) Type of the amount. Valid values are 'custom', 'last_month'.
 	// Type of the amount. Valid values are 'custom', 'last_month'.
 	AmountType *string `json:"amountType,omitempty" tf:"amount_type,omitempty"`
 
+	// (Number) Defines a Cloud Rule ID associated with the enforcement.
 	// Defines a Cloud Rule ID associated with the enforcement.
 	CloudRuleID *float64 `json:"cloudRuleId,omitempty" tf:"cloud_rule_id,omitempty"`
 
+	// provided description of the enforcement.
 	// Optional, user-provided description of the enforcement.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// (Boolean) Flag that specifies if the enforcement is enabled.
 	// Flag that specifies if the enforcement is enabled.
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 
+	// (String) The ID of this resource.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// (String) Frequency at which notifications are sent for this enforcement.
 	// Frequency at which notifications are sent for this enforcement.
 	NotificationFrequency *string `json:"notificationFrequency,omitempty" tf:"notification_frequency,omitempty"`
 
+	// (Boolean) Flag that specifies if enforcement will place project in an overburn state when triggered.
 	// Flag that specifies if enforcement will place project in an overburn state when triggered.
 	Overburn *bool `json:"overburn,omitempty" tf:"overburn,omitempty"`
 
+	// (Number) ID of the project under enforcement.
 	// ID of the project under enforcement.
 	ProjectID *float64 `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
+	// (Number) ID of the service related to the enforcement.
 	// ID of the service related to the enforcement.
 	ServiceID *float64 `json:"serviceId,omitempty" tf:"service_id,omitempty"`
 
+	// (String) Type of spend option. Valid values are 'spend', 'remaining'.
 	// Type of spend option. Valid values are 'spend', 'remaining'.
 	SpendOption *string `json:"spendOption,omitempty" tf:"spend_option,omitempty"`
 
+	// (Number) Threshold value. Either a dollar amount or a percentage, depending on the threshold type.
 	// Threshold value. Either a dollar amount or a percentage, depending on the threshold type.
 	Threshold *float64 `json:"threshold,omitempty" tf:"threshold,omitempty"`
 
+	// (String) Type of the threshold value. Valid values are 'dollar', 'percent'.
 	// Type of the threshold value. Valid values are 'dollar', 'percent'.
 	ThresholdType *string `json:"thresholdType,omitempty" tf:"threshold_type,omitempty"`
 
+	// (String) Timeframe of the enforcement. Valid values are 'lifetime', 'month', 'year', 'funding_source'.
 	// Timeframe of the enforcement. Valid values are 'lifetime', 'month', 'year', 'funding_source'.
 	Timeframe *string `json:"timeframe,omitempty" tf:"timeframe,omitempty"`
 
+	// (Boolean) Flag that specifies if the enforcement is currently triggered.
 	// Flag that specifies if the enforcement is currently triggered.
 	Triggered *bool `json:"triggered,omitempty" tf:"triggered,omitempty"`
 
+	// (List of Number) List of user group IDs that will receive notifications from the enforcement.
 	// List of user group IDs that will receive notifications from the enforcement.
 	UserGroupIds []*float64 `json:"userGroupIds,omitempty" tf:"user_group_ids,omitempty"`
 
+	// (List of Number) List of user IDs that will receive notifications from the enforcement.
 	// List of user IDs that will receive notifications from the enforcement.
 	UserIds []*float64 `json:"userIds,omitempty" tf:"user_ids,omitempty"`
 }
 
 type ProjectEnforcementParameters struct {
 
+	// (String) Type of the amount. Valid values are 'custom', 'last_month'.
 	// Type of the amount. Valid values are 'custom', 'last_month'.
 	// +kubebuilder:validation:Optional
 	AmountType *string `json:"amountType,omitempty" tf:"amount_type,omitempty"`
 
+	// (Number) Defines a Cloud Rule ID associated with the enforcement.
 	// Defines a Cloud Rule ID associated with the enforcement.
 	// +kubebuilder:validation:Optional
 	CloudRuleID *float64 `json:"cloudRuleId,omitempty" tf:"cloud_rule_id,omitempty"`
 
+	// provided description of the enforcement.
 	// Optional, user-provided description of the enforcement.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// (Boolean) Flag that specifies if the enforcement is enabled.
 	// Flag that specifies if the enforcement is enabled.
 	// +kubebuilder:validation:Optional
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 
+	// (String) Frequency at which notifications are sent for this enforcement.
 	// Frequency at which notifications are sent for this enforcement.
 	// +kubebuilder:validation:Optional
 	NotificationFrequency *string `json:"notificationFrequency,omitempty" tf:"notification_frequency,omitempty"`
 
+	// (Boolean) Flag that specifies if enforcement will place project in an overburn state when triggered.
 	// Flag that specifies if enforcement will place project in an overburn state when triggered.
 	// +kubebuilder:validation:Optional
 	Overburn *bool `json:"overburn,omitempty" tf:"overburn,omitempty"`
 
+	// (Number) ID of the project under enforcement.
 	// ID of the project under enforcement.
 	// +kubebuilder:validation:Optional
 	ProjectID *float64 `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
+	// (Number) ID of the service related to the enforcement.
 	// ID of the service related to the enforcement.
 	// +kubebuilder:validation:Optional
 	ServiceID *float64 `json:"serviceId,omitempty" tf:"service_id,omitempty"`
 
+	// (String) Type of spend option. Valid values are 'spend', 'remaining'.
 	// Type of spend option. Valid values are 'spend', 'remaining'.
 	// +kubebuilder:validation:Optional
 	SpendOption *string `json:"spendOption,omitempty" tf:"spend_option,omitempty"`
 
+	// (Number) Threshold value. Either a dollar amount or a percentage, depending on the threshold type.
 	// Threshold value. Either a dollar amount or a percentage, depending on the threshold type.
 	// +kubebuilder:validation:Optional
 	Threshold *float64 `json:"threshold,omitempty" tf:"threshold,omitempty"`
 
+	// (String) Type of the threshold value. Valid values are 'dollar', 'percent'.
 	// Type of the threshold value. Valid values are 'dollar', 'percent'.
 	// +kubebuilder:validation:Optional
 	ThresholdType *string `json:"thresholdType,omitempty" tf:"threshold_type,omitempty"`
 
+	// (String) Timeframe of the enforcement. Valid values are 'lifetime', 'month', 'year', 'funding_source'.
 	// Timeframe of the enforcement. Valid values are 'lifetime', 'month', 'year', 'funding_source'.
 	// +kubebuilder:validation:Optional
 	Timeframe *string `json:"timeframe,omitempty" tf:"timeframe,omitempty"`
 
+	// (List of Number) List of user group IDs that will receive notifications from the enforcement.
 	// List of user group IDs that will receive notifications from the enforcement.
 	// +kubebuilder:validation:Optional
 	UserGroupIds []*float64 `json:"userGroupIds,omitempty" tf:"user_group_ids,omitempty"`
 
+	// (List of Number) List of user IDs that will receive notifications from the enforcement.
 	// List of user IDs that will receive notifications from the enforcement.
 	// +kubebuilder:validation:Optional
 	UserIds []*float64 `json:"userIds,omitempty" tf:"user_ids,omitempty"`
@@ -194,7 +238,7 @@ type ProjectEnforcementStatus struct {
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 
-// ProjectEnforcement is the Schema for the ProjectEnforcements API. <no value>
+// ProjectEnforcement is the Schema for the ProjectEnforcements API. Manages enforcement rules for projects to control service usage based on various criteria likespend limits and timeframe restrictions. . This resource allows for creating, reading, updating, and deleting project-specific enforcement settings.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

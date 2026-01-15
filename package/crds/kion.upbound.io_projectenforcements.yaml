@@ -35,7 +35,10 @@ spec:
     schema:
       openAPIV3Schema:
         description: ProjectEnforcement is the Schema for the ProjectEnforcements
-          API. <no value>
+          API. Manages enforcement rules for projects to control service usage based
+          on various criteria likespend limits and timeframe restrictions. . This
+          resource allows for creating, reading, updating, and deleting project-specific
+          enforcement settings.
         properties:
           apiVersion:
             description: |-
@@ -74,55 +77,76 @@ spec:
               forProvider:
                 properties:
                   amountType:
-                    description: Type of the amount. Valid values are 'custom', 'last_month'.
+                    description: |-
+                      (String) Type of the amount. Valid values are 'custom', 'last_month'.
+                      Type of the amount. Valid values are 'custom', 'last_month'.
                     type: string
                   cloudRuleId:
-                    description: Defines a Cloud Rule ID associated with the enforcement.
+                    description: |-
+                      (Number) Defines a Cloud Rule ID associated with the enforcement.
+                      Defines a Cloud Rule ID associated with the enforcement.
                     type: number
                   description:
-                    description: Optional, user-provided description of the enforcement.
+                    description: |-
+                      provided description of the enforcement.
+                      Optional, user-provided description of the enforcement.
                     type: string
                   enabled:
-                    description: Flag that specifies if the enforcement is enabled.
+                    description: |-
+                      (Boolean) Flag that specifies if the enforcement is enabled.
+                      Flag that specifies if the enforcement is enabled.
                     type: boolean
                   notificationFrequency:
-                    description: Frequency at which notifications are sent for this
-                      enforcement.
+                    description: |-
+                      (String) Frequency at which notifications are sent for this enforcement.
+                      Frequency at which notifications are sent for this enforcement.
                     type: string
                   overburn:
-                    description: Flag that specifies if enforcement will place project
-                      in an overburn state when triggered.
+                    description: |-
+                      (Boolean) Flag that specifies if enforcement will place project in an overburn state when triggered.
+                      Flag that specifies if enforcement will place project in an overburn state when triggered.
                     type: boolean
                   projectId:
-                    description: ID of the project under enforcement.
+                    description: |-
+                      (Number) ID of the project under enforcement.
+                      ID of the project under enforcement.
                     type: number
                   serviceId:
-                    description: ID of the service related to the enforcement.
+                    description: |-
+                      (Number) ID of the service related to the enforcement.
+                      ID of the service related to the enforcement.
                     type: number
                   spendOption:
-                    description: Type of spend option. Valid values are 'spend', 'remaining'.
+                    description: |-
+                      (String) Type of spend option. Valid values are 'spend', 'remaining'.
+                      Type of spend option. Valid values are 'spend', 'remaining'.
                     type: string
                   threshold:
-                    description: Threshold value. Either a dollar amount or a percentage,
-                      depending on the threshold type.
+                    description: |-
+                      (Number) Threshold value. Either a dollar amount or a percentage, depending on the threshold type.
+                      Threshold value. Either a dollar amount or a percentage, depending on the threshold type.
                     type: number
                   thresholdType:
-                    description: Type of the threshold value. Valid values are 'dollar',
-                      'percent'.
+                    description: |-
+                      (String) Type of the threshold value. Valid values are 'dollar', 'percent'.
+                      Type of the threshold value. Valid values are 'dollar', 'percent'.
                     type: string
                   timeframe:
-                    description: Timeframe of the enforcement. Valid values are 'lifetime',
-                      'month', 'year', 'funding_source'.
+                    description: |-
+                      (String) Timeframe of the enforcement. Valid values are 'lifetime', 'month', 'year', 'funding_source'.
+                      Timeframe of the enforcement. Valid values are 'lifetime', 'month', 'year', 'funding_source'.
                     type: string
                   userGroupIds:
-                    description: List of user group IDs that will receive notifications
-                      from the enforcement.
+                    description: |-
+                      (List of Number) List of user group IDs that will receive notifications from the enforcement.
+                      List of user group IDs that will receive notifications from the enforcement.
                     items:
                       type: number
                     type: array
                   userIds:
-                    description: List of user IDs that will receive notifications
-                      from the enforcement.
+                    description: |-
+                      (List of Number) List of user IDs that will receive notifications from the enforcement.
+                      List of user IDs that will receive notifications from the enforcement.
                     items:
                       type: number
                     type: array
@@ -141,55 +165,76 @@ spec:
                   autoscaler.
                 properties:
                   amountType:
-                    description: Type of the amount. Valid values are 'custom', 'last_month'.
+                    description: |-
+                      (String) Type of the amount. Valid values are 'custom', 'last_month'.
+                      Type of the amount. Valid values are 'custom', 'last_month'.
                     type: string
                   cloudRuleId:
-                    description: Defines a Cloud Rule ID associated with the enforcement.
+                    description: |-
+                      (Number) Defines a Cloud Rule ID associated with the enforcement.
+                      Defines a Cloud Rule ID associated with the enforcement.
                     type: number
                   description:
-                    description: Optional, user-provided description of the enforcement.
+                    description: |-
+                      provided description of the enforcement.
+                      Optional, user-provided description of the enforcement.
                     type: string
                   enabled:
-                    description: Flag that specifies if the enforcement is enabled.
+                    description: |-
+                      (Boolean) Flag that specifies if the enforcement is enabled.
+                      Flag that specifies if the enforcement is enabled.
                     type: boolean
                   notificationFrequency:
-                    description: Frequency at which notifications are sent for this
-                      enforcement.
+                    description: |-
+                      (String) Frequency at which notifications are sent for this enforcement.
+                      Frequency at which notifications are sent for this enforcement.
                     type: string
                   overburn:
-                    description: Flag that specifies if enforcement will place project
-                      in an overburn state when triggered.
+                    description: |-
+                      (Boolean) Flag that specifies if enforcement will place project in an overburn state when triggered.
+                      Flag that specifies if enforcement will place project in an overburn state when triggered.
                     type: boolean
                   projectId:
-                    description: ID of the project under enforcement.
+                    description: |-
+                      (Number) ID of the project under enforcement.
+                      ID of the project under enforcement.
                     type: number
                   serviceId:
-                    description: ID of the service related to the enforcement.
+                    description: |-
+                      (Number) ID of the service related to the enforcement.
+                      ID of the service related to the enforcement.
                     type: number
                   spendOption:
-                    description: Type of spend option. Valid values are 'spend', 'remaining'.
+                    description: |-
+                      (String) Type of spend option. Valid values are 'spend', 'remaining'.
+                      Type of spend option. Valid values are 'spend', 'remaining'.
                     type: string
                   threshold:
-                    description: Threshold value. Either a dollar amount or a percentage,
-                      depending on the threshold type.
+                    description: |-
+                      (Number) Threshold value. Either a dollar amount or a percentage, depending on the threshold type.
+                      Threshold value. Either a dollar amount or a percentage, depending on the threshold type.
                     type: number
                   thresholdType:
-                    description: Type of the threshold value. Valid values are 'dollar',
-                      'percent'.
+                    description: |-
+                      (String) Type of the threshold value. Valid values are 'dollar', 'percent'.
+                      Type of the threshold value. Valid values are 'dollar', 'percent'.
                     type: string
                   timeframe:
-                    description: Timeframe of the enforcement. Valid values are 'lifetime',
-                      'month', 'year', 'funding_source'.
+                    description: |-
+                      (String) Timeframe of the enforcement. Valid values are 'lifetime', 'month', 'year', 'funding_source'.
+                      Timeframe of the enforcement. Valid values are 'lifetime', 'month', 'year', 'funding_source'.
                     type: string
                   userGroupIds:
-                    description: List of user group IDs that will receive notifications
-                      from the enforcement.
+                    description: |-
+                      (List of Number) List of user group IDs that will receive notifications from the enforcement.
+                      List of user group IDs that will receive notifications from the enforcement.
                     items:
                       type: number
                     type: array
                   userIds:
-                    description: List of user IDs that will receive notifications
-                      from the enforcement.
+                    description: |-
+                      (List of Number) List of user IDs that will receive notifications from the enforcement.
+                      List of user IDs that will receive notifications from the enforcement.
                     items:
                       type: number
                     type: array
@@ -380,61 +425,84 @@ spec:
               atProvider:
                 properties:
                   amountType:
-                    description: Type of the amount. Valid values are 'custom', 'last_month'.
+                    description: |-
+                      (String) Type of the amount. Valid values are 'custom', 'last_month'.
+                      Type of the amount. Valid values are 'custom', 'last_month'.
                     type: string
                   cloudRuleId:
-                    description: Defines a Cloud Rule ID associated with the enforcement.
+                    description: |-
+                      (Number) Defines a Cloud Rule ID associated with the enforcement.
+                      Defines a Cloud Rule ID associated with the enforcement.
                     type: number
                   description:
-                    description: Optional, user-provided description of the enforcement.
+                    description: |-
+                      provided description of the enforcement.
+                      Optional, user-provided description of the enforcement.
                     type: string
                   enabled:
-                    description: Flag that specifies if the enforcement is enabled.
+                    description: |-
+                      (Boolean) Flag that specifies if the enforcement is enabled.
+                      Flag that specifies if the enforcement is enabled.
                     type: boolean
                   id:
+                    description: (String) The ID of this resource.
                     type: string
                   notificationFrequency:
-                    description: Frequency at which notifications are sent for this
-                      enforcement.
+                    description: |-
+                      (String) Frequency at which notifications are sent for this enforcement.
+                      Frequency at which notifications are sent for this enforcement.
                     type: string
                   overburn:
-                    description: Flag that specifies if enforcement will place project
-                      in an overburn state when triggered.
+                    description: |-
+                      (Boolean) Flag that specifies if enforcement will place project in an overburn state when triggered.
+                      Flag that specifies if enforcement will place project in an overburn state when triggered.
                     type: boolean
                   projectId:
-                    description: ID of the project under enforcement.
+                    description: |-
+                      (Number) ID of the project under enforcement.
+                      ID of the project under enforcement.
                     type: number
                   serviceId:
-                    description: ID of the service related to the enforcement.
+                    description: |-
+                      (Number) ID of the service related to the enforcement.
+                      ID of the service related to the enforcement.
                     type: number
                   spendOption:
-                    description: Type of spend option. Valid values are 'spend', 'remaining'.
+                    description: |-
+                      (String) Type of spend option. Valid values are 'spend', 'remaining'.
+                      Type of spend option. Valid values are 'spend', 'remaining'.
                     type: string
                   threshold:
-                    description: Threshold value. Either a dollar amount or a percentage,
-                      depending on the threshold type.
+                    description: |-
+                      (Number) Threshold value. Either a dollar amount or a percentage, depending on the threshold type.
+                      Threshold value. Either a dollar amount or a percentage, depending on the threshold type.
                     type: number
                   thresholdType:
-                    description: Type of the threshold value. Valid values are 'dollar',
-                      'percent'.
+                    description: |-
+                      (String) Type of the threshold value. Valid values are 'dollar', 'percent'.
+                      Type of the threshold value. Valid values are 'dollar', 'percent'.
                     type: string
                   timeframe:
-                    description: Timeframe of the enforcement. Valid values are 'lifetime',
-                      'month', 'year', 'funding_source'.
+                    description: |-
+                      (String) Timeframe of the enforcement. Valid values are 'lifetime', 'month', 'year', 'funding_source'.
+                      Timeframe of the enforcement. Valid values are 'lifetime', 'month', 'year', 'funding_source'.
                     type: string
                   triggered:
-                    description: Flag that specifies if the enforcement is currently
-                      triggered.
+                    description: |-
+                      (Boolean) Flag that specifies if the enforcement is currently triggered.
+                      Flag that specifies if the enforcement is currently triggered.
                     type: boolean
                   userGroupIds:
-                    description: List of user group IDs that will receive notifications
-                      from the enforcement.
+                    description: |-
+                      (List of Number) List of user group IDs that will receive notifications from the enforcement.
+                      List of user group IDs that will receive notifications from the enforcement.
                     items:
                       type: number
                     type: array
                   userIds:
-                    description: List of user IDs that will receive notifications
-                      from the enforcement.
+                    description: |-
+                      (List of Number) List of user IDs that will receive notifications from the enforcement.
+                      List of user IDs that will receive notifications from the enforcement.
                     items:
                       type: number
                     type: array

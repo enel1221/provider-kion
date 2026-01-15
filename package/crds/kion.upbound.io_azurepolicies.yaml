@@ -34,7 +34,7 @@ spec:
     name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: AzurePolicy is the Schema for the AzurePolicys API. <no value>
+        description: AzurePolicy is the Schema for the AzurePolicys API.
         properties:
           apiVersion:
             description: |-
@@ -73,32 +73,41 @@ spec:
               forProvider:
                 properties:
                   description:
+                    description: (String)
                     type: string
                   lastUpdated:
+                    description: (String)
                     type: string
                   name:
+                    description: (String)
                     type: string
                   ownerUserGroups:
-                    description: Must provide at least the owner_user_groups field
-                      or the owner_users field.
+                    description: |-
+                      (Block Set) Must provide at least the owner_user_groups field or the owner_users field. (see below for nested schema)
+                      Must provide at least the owner_user_groups field or the owner_users field.
                     items:
                       properties:
                         id:
+                          description: (String) The ID of this resource.
                           type: number
                       type: object
                     type: array
                   ownerUsers:
-                    description: Must provide at least the owner_user_groups field
-                      or the owner_users field.
+                    description: |-
+                      (Block Set) Must provide at least the owner_user_groups field or the owner_users field. (see below for nested schema)
+                      Must provide at least the owner_user_groups field or the owner_users field.
                     items:
                       properties:
                         id:
+                          description: (String) The ID of this resource.
                           type: number
                       type: object
                     type: array
                   parameters:
+                    description: (String)
                     type: string
                   policy:
+                    description: (String)
                     type: string
                 type: object
               initProvider:
@@ -115,32 +124,41 @@ spec:
                   autoscaler.
                 properties:
                   description:
+                    description: (String)
                     type: string
                   lastUpdated:
+                    description: (String)
                     type: string
                   name:
+                    description: (String)
                     type: string
                   ownerUserGroups:
-                    description: Must provide at least the owner_user_groups field
-                      or the owner_users field.
+                    description: |-
+                      (Block Set) Must provide at least the owner_user_groups field or the owner_users field. (see below for nested schema)
+                      Must provide at least the owner_user_groups field or the owner_users field.
                     items:
                       properties:
                         id:
+                          description: (String) The ID of this resource.
                           type: number
                       type: object
                     type: array
                   ownerUsers:
-                    description: Must provide at least the owner_user_groups field
-                      or the owner_users field.
+                    description: |-
+                      (Block Set) Must provide at least the owner_user_groups field or the owner_users field. (see below for nested schema)
+                      Must provide at least the owner_user_groups field or the owner_users field.
                     items:
                       properties:
                         id:
+                          description: (String) The ID of this resource.
                           type: number
                       type: object
                     type: array
                   parameters:
+                    description: (String)
                     type: string
                   policy:
+                    description: (String)
                     type: string
                 type: object
               managementPolicies:
@@ -325,38 +343,50 @@ spec:
               atProvider:
                 properties:
                   azureManagedPolicyDefId:
+                    description: (String)
                     type: string
                   ctManaged:
+                    description: (Boolean)
                     type: boolean
                   description:
+                    description: (String)
                     type: string
                   id:
+                    description: (String) The ID of this resource.
                     type: string
                   lastUpdated:
+                    description: (String)
                     type: string
                   name:
+                    description: (String)
                     type: string
                   ownerUserGroups:
-                    description: Must provide at least the owner_user_groups field
-                      or the owner_users field.
+                    description: |-
+                      (Block Set) Must provide at least the owner_user_groups field or the owner_users field. (see below for nested schema)
+                      Must provide at least the owner_user_groups field or the owner_users field.
                     items:
                       properties:
                         id:
+                          description: (String) The ID of this resource.
                           type: number
                       type: object
                     type: array
                   ownerUsers:
-                    description: Must provide at least the owner_user_groups field
-                      or the owner_users field.
+                    description: |-
+                      (Block Set) Must provide at least the owner_user_groups field or the owner_users field. (see below for nested schema)
+                      Must provide at least the owner_user_groups field or the owner_users field.
                     items:
                       properties:
                         id:
+                          description: (String) The ID of this resource.
                           type: number
                       type: object
                     type: array
                   parameters:
+                    description: (String)
                     type: string
                   policy:
+                    description: (String)
                     type: string
                 type: object
               conditions:

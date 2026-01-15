@@ -4,23 +4,28 @@ metadata:
   annotations:
     meta.upbound.io/example-id: kion/v1alpha1/awsiampolicy
   labels:
-    testing.upbound.io/example-name: p1
-  name: p1
+    testing.upbound.io/example-name: basic
+  name: basic
 spec:
   forProvider:
-    name: sample-resource
-    ownerUserGroups:
-    - id: 1
+    description: Basic IAM policy example
+    name: basic-iam-policy
     ownerUsers:
     - id: 1
-    policy: |
-      {
-          "Version": "2012-10-17",
-          "Statement": [
-              {
-                  "Effect": "Allow",
-                  "Action": "*",
-                  "Resource": "*"
-              }
+    policy: |-
+      ${jsonencode({
+          Version = "2012-10-17"
+          Statement = [
+            {
+              Effect = "Allow"
+              Action = [
+                "s3:ListBucket",
+                "s3:GetObject"
+              ]
+              Resource = [
+                "arn:aws:s3:::example-bucket",
+                "arn:aws:s3:::example-bucket/*"
+              ]
+            }
           ]
-      }
+        })}

@@ -128,6 +128,10 @@ type CloudRuleInitParameters struct {
 	// (Block Set) (see below for nested schema)
 	ComplianceStandards []ComplianceStandardsInitParameters `json:"complianceStandards,omitempty" tf:"compliance_standards,omitempty"`
 
+	// (Boolean) Whether to run CFTs concurrently or not. If true, templates deploy in parallel (faster). If false, templates deploy sequentially (slower).
+	// Whether to run CFTs concurrently or not. If true, templates deploy in parallel (faster). If false, templates deploy sequentially (slower).
+	ConcurrentCftSync *bool `json:"concurrentCftSync,omitempty" tf:"concurrent_cft_sync,omitempty"`
+
 	// (String)
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -197,6 +201,10 @@ type CloudRuleObservation struct {
 
 	// (Block Set) (see below for nested schema)
 	ComplianceStandards []ComplianceStandardsObservation `json:"complianceStandards,omitempty" tf:"compliance_standards,omitempty"`
+
+	// (Boolean) Whether to run CFTs concurrently or not. If true, templates deploy in parallel (faster). If false, templates deploy sequentially (slower).
+	// Whether to run CFTs concurrently or not. If true, templates deploy in parallel (faster). If false, templates deploy sequentially (slower).
+	ConcurrentCftSync *bool `json:"concurrentCftSync,omitempty" tf:"concurrent_cft_sync,omitempty"`
 
 	// (String)
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -311,6 +319,11 @@ type CloudRuleParameters struct {
 	// (Block Set) (see below for nested schema)
 	// +kubebuilder:validation:Optional
 	ComplianceStandards []ComplianceStandardsParameters `json:"complianceStandards,omitempty" tf:"compliance_standards,omitempty"`
+
+	// (Boolean) Whether to run CFTs concurrently or not. If true, templates deploy in parallel (faster). If false, templates deploy sequentially (slower).
+	// Whether to run CFTs concurrently or not. If true, templates deploy in parallel (faster). If false, templates deploy sequentially (slower).
+	// +kubebuilder:validation:Optional
+	ConcurrentCftSync *bool `json:"concurrentCftSync,omitempty" tf:"concurrent_cft_sync,omitempty"`
 
 	// (String)
 	// +kubebuilder:validation:Optional

@@ -14,97 +14,133 @@ import (
 )
 
 type AzurePolicyInitParameters struct {
+
+	// (String)
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// (String)
 	LastUpdated *string `json:"lastUpdated,omitempty" tf:"last_updated,omitempty"`
 
+	// (String)
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
+	// (Block Set) Must provide at least the owner_user_groups field or the owner_users field. (see below for nested schema)
 	// Must provide at least the owner_user_groups field or the owner_users field.
 	OwnerUserGroups []AzurePolicyOwnerUserGroupsInitParameters `json:"ownerUserGroups,omitempty" tf:"owner_user_groups,omitempty"`
 
+	// (Block Set) Must provide at least the owner_user_groups field or the owner_users field. (see below for nested schema)
 	// Must provide at least the owner_user_groups field or the owner_users field.
 	OwnerUsers []AzurePolicyOwnerUsersInitParameters `json:"ownerUsers,omitempty" tf:"owner_users,omitempty"`
 
+	// (String)
 	Parameters *string `json:"parameters,omitempty" tf:"parameters,omitempty"`
 
+	// (String)
 	Policy *string `json:"policy,omitempty" tf:"policy,omitempty"`
 }
 
 type AzurePolicyObservation struct {
+
+	// (String)
 	AzureManagedPolicyDefID *string `json:"azureManagedPolicyDefId,omitempty" tf:"azure_managed_policy_def_id,omitempty"`
 
+	// (Boolean)
 	CtManaged *bool `json:"ctManaged,omitempty" tf:"ct_managed,omitempty"`
 
+	// (String)
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// (String) The ID of this resource.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// (String)
 	LastUpdated *string `json:"lastUpdated,omitempty" tf:"last_updated,omitempty"`
 
+	// (String)
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
+	// (Block Set) Must provide at least the owner_user_groups field or the owner_users field. (see below for nested schema)
 	// Must provide at least the owner_user_groups field or the owner_users field.
 	OwnerUserGroups []AzurePolicyOwnerUserGroupsObservation `json:"ownerUserGroups,omitempty" tf:"owner_user_groups,omitempty"`
 
+	// (Block Set) Must provide at least the owner_user_groups field or the owner_users field. (see below for nested schema)
 	// Must provide at least the owner_user_groups field or the owner_users field.
 	OwnerUsers []AzurePolicyOwnerUsersObservation `json:"ownerUsers,omitempty" tf:"owner_users,omitempty"`
 
+	// (String)
 	Parameters *string `json:"parameters,omitempty" tf:"parameters,omitempty"`
 
+	// (String)
 	Policy *string `json:"policy,omitempty" tf:"policy,omitempty"`
 }
 
 type AzurePolicyOwnerUserGroupsInitParameters struct {
+
+	// (String) The ID of this resource.
 	ID *float64 `json:"id,omitempty" tf:"id,omitempty"`
 }
 
 type AzurePolicyOwnerUserGroupsObservation struct {
+
+	// (String) The ID of this resource.
 	ID *float64 `json:"id,omitempty" tf:"id,omitempty"`
 }
 
 type AzurePolicyOwnerUserGroupsParameters struct {
 
+	// (String) The ID of this resource.
 	// +kubebuilder:validation:Optional
 	ID *float64 `json:"id,omitempty" tf:"id,omitempty"`
 }
 
 type AzurePolicyOwnerUsersInitParameters struct {
+
+	// (String) The ID of this resource.
 	ID *float64 `json:"id,omitempty" tf:"id,omitempty"`
 }
 
 type AzurePolicyOwnerUsersObservation struct {
+
+	// (String) The ID of this resource.
 	ID *float64 `json:"id,omitempty" tf:"id,omitempty"`
 }
 
 type AzurePolicyOwnerUsersParameters struct {
 
+	// (String) The ID of this resource.
 	// +kubebuilder:validation:Optional
 	ID *float64 `json:"id,omitempty" tf:"id,omitempty"`
 }
 
 type AzurePolicyParameters struct {
 
+	// (String)
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// (String)
 	// +kubebuilder:validation:Optional
 	LastUpdated *string `json:"lastUpdated,omitempty" tf:"last_updated,omitempty"`
 
+	// (String)
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
+	// (Block Set) Must provide at least the owner_user_groups field or the owner_users field. (see below for nested schema)
 	// Must provide at least the owner_user_groups field or the owner_users field.
 	// +kubebuilder:validation:Optional
 	OwnerUserGroups []AzurePolicyOwnerUserGroupsParameters `json:"ownerUserGroups,omitempty" tf:"owner_user_groups,omitempty"`
 
+	// (Block Set) Must provide at least the owner_user_groups field or the owner_users field. (see below for nested schema)
 	// Must provide at least the owner_user_groups field or the owner_users field.
 	// +kubebuilder:validation:Optional
 	OwnerUsers []AzurePolicyOwnerUsersParameters `json:"ownerUsers,omitempty" tf:"owner_users,omitempty"`
 
+	// (String)
 	// +kubebuilder:validation:Optional
 	Parameters *string `json:"parameters,omitempty" tf:"parameters,omitempty"`
 
+	// (String)
 	// +kubebuilder:validation:Optional
 	Policy *string `json:"policy,omitempty" tf:"policy,omitempty"`
 }
@@ -136,7 +172,7 @@ type AzurePolicyStatus struct {
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 
-// AzurePolicy is the Schema for the AzurePolicys API. <no value>
+// AzurePolicy is the Schema for the AzurePolicys API.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

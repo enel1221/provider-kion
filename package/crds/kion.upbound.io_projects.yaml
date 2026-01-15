@@ -81,8 +81,8 @@ spec:
                       properties:
                         amount:
                           description: |-
-                            (Number) Total amount for the budget. This is required if data is not specified. Budget entries are created between start_datecode and end_datecode (exclusive) with the amount evenly distributed across the months.
-                            Total amount for the budget. This is required if data is not specified. Budget entries are created between start_datecode and end_datecode (exclusive) with the amount evenly distributed across the months.
+                            (Number) Total amount for the budget. This is required if data is not specified. Budget entries are created between start_datecode and end_datecode (exclusive) with the amount evenly distributed across the months. When monthly data is provided, the sum of all monthly amounts must equal this value.
+                            Total amount for the budget. This is required if data is not specified. Budget entries are created between start_datecode and end_datecode (exclusive) with the amount evenly distributed across the months. When monthly data is provided, the sum of all monthly amounts must equal this value.
                           type: number
                         data:
                           description: |-
@@ -92,7 +92,7 @@ spec:
                             properties:
                               amount:
                                 description: |-
-                                  (Number) Total amount for the budget. This is required if data is not specified. Budget entries are created between start_datecode and end_datecode (exclusive) with the amount evenly distributed across the months.
+                                  (Number) Total amount for the budget. This is required if data is not specified. Budget entries are created between start_datecode and end_datecode (exclusive) with the amount evenly distributed across the months. When monthly data is provided, the sum of all monthly amounts must equal this value.
                                   Amount of the budget entry in dollars.
                                 type: number
                               datecode:
@@ -189,6 +189,8 @@ spec:
                             is required if data is not specified. Budget entries are
                             created between start_datecode and end_datecode (exclusive)
                             with the amount evenly distributed across the months.
+                            When monthly data is provided, the sum of all monthly
+                            amounts must equal this value.
                           type: number
                         endDatecode:
                           description: (String) Year and month the budget ends. This
@@ -229,8 +231,8 @@ spec:
                       properties:
                         amount:
                           description: |-
-                            (Number) Total amount for the budget. This is required if data is not specified. Budget entries are created between start_datecode and end_datecode (exclusive) with the amount evenly distributed across the months.
-                            Total amount for the budget. This is required if data is not specified. Budget entries are created between start_datecode and end_datecode (exclusive) with the amount evenly distributed across the months.
+                            (Number) Total amount for the budget. This is required if data is not specified. Budget entries are created between start_datecode and end_datecode (exclusive) with the amount evenly distributed across the months. When monthly data is provided, the sum of all monthly amounts must equal this value.
+                            Total amount for the budget. This is required if data is not specified. Budget entries are created between start_datecode and end_datecode (exclusive) with the amount evenly distributed across the months. When monthly data is provided, the sum of all monthly amounts must equal this value.
                           type: number
                         data:
                           description: |-
@@ -240,7 +242,7 @@ spec:
                             properties:
                               amount:
                                 description: |-
-                                  (Number) Total amount for the budget. This is required if data is not specified. Budget entries are created between start_datecode and end_datecode (exclusive) with the amount evenly distributed across the months.
+                                  (Number) Total amount for the budget. This is required if data is not specified. Budget entries are created between start_datecode and end_datecode (exclusive) with the amount evenly distributed across the months. When monthly data is provided, the sum of all monthly amounts must equal this value.
                                   Amount of the budget entry in dollars.
                                 type: number
                               datecode:
@@ -337,6 +339,8 @@ spec:
                             is required if data is not specified. Budget entries are
                             created between start_datecode and end_datecode (exclusive)
                             with the amount evenly distributed across the months.
+                            When monthly data is provided, the sum of all monthly
+                            amounts must equal this value.
                           type: number
                         endDatecode:
                           description: (String) Year and month the budget ends. This
@@ -552,8 +556,8 @@ spec:
                       properties:
                         amount:
                           description: |-
-                            (Number) Total amount for the budget. This is required if data is not specified. Budget entries are created between start_datecode and end_datecode (exclusive) with the amount evenly distributed across the months.
-                            Total amount for the budget. This is required if data is not specified. Budget entries are created between start_datecode and end_datecode (exclusive) with the amount evenly distributed across the months.
+                            (Number) Total amount for the budget. This is required if data is not specified. Budget entries are created between start_datecode and end_datecode (exclusive) with the amount evenly distributed across the months. When monthly data is provided, the sum of all monthly amounts must equal this value.
+                            Total amount for the budget. This is required if data is not specified. Budget entries are created between start_datecode and end_datecode (exclusive) with the amount evenly distributed across the months. When monthly data is provided, the sum of all monthly amounts must equal this value.
                           type: number
                         data:
                           description: |-
@@ -563,7 +567,7 @@ spec:
                             properties:
                               amount:
                                 description: |-
-                                  (Number) Total amount for the budget. This is required if data is not specified. Budget entries are created between start_datecode and end_datecode (exclusive) with the amount evenly distributed across the months.
+                                  (Number) Total amount for the budget. This is required if data is not specified. Budget entries are created between start_datecode and end_datecode (exclusive) with the amount evenly distributed across the months. When monthly data is provided, the sum of all monthly amounts must equal this value.
                                   Amount of the budget entry in dollars.
                                 type: number
                               datecode:
@@ -663,6 +667,8 @@ spec:
                             is required if data is not specified. Budget entries are
                             created between start_datecode and end_datecode (exclusive)
                             with the amount evenly distributed across the months.
+                            When monthly data is provided, the sum of all monthly
+                            amounts must equal this value.
                           type: number
                         endDatecode:
                           description: (String) Year and month the budget ends. This

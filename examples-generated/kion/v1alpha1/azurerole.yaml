@@ -4,22 +4,29 @@ metadata:
   annotations:
     meta.upbound.io/example-id: kion/v1alpha1/azurerole
   labels:
-    testing.upbound.io/example-name: ar1
-  name: ar1
+    testing.upbound.io/example-name: resource_viewer
+  name: resource-viewer
 spec:
   forProvider:
-    description: A test role created by our Terraform provider.
-    name: Test Role
-    ownerUserGroups:
-    - id: 1
+    description: Allows read-only access to resource groups and their resources
+    name: Resource Group Viewer
     ownerUsers:
     - id: 1
     rolePermissions: |
       {
-          "actions": [
-              "Microsoft.Authorization/roleDefinitions/read"
+          "assignableScopes": [
+              "/"
           ],
-          "notActions": [],
-          "dataActions": [],
-          "notDataActions": []
+          "description": "View resource groups and their contents",
+          "permissions": [
+              {
+                  "actions": [
+                      "Microsoft.Resources/subscriptions/resourceGroups/read",
+                      "Microsoft.Resources/subscriptions/resourceGroups/resources/read"
+                  ],
+                  "notActions": [],
+                  "dataActions": [],
+                  "notDataActions": []
+              }
+          ]
       }

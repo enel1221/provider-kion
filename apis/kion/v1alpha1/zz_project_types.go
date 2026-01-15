@@ -15,8 +15,8 @@ import (
 
 type BudgetInitParameters struct {
 
-	// (Number) Total amount for the budget. This is required if data is not specified. Budget entries are created between start_datecode and end_datecode (exclusive) with the amount evenly distributed across the months.
-	// Total amount for the budget. This is required if data is not specified. Budget entries are created between start_datecode and end_datecode (exclusive) with the amount evenly distributed across the months.
+	// (Number) Total amount for the budget. This is required if data is not specified. Budget entries are created between start_datecode and end_datecode (exclusive) with the amount evenly distributed across the months. When monthly data is provided, the sum of all monthly amounts must equal this value.
+	// Total amount for the budget. This is required if data is not specified. Budget entries are created between start_datecode and end_datecode (exclusive) with the amount evenly distributed across the months. When monthly data is provided, the sum of all monthly amounts must equal this value.
 	Amount *float64 `json:"amount,omitempty" tf:"amount,omitempty"`
 
 	// (Block Set) Total amount for the budget. This is required if data is not specified. Budget entries are created between start_datecode and end_datecode (exclusive) with the amount evenly distributed across the months. (see below for nested schema)
@@ -39,8 +39,8 @@ type BudgetInitParameters struct {
 
 type BudgetObservation struct {
 
-	// (Number) Total amount for the budget. This is required if data is not specified. Budget entries are created between start_datecode and end_datecode (exclusive) with the amount evenly distributed across the months.
-	// Total amount for the budget. This is required if data is not specified. Budget entries are created between start_datecode and end_datecode (exclusive) with the amount evenly distributed across the months.
+	// (Number) Total amount for the budget. This is required if data is not specified. Budget entries are created between start_datecode and end_datecode (exclusive) with the amount evenly distributed across the months. When monthly data is provided, the sum of all monthly amounts must equal this value.
+	// Total amount for the budget. This is required if data is not specified. Budget entries are created between start_datecode and end_datecode (exclusive) with the amount evenly distributed across the months. When monthly data is provided, the sum of all monthly amounts must equal this value.
 	Amount *float64 `json:"amount,omitempty" tf:"amount,omitempty"`
 
 	// (Block Set) Total amount for the budget. This is required if data is not specified. Budget entries are created between start_datecode and end_datecode (exclusive) with the amount evenly distributed across the months. (see below for nested schema)
@@ -63,8 +63,8 @@ type BudgetObservation struct {
 
 type BudgetParameters struct {
 
-	// (Number) Total amount for the budget. This is required if data is not specified. Budget entries are created between start_datecode and end_datecode (exclusive) with the amount evenly distributed across the months.
-	// Total amount for the budget. This is required if data is not specified. Budget entries are created between start_datecode and end_datecode (exclusive) with the amount evenly distributed across the months.
+	// (Number) Total amount for the budget. This is required if data is not specified. Budget entries are created between start_datecode and end_datecode (exclusive) with the amount evenly distributed across the months. When monthly data is provided, the sum of all monthly amounts must equal this value.
+	// Total amount for the budget. This is required if data is not specified. Budget entries are created between start_datecode and end_datecode (exclusive) with the amount evenly distributed across the months. When monthly data is provided, the sum of all monthly amounts must equal this value.
 	// +kubebuilder:validation:Optional
 	Amount *float64 `json:"amount,omitempty" tf:"amount,omitempty"`
 
@@ -92,7 +92,7 @@ type BudgetParameters struct {
 
 type DataInitParameters struct {
 
-	// (Number) Total amount for the budget. This is required if data is not specified. Budget entries are created between start_datecode and end_datecode (exclusive) with the amount evenly distributed across the months.
+	// (Number) Total amount for the budget. This is required if data is not specified. Budget entries are created between start_datecode and end_datecode (exclusive) with the amount evenly distributed across the months. When monthly data is provided, the sum of all monthly amounts must equal this value.
 	// Amount of the budget entry in dollars.
 	Amount *float64 `json:"amount,omitempty" tf:"amount,omitempty"`
 
@@ -111,7 +111,7 @@ type DataInitParameters struct {
 
 type DataObservation struct {
 
-	// (Number) Total amount for the budget. This is required if data is not specified. Budget entries are created between start_datecode and end_datecode (exclusive) with the amount evenly distributed across the months.
+	// (Number) Total amount for the budget. This is required if data is not specified. Budget entries are created between start_datecode and end_datecode (exclusive) with the amount evenly distributed across the months. When monthly data is provided, the sum of all monthly amounts must equal this value.
 	// Amount of the budget entry in dollars.
 	Amount *float64 `json:"amount,omitempty" tf:"amount,omitempty"`
 
@@ -130,7 +130,7 @@ type DataObservation struct {
 
 type DataParameters struct {
 
-	// (Number) Total amount for the budget. This is required if data is not specified. Budget entries are created between start_datecode and end_datecode (exclusive) with the amount evenly distributed across the months.
+	// (Number) Total amount for the budget. This is required if data is not specified. Budget entries are created between start_datecode and end_datecode (exclusive) with the amount evenly distributed across the months. When monthly data is provided, the sum of all monthly amounts must equal this value.
 	// Amount of the budget entry in dollars.
 	// +kubebuilder:validation:Optional
 	Amount *float64 `json:"amount" tf:"amount,omitempty"`
@@ -191,7 +191,7 @@ type OwnerUserIdsParameters struct {
 
 type ProjectFundingInitParameters struct {
 
-	// (Number) Total amount for the budget. This is required if data is not specified. Budget entries are created between start_datecode and end_datecode (exclusive) with the amount evenly distributed across the months.
+	// (Number) Total amount for the budget. This is required if data is not specified. Budget entries are created between start_datecode and end_datecode (exclusive) with the amount evenly distributed across the months. When monthly data is provided, the sum of all monthly amounts must equal this value.
 	Amount *float64 `json:"amount,omitempty" tf:"amount,omitempty"`
 
 	// (String) Year and month the budget ends. This is an exclusive date.
@@ -209,7 +209,7 @@ type ProjectFundingInitParameters struct {
 
 type ProjectFundingObservation struct {
 
-	// (Number) Total amount for the budget. This is required if data is not specified. Budget entries are created between start_datecode and end_datecode (exclusive) with the amount evenly distributed across the months.
+	// (Number) Total amount for the budget. This is required if data is not specified. Budget entries are created between start_datecode and end_datecode (exclusive) with the amount evenly distributed across the months. When monthly data is provided, the sum of all monthly amounts must equal this value.
 	Amount *float64 `json:"amount,omitempty" tf:"amount,omitempty"`
 
 	// (String) Year and month the budget ends. This is an exclusive date.
@@ -227,7 +227,7 @@ type ProjectFundingObservation struct {
 
 type ProjectFundingParameters struct {
 
-	// (Number) Total amount for the budget. This is required if data is not specified. Budget entries are created between start_datecode and end_datecode (exclusive) with the amount evenly distributed across the months.
+	// (Number) Total amount for the budget. This is required if data is not specified. Budget entries are created between start_datecode and end_datecode (exclusive) with the amount evenly distributed across the months. When monthly data is provided, the sum of all monthly amounts must equal this value.
 	// +kubebuilder:validation:Optional
 	Amount *float64 `json:"amount,omitempty" tf:"amount,omitempty"`
 

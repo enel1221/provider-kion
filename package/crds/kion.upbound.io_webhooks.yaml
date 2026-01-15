@@ -34,7 +34,7 @@ spec:
     name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: Webhook is the Schema for the Webhooks API. <no value>
+        description: Webhook is the Schema for the Webhooks API.
         properties:
           apiVersion:
             description: |-
@@ -73,48 +73,70 @@ spec:
               forProvider:
                 properties:
                   calloutUrl:
-                    description: The URL to which the webhook will send requests.
+                    description: |-
+                      (String) The URL to which the webhook will send requests.
+                      The URL to which the webhook will send requests.
                     type: string
                   description:
-                    description: Description of the webhook.
+                    description: |-
+                      (String) Description of the webhook.
+                      Description of the webhook.
                     type: string
                   name:
-                    description: The name of the webhook.
+                    description: |-
+                      (String) The name of the webhook.
+                      The name of the webhook.
                     type: string
                   ownerUserGroupIds:
-                    description: Set of user group IDs that own the webhook.
+                    description: |-
+                      (Set of Number) Set of user group IDs that own the webhook.
+                      Set of user group IDs that own the webhook.
                     items:
                       type: number
                     type: array
                     x-kubernetes-list-type: set
                   ownerUserIds:
-                    description: Set of user IDs that own the webhook.
+                    description: |-
+                      (Set of Number) Set of user IDs that own the webhook.
+                      Set of user IDs that own the webhook.
                     items:
                       type: number
                     type: array
                     x-kubernetes-list-type: set
                   requestBody:
-                    description: The request body to be sent with the webhook.
+                    description: |-
+                      (String) The request body to be sent with the webhook.
+                      The request body to be sent with the webhook.
                     type: string
                   requestHeaders:
-                    description: HTTP headers to use when the webhook is triggered
+                    description: |-
+                      (String) HTTP headers to use when the webhook is triggered
+                      HTTP headers to use when the webhook is triggered
                     type: string
                   requestMethod:
-                    description: HTTP method to be used for the webhook (GET, POST,
-                      etc.).
+                    description: |-
+                      (String) HTTP method to be used for the webhook (GET, POST, etc.).
+                      HTTP method to be used for the webhook (GET, POST, etc.).
                     type: string
                   shouldSendSecureInfo:
-                    description: Whether the webhook should send secure information.
+                    description: |-
+                      (Boolean) Whether the webhook should send secure information.
+                      Whether the webhook should send secure information.
                     type: boolean
                   skipSsl:
-                    description: Whether to skip SSL verification.
+                    description: |-
+                      (Boolean) Whether to skip SSL verification.
+                      Whether to skip SSL verification.
                     type: boolean
                   timeoutInSeconds:
-                    description: The number of seconds the application will wait before
-                      considering the webhook 'timed out'
+                    description: |-
+                      (Number) The number of seconds the application will wait before considering the webhook 'timed out'
+                      The number of seconds the application will wait before considering the webhook 'timed out'
                     type: number
                   useRequestHeaders:
-                    description: Whether to use request headers in the webhook request.
+                    description: |-
+                      (Boolean) Whether to use request headers in the webhook request.
+                      Whether to use request headers in the webhook request.
                     type: boolean
                 type: object
               initProvider:
@@ -131,48 +153,70 @@ spec:
                   autoscaler.
                 properties:
                   calloutUrl:
-                    description: The URL to which the webhook will send requests.
+                    description: |-
+                      (String) The URL to which the webhook will send requests.
+                      The URL to which the webhook will send requests.
                     type: string
                   description:
-                    description: Description of the webhook.
+                    description: |-
+                      (String) Description of the webhook.
+                      Description of the webhook.
                     type: string
                   name:
-                    description: The name of the webhook.
+                    description: |-
+                      (String) The name of the webhook.
+                      The name of the webhook.
                     type: string
                   ownerUserGroupIds:
-                    description: Set of user group IDs that own the webhook.
+                    description: |-
+                      (Set of Number) Set of user group IDs that own the webhook.
+                      Set of user group IDs that own the webhook.
                     items:
                       type: number
                     type: array
                     x-kubernetes-list-type: set
                   ownerUserIds:
-                    description: Set of user IDs that own the webhook.
+                    description: |-
+                      (Set of Number) Set of user IDs that own the webhook.
+                      Set of user IDs that own the webhook.
                     items:
                       type: number
                     type: array
                     x-kubernetes-list-type: set
                   requestBody:
-                    description: The request body to be sent with the webhook.
+                    description: |-
+                      (String) The request body to be sent with the webhook.
+                      The request body to be sent with the webhook.
                     type: string
                   requestHeaders:
-                    description: HTTP headers to use when the webhook is triggered
+                    description: |-
+                      (String) HTTP headers to use when the webhook is triggered
+                      HTTP headers to use when the webhook is triggered
                     type: string
                   requestMethod:
-                    description: HTTP method to be used for the webhook (GET, POST,
-                      etc.).
+                    description: |-
+                      (String) HTTP method to be used for the webhook (GET, POST, etc.).
+                      HTTP method to be used for the webhook (GET, POST, etc.).
                     type: string
                   shouldSendSecureInfo:
-                    description: Whether the webhook should send secure information.
+                    description: |-
+                      (Boolean) Whether the webhook should send secure information.
+                      Whether the webhook should send secure information.
                     type: boolean
                   skipSsl:
-                    description: Whether to skip SSL verification.
+                    description: |-
+                      (Boolean) Whether to skip SSL verification.
+                      Whether to skip SSL verification.
                     type: boolean
                   timeoutInSeconds:
-                    description: The number of seconds the application will wait before
-                      considering the webhook 'timed out'
+                    description: |-
+                      (Number) The number of seconds the application will wait before considering the webhook 'timed out'
+                      The number of seconds the application will wait before considering the webhook 'timed out'
                     type: number
                   useRequestHeaders:
-                    description: Whether to use request headers in the webhook request.
+                    description: |-
+                      (Boolean) Whether to use request headers in the webhook request.
+                      Whether to use request headers in the webhook request.
                     type: boolean
                 type: object
               managementPolicies:
@@ -365,50 +409,73 @@ spec:
               atProvider:
                 properties:
                   calloutUrl:
-                    description: The URL to which the webhook will send requests.
+                    description: |-
+                      (String) The URL to which the webhook will send requests.
+                      The URL to which the webhook will send requests.
                     type: string
                   description:
-                    description: Description of the webhook.
+                    description: |-
+                      (String) Description of the webhook.
+                      Description of the webhook.
                     type: string
                   id:
+                    description: (String) The ID of this resource.
                     type: string
                   name:
-                    description: The name of the webhook.
+                    description: |-
+                      (String) The name of the webhook.
+                      The name of the webhook.
                     type: string
                   ownerUserGroupIds:
-                    description: Set of user group IDs that own the webhook.
+                    description: |-
+                      (Set of Number) Set of user group IDs that own the webhook.
+                      Set of user group IDs that own the webhook.
                     items:
                       type: number
                     type: array
                     x-kubernetes-list-type: set
                   ownerUserIds:
-                    description: Set of user IDs that own the webhook.
+                    description: |-
+                      (Set of Number) Set of user IDs that own the webhook.
+                      Set of user IDs that own the webhook.
                     items:
                       type: number
                     type: array
                     x-kubernetes-list-type: set
                   requestBody:
-                    description: The request body to be sent with the webhook.
+                    description: |-
+                      (String) The request body to be sent with the webhook.
+                      The request body to be sent with the webhook.
                     type: string
                   requestHeaders:
-                    description: HTTP headers to use when the webhook is triggered
+                    description: |-
+                      (String) HTTP headers to use when the webhook is triggered
+                      HTTP headers to use when the webhook is triggered
                     type: string
                   requestMethod:
-                    description: HTTP method to be used for the webhook (GET, POST,
-                      etc.).
+                    description: |-
+                      (String) HTTP method to be used for the webhook (GET, POST, etc.).
+                      HTTP method to be used for the webhook (GET, POST, etc.).
                     type: string
                   shouldSendSecureInfo:
-                    description: Whether the webhook should send secure information.
+                    description: |-
+                      (Boolean) Whether the webhook should send secure information.
+                      Whether the webhook should send secure information.
                     type: boolean
                   skipSsl:
-                    description: Whether to skip SSL verification.
+                    description: |-
+                      (Boolean) Whether to skip SSL verification.
+                      Whether to skip SSL verification.
                     type: boolean
                   timeoutInSeconds:
-                    description: The number of seconds the application will wait before
-                      considering the webhook 'timed out'
+                    description: |-
+                      (Number) The number of seconds the application will wait before considering the webhook 'timed out'
+                      The number of seconds the application will wait before considering the webhook 'timed out'
                     type: number
                   useRequestHeaders:
-                    description: Whether to use request headers in the webhook request.
+                    description: |-
+                      (Boolean) Whether to use request headers in the webhook request.
+                      Whether to use request headers in the webhook request.
                     type: boolean
                 type: object
               conditions:

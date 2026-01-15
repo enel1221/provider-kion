@@ -4,16 +4,19 @@ metadata:
   annotations:
     meta.upbound.io/example-id: kion/v1alpha1/group
   labels:
-    testing.upbound.io/example-name: ug1
-  name: ug1
+    testing.upbound.io/example-name: devops_team
+  name: devops-team
 spec:
   forProvider:
-    description: This is a sample user group.
+    description: DevOps and Platform Engineering team members
     idmsId: 1
-    name: sample-user-group2
+    name: DevOps Team
     ownerGroups:
-    - id: 1
+    - id: 5
     ownerUsers:
-    - id: 1
+    - id: 10
+    - id: 11
     users:
-    - id: 1
+    - id: 15
+    - id: 16
+    - id: 17

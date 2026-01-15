@@ -93,8 +93,8 @@ spec:
                     type: number
                   createMode:
                     description: |-
-                      (String) One of "create" or "import".  If "create", Kion will attempt to create a new Google Cloud Project.  If "import", Kion will import the existing Google Cloud Project as specified by google_cloud_project_id.
-                      One of "create" or "import".  If "create", Kion will attempt to create a new Google Cloud Project.  If "import", Kion will import the existing Google Cloud Project as specified by google_cloud_project_id.
+                      (String) One of "create" or "import".  If "create", Kion will attempt to create a new Google Cloud Project.  If "import", Kion will import the existing Google Cloud Project as specified by google_cloud_project_id. This field is only used during resource creation and is not stored by Kion.
+                      One of "create" or "import".  If "create", Kion will attempt to create a new Google Cloud Project.  If "import", Kion will import the existing Google Cloud Project as specified by google_cloud_project_id. This field is only used during resource creation and is not stored by Kion.
                     type: string
                   googleCloudParentName:
                     description: |-
@@ -186,8 +186,8 @@ spec:
                     type: number
                   createMode:
                     description: |-
-                      (String) One of "create" or "import".  If "create", Kion will attempt to create a new Google Cloud Project.  If "import", Kion will import the existing Google Cloud Project as specified by google_cloud_project_id.
-                      One of "create" or "import".  If "create", Kion will attempt to create a new Google Cloud Project.  If "import", Kion will import the existing Google Cloud Project as specified by google_cloud_project_id.
+                      (String) One of "create" or "import".  If "create", Kion will attempt to create a new Google Cloud Project.  If "import", Kion will import the existing Google Cloud Project as specified by google_cloud_project_id. This field is only used during resource creation and is not stored by Kion.
+                      One of "create" or "import".  If "create", Kion will attempt to create a new Google Cloud Project.  If "import", Kion will import the existing Google Cloud Project as specified by google_cloud_project_id. This field is only used during resource creation and is not stored by Kion.
                     type: string
                   googleCloudParentName:
                     description: |-
@@ -422,10 +422,6 @@ spec:
             - forProvider
             type: object
             x-kubernetes-validations:
-            - message: spec.forProvider.createMode is a required parameter
-              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.createMode)
-                || (has(self.initProvider) && has(self.initProvider.createMode))'
             - message: spec.forProvider.name is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
                 || ''Update'' in self.managementPolicies) || has(self.forProvider.name)
@@ -451,8 +447,8 @@ spec:
                     type: number
                   createMode:
                     description: |-
-                      (String) One of "create" or "import".  If "create", Kion will attempt to create a new Google Cloud Project.  If "import", Kion will import the existing Google Cloud Project as specified by google_cloud_project_id.
-                      One of "create" or "import".  If "create", Kion will attempt to create a new Google Cloud Project.  If "import", Kion will import the existing Google Cloud Project as specified by google_cloud_project_id.
+                      (String) One of "create" or "import".  If "create", Kion will attempt to create a new Google Cloud Project.  If "import", Kion will import the existing Google Cloud Project as specified by google_cloud_project_id. This field is only used during resource creation and is not stored by Kion.
+                      One of "create" or "import".  If "create", Kion will attempt to create a new Google Cloud Project.  If "import", Kion will import the existing Google Cloud Project as specified by google_cloud_project_id. This field is only used during resource creation and is not stored by Kion.
                     type: string
                   createdAt:
                     description: (String)

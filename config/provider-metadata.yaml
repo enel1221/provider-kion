@@ -1,23 +1,150 @@
 name: kionsoftware/kion
 resources:
+    kion_app_config:
+        subCategory: ""
+        name: kion_app_config
+        title: kion_app_config Resource - terraform-provider-kion
+        examples:
+            - name: main
+              manifest: |-
+                {
+                  "all_users_see_ou_names": true,
+                  "allocation_mode": true,
+                  "allow_custom_permission_schemes": true,
+                  "app_api_key_creation_enabled": true,
+                  "app_api_key_lifespan": 90,
+                  "app_api_key_limit": 5,
+                  "aws_access_key_creation_enabled": true,
+                  "budget_mode": true,
+                  "cloud_rule_group_ownership_only": false,
+                  "cost_savings_allow_terminate": false,
+                  "cost_savings_enabled": true,
+                  "cost_savings_post_token_life_hours": 24,
+                  "default_org_chart_view": "policy",
+                  "enforce_funding": true,
+                  "enforce_funding_sources": true,
+                  "event_driven_enabled": false,
+                  "forecasting_enabled": true,
+                  "idms_groups_as_viewers_default": false,
+                  "reserved_instances_enabled": true,
+                  "resource_inventory_enabled": true,
+                  "saml_debug": false,
+                  "smtp_enabled": true,
+                  "smtp_from": "kion-notifications@company.com",
+                  "smtp_host": "smtp.company.com",
+                  "smtp_password": "${var.smtp_password}",
+                  "smtp_port": 587,
+                  "smtp_skip_verify": false,
+                  "smtp_username": "kion-service",
+                  "supported_aws_regions": [
+                    "us-east-1",
+                    "us-west-2",
+                    "eu-west-1",
+                    "ap-southeast-1"
+                  ]
+                }
+              references:
+                smtp_password: var.smtp_password
+            - name: minimal
+              manifest: |-
+                {
+                  "budget_mode": true,
+                  "enforce_funding": true,
+                  "forecasting_enabled": true,
+                  "smtp_enabled": true,
+                  "smtp_from": "noreply@company.com",
+                  "smtp_host": "localhost",
+                  "smtp_port": 25
+                }
+        argumentDocs:
+            all_users_see_ou_names: (Boolean) Indicates whether all users can see the names of OU's in the organization chart.
+            allocation_mode: (Boolean) Indicates if allocation mode is enabled in the application.
+            allow_custom_permission_schemes: (Boolean) Indicates whether custom permission schemes are allowed or not.
+            app_api_key_creation_enabled: (Boolean) Indicates if App API Key creation is enabled.
+            app_api_key_lifespan: (Number) Indicates the lifespan of App API Keys in days.
+            app_api_key_limit: (Number) Indicates the max amount of App API Keys per user.
+            aws_access_key_creation_enabled: (Boolean) Indicates whether AWS access keys creation is enabled.
+            budget_mode: (Boolean) Indicates if budget mode is enabled in the application.
+            cloud_rule_group_ownership_only: (Boolean) Indicates if cloud rules are restricted to User Group ownership only. Setting this to true will remove all users from cloud rules. This cannot be undone.
+            cost_savings_allow_terminate: (Boolean) Indicates whether resource termination is allowed in-app.
+            cost_savings_enabled: (Boolean) Indicates whether Cost Savings is enabled or not.
+            cost_savings_post_token_life_hours: (Number) Post token life (hours) for Cloud Custodian webhook actions to execute.
+            default_org_chart_view: (String) Defines the default organization chart view.
+            enforce_funding: (Boolean) Indicates whether spend plans or budgets must be created on all projects.
+            enforce_funding_sources: (Boolean) Indicates whether every project should have a funding source.
+            event_driven_enabled: (Boolean) Indicates whether event driven is enabled or not.
+            forecasting_enabled: (Boolean) Indicates whether forecasting is enabled or not.
+            id: (String) The ID of this resource.
+            idms_groups_as_viewers_default: (Boolean) Indicates whether, when new groups are created via IDMS, the group will be set as a viewer by default.
+            reserved_instances_enabled: (Boolean) Indicates whether reserved instances are enabled or not.
+            resource_inventory_enabled: (Boolean) Indicates whether resource inventory is enabled or not.
+            saml_debug: (Boolean) Indicates whether SAML debugging is enabled or not.
+            smtp_enabled: (Boolean) Indicates whether SMTP is enabled or not.
+            smtp_from: (String) The SMTP from address.
+            smtp_host: (String) The SMTP host.
+            smtp_password: (String, Sensitive) The SMTP password.
+            smtp_port: (Number) The SMTP port.
+            smtp_skip_verify: (Boolean) Indicates if the app should skip SMTP verification.
+            smtp_username: (String) The SMTP username.
+            supported_aws_regions: (List of String) The list of supported AWS regions.
+        importStatements: []
     kion_aws_account:
         subCategory: ""
-        description: 'Creates or imports an AWS Account and adds it to a Kion project or the Kion account cache. If account_number is provided, an existing account will be imported into Kion, otherwise a new AWS account will be created.  If project_id is provided the account will be added to the corresponding project, otherwise the account will be added to the account cache. Once added, an account can be moved between projects or in and out of the account cache by changing the project_id.  When moving accounts between projects, use move_project_settings to control how financials will be treated between the old and new project. When importing an existing Kion account into terraform state (different from using terraform to import an existing AWS account into Kion), you must use the account_id= or account_cache_id= ID prefix to indicate whether the ID is an account ID or a cached account ID. For example: terraform import kion_aws_account.test-account account_id=123 terraform import kion_aws_account.test-cached-account account_cache_id=321'
+        description: 'Creates or imports an AWS Account and adds it to a Kion project or the Kion account cache. If account_number is provided, an existing account will be imported into Kion, otherwise a new AWS account will be created.  If project_id is provided the account will be added to the corresponding project, otherwise the account will be added to the account cache. Once added, an account can be moved between projects or in and out of the account cache by changing the project_id.  When moving accounts between projects, use move_project_settings to control how financials will be treated between the old and new project. When importing existing Kion accounts into terraform state, you can use one of these methods:'
         name: kion_aws_account
         title: kion_aws_account Resource - terraform-provider-kion
         examples:
-            - name: test2
+            - name: complete_example
               manifest: |-
                 {
+                  "account_alias": "tf-complete-example",
+                  "account_number": "123456789012",
+                  "account_type_id": 1,
                   "aws_organizational_unit": [
                     {
-                      "name": "test name",
-                      "org_unit_id": "123456"
+                      "name": "Development",
+                      "org_unit_id": "ou-1234-5678abcd"
                     }
                   ],
-                  "commercial_account_name": "Test Account",
+                  "commercial_account_name": "Complete Example Commercial",
+                  "create_govcloud": true,
+                  "email": "root@example.com",
+                  "gov_account_name": "Complete Example GovCloud",
+                  "include_linked_account_spend": true,
+                  "labels": {
+                    "cost_center": "12345",
+                    "environment": "production",
+                    "team": "platform"
+                  },
+                  "linked_role": "OrganizationAccountAccessRole",
+                  "move_project_settings": [
+                    {
+                      "financials": "move",
+                      "move_datecode": 202403
+                    }
+                  ],
+                  "name": "Terraform Complete Example Account",
+                  "payer_id": 1,
+                  "project_id": 42,
+                  "skip_access_checking": false,
+                  "start_datecode": "2024-03",
+                  "use_org_account_info": true
+                }
+            - name: import_example
+              manifest: |-
+                {
+                  "account_number": "987654321098",
+                  "name": "Terraform Import Example",
+                  "payer_id": 1,
+                  "project_id": 43,
+                  "start_datecode": "2024-03"
+                }
+            - name: cache_example
+              manifest: |-
+                {
+                  "commercial_account_name": "Cache Account",
                   "create_govcloud": false,
-                  "name": "Terraform Created AWS Account - 2",
+                  "name": "Terraform Cache Example",
                   "payer_id": 1
                 }
         argumentDocs:
@@ -38,16 +165,16 @@ resources:
             last_updated: (String)
             linked_account_number: (String) For AWS GovCloud accounts, this is the linked commercial account.  Otherwise this is empty.
             linked_role: (String) The AWS organization service role.
-            location: (String) Where the account is attached.  Either "project" or "cache".
+            location: (String) Where the account is attached. Either "project" or "cache".
             move_datecode: (Number) The start date to use when moving financial data in YYYYMM format.  This only applies when financials is set to move.  If provided, only financial data from this date to the current month will be moved to the new project.  If omitted or 0, all financial data will be moved to the new project.
             move_project_settings: '(Block Set, Max: 1) Parameters used when moving an account between Kion projects.  These settings are ignored unless moving an account. (see below for nested schema)'
             name: (String) The name of the AWS account within Kion.
             org_unit_id: (String) OUID of the AWS Organization unit.
             payer_id: (Number) The ID of the billing source containing billing data for this account.
-            project_id: (Number) The ID of the Kion project to place this account within.  If empty, the account will be placed within the account cache.
+            project_id: (Number) The ID of the Kion project to place this account within. If empty, the account will be placed within the account cache.
             service_external_id: (String) The external ID used for automated internal actions using the service role for this account.
             skip_access_checking: (Boolean) True to skip periodic access checking on the account.
-            start_datecode: (String) Date when the AWS account will starting submitting payments against a funding source (YYYY-MM).  Required if placing an account within a project.
+            start_datecode: (String) Date when the AWS account will starting submitting payments against a funding source (YYYY-MM). Required if placing an account within a project.
             use_org_account_info: (Boolean) True to keep the account name and email address in Kion in sync with the account name and email address as set in AWS Organization.
         importStatements: []
     kion_aws_cloudformation_template:
@@ -78,6 +205,87 @@ resources:
                     "Owner": "jdoe"
                   }
                 }
+            - name: basic_vpc
+              manifest: |-
+                {
+                  "description": "Creates a basic VPC with public and private subnets",
+                  "name": "basic-vpc-template",
+                  "owner_users": [
+                    {
+                      "id": 1
+                    }
+                  ],
+                  "policy": "${jsonencode({\n    AWSTemplateFormatVersion = \"2010-09-09\"\n    Description = \"Basic VPC with public and private subnets\"\n    Parameters = {\n      VpcCidr = {\n        Type = \"String\"\n        Default = \"10.0.0.0/16\"\n        Description = \"CIDR block for the VPC\"\n      }\n    }\n    Resources = {\n      VPC = {\n        Type = \"AWS::EC2::VPC\"\n        Properties = {\n          CidrBlock = { Ref = \"VpcCidr\" }\n          EnableDnsHostnames = true\n          EnableDnsSupport = true\n          Tags = [\n            {\n              Key = \"Name\"\n              Value = \"Basic VPC\"\n            }\n          ]\n        }\n      }\n    }\n  })}",
+                  "regions": [
+                    "us-east-1"
+                  ]
+                }
+            - name: complete
+              manifest: |-
+                {
+                  "description": "Template demonstrating all available options",
+                  "name": "complete-template",
+                  "owner_user_groups": [
+                    {
+                      "id": 2
+                    }
+                  ],
+                  "owner_users": [
+                    {
+                      "id": 1
+                    }
+                  ],
+                  "policy": "${jsonencode({\n    AWSTemplateFormatVersion = \"2010-09-09\"\n    Description = \"Complete template example\"\n    Parameters = {\n      Environment = {\n        Type = \"String\"\n        Default = \"dev\"\n        AllowedValues = [\"dev\", \"staging\", \"prod\"]\n      }\n    }\n    Resources = {\n      S3Bucket = {\n        Type = \"AWS::S3::Bucket\"\n        Properties = {\n          BucketName = { \"Fn::Join\" : [\"-\", [\"example-bucket\", { Ref = \"Environment\" }]] }\n        }\n      }\n    }\n  })}",
+                  "region": "us-east-1",
+                  "regions": [
+                    "us-east-1",
+                    "us-west-2"
+                  ],
+                  "sns_arns": "${jsonencode([\n    \"arn:aws:sns:us-east-1:123456789012:stack-notifications\"\n  ])}",
+                  "tags": {
+                    "Department": "DevOps",
+                    "Environment": "Production",
+                    "Owner": "Team-A"
+                  },
+                  "template_parameters": "${jsonencode({\n    Environment = \"dev\"\n  })}",
+                  "termination_protection": true
+                }
+            - name: s3_lifecycle
+              manifest: |-
+                {
+                  "description": "S3 bucket with lifecycle rules",
+                  "name": "s3-lifecycle-template",
+                  "owner_users": [
+                    {
+                      "id": 1
+                    }
+                  ],
+                  "policy": "${jsonencode({\n    AWSTemplateFormatVersion = \"2010-09-09\"\n    Description = \"S3 bucket with lifecycle rules\"\n    Resources = {\n      ArchiveBucket = {\n        Type = \"AWS::S3::Bucket\"\n        Properties = {\n          LifecycleConfiguration = {\n            Rules = [\n              {\n                Id = \"ArchiveRule\"\n                Status = \"Enabled\"\n                Transitions = [\n                  {\n                    StorageClass = \"GLACIER\"\n                    TransitionInDays = 90\n                  }\n                ]\n              }\n            ]\n          }\n        }\n      }\n    }\n  })}",
+                  "regions": [
+                    "us-east-1"
+                  ]
+                }
+            - name: multi_owner
+              manifest: |-
+                {
+                  "description": "Template with multiple owner groups",
+                  "name": "multi-owner-template",
+                  "owner_user_groups": [
+                    {
+                      "id": 1
+                    },
+                    {
+                      "id": 2
+                    },
+                    {
+                      "id": 3
+                    }
+                  ],
+                  "policy": "${jsonencode({\n    AWSTemplateFormatVersion = \"2010-09-09\"\n    Description = \"Simple EC2 instance\"\n    Resources = {\n      Instance = {\n        Type = \"AWS::EC2::Instance\"\n        Properties = {\n          InstanceType = \"t2.micro\"\n          ImageId = \"ami-0123456789abcdef0\"\n        }\n      }\n    }\n  })}",
+                  "regions": [
+                    "us-east-1"
+                  ]
+                }
         argumentDocs:
             description: (String)
             id: (String) The ID of this resource.
@@ -98,13 +306,27 @@ resources:
         name: kion_aws_iam_policy
         title: kion_aws_iam_policy Resource - terraform-provider-kion
         examples:
-            - name: p1
+            - name: basic
               manifest: |-
                 {
-                  "name": "sample-resource",
-                  "owner_user_groups": [
+                  "description": "Basic IAM policy example",
+                  "name": "basic-iam-policy",
+                  "owner_users": [
                     {
                       "id": 1
+                    }
+                  ],
+                  "policy": "${jsonencode({\n    Version = \"2012-10-17\"\n    Statement = [\n      {\n        Effect = \"Allow\"\n        Action = [\n          \"s3:ListBucket\",\n          \"s3:GetObject\"\n        ]\n        Resource = [\n          \"arn:aws:s3:::example-bucket\",\n          \"arn:aws:s3:::example-bucket/*\"\n        ]\n      }\n    ]\n  })}"
+                }
+            - name: complete
+              manifest: |-
+                {
+                  "aws_iam_path": "/custom/path/",
+                  "description": "Complete IAM policy example with all options",
+                  "name": "complete-iam-policy",
+                  "owner_user_groups": [
+                    {
+                      "id": 2
                     }
                   ],
                   "owner_users": [
@@ -112,7 +334,39 @@ resources:
                       "id": 1
                     }
                   ],
-                  "policy": "{\n    \"Version\": \"2012-10-17\",\n    \"Statement\": [\n        {\n            \"Effect\": \"Allow\",\n            \"Action\": \"*\",\n            \"Resource\": \"*\"\n        }\n    ]\n}\n"
+                  "policy": "${jsonencode({\n    Version = \"2012-10-17\"\n    Statement = [\n      {\n        Effect = \"Allow\"\n        Action = \"*\"\n        Resource = \"*\"\n      }\n    ]\n  })}"
+                }
+            - name: from_aws
+              manifest: |-
+                {
+                  "description": "Based on AWS ReadOnlyAccess managed policy",
+                  "name": "aws-readonly-based",
+                  "owner_users": [
+                    {
+                      "id": 1
+                    }
+                  ],
+                  "policy": "${data.kion_aws_iam_policy.aws_policy.list[0].policy}"
+                }
+              references:
+                policy: data.kion_aws_iam_policy.aws_policy.list[0].policy
+            - name: multi_owner
+              manifest: |-
+                {
+                  "description": "Policy with multiple owner groups",
+                  "name": "multi-owner-policy",
+                  "owner_user_groups": [
+                    {
+                      "id": 1
+                    },
+                    {
+                      "id": 2
+                    },
+                    {
+                      "id": 3
+                    }
+                  ],
+                  "policy": "${jsonencode({\n    Version = \"2012-10-17\"\n    Statement = [\n      {\n        Effect = \"Allow\"\n        Action = [\n          \"ec2:Describe*\"\n        ]\n        Resource = \"*\"\n      }\n    ]\n  })}"
                 }
         argumentDocs:
             aws_iam_path: (String)
@@ -133,7 +387,67 @@ resources:
         name: kion_azure_account
         title: kion_azure_account Resource - terraform-provider-kion
         examples:
-            - name: test6
+            - name: mca_example
+              manifest: |-
+                {
+                  "account_alias": "mca-dev",
+                  "account_type_id": 2,
+                  "mca": [
+                    {
+                      "billing_account": "5e98e158-xxxx-xxxx-xxxx-xxxxxxxxxxxx:xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx_xxxx-xx-xx",
+                      "billing_profile": "AW4F-xxxx-xxx-xxx",
+                      "billing_profile_invoice": "SH3V-xxxx-xxx-xxx"
+                    }
+                  ],
+                  "name": "MCA Subscription Example",
+                  "payer_id": 1,
+                  "project_id": 42,
+                  "start_datecode": "2024-03",
+                  "subscription_name": "terraform-mca-subscription"
+                }
+            - name: ea_example
+              manifest: |-
+                {
+                  "ea": [
+                    {
+                      "account": "12345678",
+                      "billing_account": "98765432"
+                    }
+                  ],
+                  "labels": {
+                    "cost_center": "12345",
+                    "department": "engineering",
+                    "environment": "production"
+                  },
+                  "name": "EA Subscription Example",
+                  "parent_management_group_id": "mg-platform-prod",
+                  "payer_id": 1,
+                  "subscription_name": "terraform-ea-subscription"
+                }
+            - name: csp_example
+              manifest: |-
+                {
+                  "csp": [
+                    {
+                      "billing_cycle": "Monthly",
+                      "offer_id": "MS-AZR-0146P"
+                    }
+                  ],
+                  "name": "CSP Subscription Example",
+                  "payer_id": 1,
+                  "skip_access_checking": true,
+                  "subscription_name": "terraform-csp-subscription"
+                }
+            - name: import_example
+              manifest: |-
+                {
+                  "name": "Imported Subscription",
+                  "payer_id": 1,
+                  "project_id": 43,
+                  "start_datecode": "2024-03",
+                  "subscription_uuid": "12345678-90ab-cdef-1234-567890abcdef"
+                }
+            - name: movable_example
               manifest: |-
                 {
                   "mca": [
@@ -143,9 +457,17 @@ resources:
                       "billing_profile_invoice": "SH3V-xxxx-xxx-xxx"
                     }
                   ],
-                  "name": "Terraform Created Azure Subscription - 5",
-                  "payer_id": 3,
-                  "subscription_name": "terraform-test-create"
+                  "move_project_settings": [
+                    {
+                      "financials": "move",
+                      "move_datecode": 202403
+                    }
+                  ],
+                  "name": "Movable Subscription",
+                  "payer_id": 1,
+                  "project_id": 44,
+                  "start_datecode": "2024-03",
+                  "subscription_name": "terraform-movable-sub"
                 }
         argumentDocs:
             account: (String) Azure EA account number
@@ -196,6 +518,59 @@ resources:
                   "resource_group_region_id": 41,
                   "template": "{\n    \"$schema\": \"https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#\",\n    \"contentVersion\": \"1.0.0.0\",\n    \"parameters\": {},\n    \"variables\": {},\n    \"resources\": [],\n    \"outputs\": {}\n}\n"
                 }
+            - name: storage_example
+              manifest: |-
+                {
+                  "deployment_mode": 1,
+                  "description": "Creates a basic Azure storage account with secure configuration",
+                  "name": "Basic Storage Account",
+                  "owner_users": [
+                    {
+                      "id": 1
+                    }
+                  ],
+                  "resource_group_name": "storage-rg",
+                  "resource_group_region_id": 41,
+                  "template": "{\n    \"$schema\": \"https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#\",\n    \"contentVersion\": \"1.0.0.0\",\n    \"parameters\": {\n        \"storageAccountName\": {\n            \"type\": \"string\",\n            \"defaultValue\": \"storageaccount1\"\n        },\n        \"storageSKU\": {\n            \"type\": \"string\",\n            \"defaultValue\": \"Standard_LRS\",\n            \"allowedValues\": [\n                \"Standard_LRS\",\n                \"Standard_GRS\",\n                \"Standard_ZRS\"\n            ]\n        }\n    },\n    \"resources\": [\n        {\n            \"type\": \"Microsoft.Storage/storageAccounts\",\n            \"apiVersion\": \"2021-04-01\",\n            \"name\": \"[parameters('storageAccountName')]\",\n            \"location\": \"[resourceGroup().location]\",\n            \"sku\": {\n                \"name\": \"[parameters('storageSKU')]\"\n            },\n            \"kind\": \"StorageV2\",\n            \"properties\": {\n                \"supportsHttpsTrafficOnly\": true,\n                \"minimumTlsVersion\": \"TLS1_2\",\n                \"allowBlobPublicAccess\": false\n            }\n        }\n    ]\n}\n",
+                  "template_parameters": "{\n    \"storageAccountName\": {\n        \"value\": \"securestorage001\"\n    },\n    \"storageSKU\": {\n        \"value\": \"Standard_GRS\"\n    }\n}\n"
+                }
+            - name: vnet_example
+              manifest: |-
+                {
+                  "deployment_mode": 2,
+                  "description": "Creates a complete virtual network with subnets and security rules",
+                  "name": "Production VNet",
+                  "owner_user_groups": [
+                    {
+                      "id": 2
+                    }
+                  ],
+                  "owner_users": [
+                    {
+                      "id": 1
+                    }
+                  ],
+                  "resource_group_name": "network-rg",
+                  "resource_group_region_id": 41,
+                  "template": "{\n    \"$schema\": \"https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#\",\n    \"contentVersion\": \"1.0.0.0\",\n    \"parameters\": {\n        \"vnetName\": {\n            \"type\": \"string\",\n            \"defaultValue\": \"MainVNet\"\n        },\n        \"vnetAddressPrefix\": {\n            \"type\": \"string\",\n            \"defaultValue\": \"10.0.0.0/16\"\n        },\n        \"subnet1Prefix\": {\n            \"type\": \"string\",\n            \"defaultValue\": \"10.0.1.0/24\"\n        },\n        \"subnet2Prefix\": {\n            \"type\": \"string\",\n            \"defaultValue\": \"10.0.2.0/24\"\n        }\n    },\n    \"resources\": [\n        {\n            \"type\": \"Microsoft.Network/virtualNetworks\",\n            \"apiVersion\": \"2021-02-01\",\n            \"name\": \"[parameters('vnetName')]\",\n            \"location\": \"[resourceGroup().location]\",\n            \"properties\": {\n                \"addressSpace\": {\n                    \"addressPrefixes\": [\n                        \"[parameters('vnetAddressPrefix')]\"\n                    ]\n                },\n                \"subnets\": [\n                    {\n                        \"name\": \"subnet1\",\n                        \"properties\": {\n                            \"addressPrefix\": \"[parameters('subnet1Prefix')]\",\n                            \"networkSecurityGroup\": {\n                                \"properties\": {\n                                    \"securityRules\": [\n                                        {\n                                            \"name\": \"DenyAllInbound\",\n                                            \"properties\": {\n                                                \"priority\": 4096,\n                                                \"direction\": \"Inbound\",\n                                                \"access\": \"Deny\",\n                                                \"protocol\": \"*\",\n                                                \"sourceAddressPrefix\": \"*\",\n                                                \"sourcePortRange\": \"*\",\n                                                \"destinationAddressPrefix\": \"*\",\n                                                \"destinationPortRange\": \"*\"\n                                            }\n                                        }\n                                    ]\n                                }\n                            }\n                        }\n                    },\n                    {\n                        \"name\": \"subnet2\",\n                        \"properties\": {\n                            \"addressPrefix\": \"[parameters('subnet2Prefix')]\"\n                        }\n                    }\n                ]\n            }\n        }\n    ]\n}\n",
+                  "template_parameters": "{\n    \"vnetName\": {\n        \"value\": \"prod-vnet-001\"\n    },\n    \"vnetAddressPrefix\": {\n        \"value\": \"172.16.0.0/16\"\n    },\n    \"subnet1Prefix\": {\n        \"value\": \"172.16.1.0/24\"\n    },\n    \"subnet2Prefix\": {\n        \"value\": \"172.16.2.0/24\"\n    }\n}\n"
+                }
+            - name: webapp_example
+              manifest: |-
+                {
+                  "deployment_mode": 1,
+                  "description": "Deploys a web app with SQL database and application insights",
+                  "name": "Web App with SQL",
+                  "owner_users": [
+                    {
+                      "id": 1
+                    }
+                  ],
+                  "resource_group_name": "webapp-rg",
+                  "resource_group_region_id": 41,
+                  "template": "{\n    \"$schema\": \"https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#\",\n    \"contentVersion\": \"1.0.0.0\",\n    \"parameters\": {\n        \"webAppName\": {\n            \"type\": \"string\",\n            \"defaultValue\": \"webapp1\"\n        },\n        \"sqlServerName\": {\n            \"type\": \"string\",\n            \"defaultValue\": \"sqlserver1\"\n        },\n        \"databaseName\": {\n            \"type\": \"string\",\n            \"defaultValue\": \"database1\"\n        },\n        \"administratorLogin\": {\n            \"type\": \"string\"\n        },\n        \"administratorLoginPassword\": {\n            \"type\": \"securestring\"\n        }\n    },\n    \"resources\": [\n        {\n            \"type\": \"Microsoft.Web/serverfarms\",\n            \"apiVersion\": \"2021-02-01\",\n            \"name\": \"[concat(parameters('webAppName'), '-plan')]\",\n            \"location\": \"[resourceGroup().location]\",\n            \"sku\": {\n                \"name\": \"S1\",\n                \"tier\": \"Standard\"\n            }\n        },\n        {\n            \"type\": \"Microsoft.Web/sites\",\n            \"apiVersion\": \"2021-02-01\",\n            \"name\": \"[parameters('webAppName')]\",\n            \"location\": \"[resourceGroup().location]\",\n            \"dependsOn\": [\n                \"[concat(parameters('webAppName'), '-plan')]\"\n            ],\n            \"properties\": {\n                \"serverFarmId\": \"[resourceId('Microsoft.Web/serverfarms', concat(parameters('webAppName'), '-plan'))]\",\n                \"httpsOnly\": true,\n                \"siteConfig\": {\n                    \"minTlsVersion\": \"1.2\"\n                }\n            }\n        },\n        {\n            \"type\": \"Microsoft.Sql/servers\",\n            \"apiVersion\": \"2021-02-01-preview\",\n            \"name\": \"[parameters('sqlServerName')]\",\n            \"location\": \"[resourceGroup().location]\",\n            \"properties\": {\n                \"administratorLogin\": \"[parameters('administratorLogin')]\",\n                \"administratorLoginPassword\": \"[parameters('administratorLoginPassword')]\",\n                \"version\": \"12.0\"\n            }\n        },\n        {\n            \"type\": \"Microsoft.Sql/servers/databases\",\n            \"apiVersion\": \"2021-02-01-preview\",\n            \"name\": \"[concat(parameters('sqlServerName'), '/', parameters('databaseName'))]\",\n            \"location\": \"[resourceGroup().location]\",\n            \"dependsOn\": [\n                \"[parameters('sqlServerName')]\"\n            ],\n            \"sku\": {\n                \"name\": \"Basic\",\n                \"tier\": \"Basic\"\n            }\n        }\n    ]\n}\n",
+                  "template_parameters": "{\n    \"webAppName\": {\n        \"value\": \"mywebapp-prod-001\"\n    },\n    \"sqlServerName\": {\n        \"value\": \"mysqlserver-prod-001\"\n    },\n    \"databaseName\": {\n        \"value\": \"mydb-prod\"\n    },\n    \"administratorLogin\": {\n        \"value\": \"dbadmin\"\n    }\n}\n"
+                }
         argumentDocs:
             ct_managed: (Boolean)
             deployment_mode: (Number)
@@ -211,10 +586,67 @@ resources:
             template_parameters: (String)
             version: (Number)
         importStatements: []
-    kion_azure_policy Resource - terraform-provider-kion:
+    kion_azure_policy:
         subCategory: ""
-        name: kion_azure_policy Resource - terraform-provider-kion
+        name: kion_azure_policy
         title: kion_azure_policy Resource - terraform-provider-kion
+        examples:
+            - name: require_tags
+              manifest: |-
+                {
+                  "description": "Requires resources to have an environment tag",
+                  "name": "Require Environment Tag",
+                  "owner_users": [
+                    {
+                      "id": 1
+                    }
+                  ],
+                  "parameters": "{\n    \"tagName\": {\n        \"type\": \"String\",\n        \"metadata\": {\n            \"displayName\": \"Tag Name\",\n            \"description\": \"Name of the tag to enforce\"\n        },\n        \"defaultValue\": \"environment\"\n    }\n}\n",
+                  "policy": "{\n    \"if\": {\n        \"allOf\": [\n            {\n                \"field\": \"type\",\n                \"equals\": \"Microsoft.Resources/subscriptions/resourceGroups\"\n            },\n            {\n                \"field\": \"tags['environment']\",\n                \"exists\": \"false\"\n            }\n        ]\n    },\n    \"then\": {\n        \"effect\": \"deny\"\n    }\n}\n"
+                }
+            - name: allowed_vms
+              manifest: |-
+                {
+                  "description": "Restricts VM deployments to specific SKUs",
+                  "name": "Allowed VM SKUs",
+                  "owner_user_groups": [
+                    {
+                      "id": 2
+                    }
+                  ],
+                  "parameters": "{\n    \"allowedSkus\": {\n        \"type\": \"Array\",\n        \"metadata\": {\n            \"displayName\": \"Allowed VM SKUs\",\n            \"description\": \"List of allowed VM SKUs\"\n        },\n        \"defaultValue\": [\n            \"Standard_D2s_v3\",\n            \"Standard_D4s_v3\",\n            \"Standard_D8s_v3\"\n        ]\n    }\n}\n",
+                  "policy": "{\n    \"if\": {\n        \"allOf\": [\n            {\n                \"field\": \"type\",\n                \"equals\": \"Microsoft.Compute/virtualMachines\"\n            },\n            {\n                \"not\": {\n                    \"field\": \"Microsoft.Compute/virtualMachines/sku.name\",\n                    \"in\": \"[parameters('allowedSkus')]\"\n                }\n            }\n        ]\n    },\n    \"then\": {\n        \"effect\": \"deny\"\n    }\n}\n"
+                }
+            - name: storage_encryption
+              manifest: |-
+                {
+                  "description": "Enforces encryption settings on storage accounts",
+                  "name": "Storage Encryption Requirements",
+                  "owner_user_groups": [
+                    {
+                      "id": 3
+                    }
+                  ],
+                  "owner_users": [
+                    {
+                      "id": 1
+                    }
+                  ],
+                  "policy": "{\n    \"if\": {\n        \"allOf\": [\n            {\n                \"field\": \"type\",\n                \"equals\": \"Microsoft.Storage/storageAccounts\"\n            },\n            {\n                \"not\": {\n                    \"allOf\": [\n                        {\n                            \"field\": \"Microsoft.Storage/storageAccounts/supportsHttpsTrafficOnly\",\n                            \"equals\": \"true\"\n                        },\n                        {\n                            \"field\": \"Microsoft.Storage/storageAccounts/minimumTlsVersion\",\n                            \"equals\": \"TLS1_2\"\n                        },\n                        {\n                            \"field\": \"Microsoft.Storage/storageAccounts/encryption.services.blob.enabled\",\n                            \"equals\": \"true\"\n                        }\n                    ]\n                }\n            }\n        ]\n    },\n    \"then\": {\n        \"effect\": \"deny\"\n    }\n}\n"
+                }
+            - name: nsg_rules
+              manifest: |-
+                {
+                  "description": "Enforces security rules on Network Security Groups",
+                  "name": "NSG Security Requirements",
+                  "owner_users": [
+                    {
+                      "id": 1
+                    }
+                  ],
+                  "parameters": "{\n    \"restrictedPorts\": {\n        \"type\": \"Array\",\n        \"metadata\": {\n            \"displayName\": \"Restricted Ports\",\n            \"description\": \"Ports that should not be exposed\"\n        },\n        \"defaultValue\": [\n            \"22\",\n            \"3389\",\n            \"161\",\n            \"162\"\n        ]\n    }\n}\n",
+                  "policy": "{\n    \"if\": {\n        \"allOf\": [\n            {\n                \"field\": \"type\",\n                \"equals\": \"Microsoft.Network/networkSecurityGroups/securityRules\"\n            },\n            {\n                \"anyOf\": [\n                    {\n                        \"allOf\": [\n                            {\n                                \"field\": \"Microsoft.Network/networkSecurityGroups/securityRules/access\",\n                                \"equals\": \"Allow\"\n                            },\n                            {\n                                \"field\": \"Microsoft.Network/networkSecurityGroups/securityRules/direction\",\n                                \"equals\": \"Inbound\"\n                            },\n                            {\n                                \"field\": \"Microsoft.Network/networkSecurityGroups/securityRules/sourceAddressPrefix\",\n                                \"equals\": \"*\"\n                            }\n                        ]\n                    },\n                    {\n                        \"field\": \"Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRange\",\n                        \"in\": \"[parameters('restrictedPorts')]\"\n                    }\n                ]\n            }\n        ]\n    },\n    \"then\": {\n        \"effect\": \"deny\"\n    }\n}\n"
+                }
         argumentDocs:
             azure_managed_policy_def_id: (String)
             ct_managed: (Boolean)
@@ -232,14 +664,26 @@ resources:
         name: kion_azure_role
         title: kion_azure_role Resource - terraform-provider-kion
         examples:
-            - name: ar1
+            - name: resource_viewer
               manifest: |-
                 {
-                  "description": "A test role created by our Terraform provider.",
-                  "name": "Test Role",
-                  "owner_user_groups": [
+                  "description": "Allows read-only access to resource groups and their resources",
+                  "name": "Resource Group Viewer",
+                  "owner_users": [
                     {
                       "id": 1
+                    }
+                  ],
+                  "role_permissions": "{\n    \"assignableScopes\": [\n        \"/\"\n    ],\n    \"description\": \"View resource groups and their contents\",\n    \"permissions\": [\n        {\n            \"actions\": [\n                \"Microsoft.Resources/subscriptions/resourceGroups/read\",\n                \"Microsoft.Resources/subscriptions/resourceGroups/resources/read\"\n            ],\n            \"notActions\": [],\n            \"dataActions\": [],\n            \"notDataActions\": []\n        }\n    ]\n}\n"
+                }
+            - name: storage_admin
+              manifest: |-
+                {
+                  "description": "Full access to manage storage accounts",
+                  "name": "Storage Account Administrator",
+                  "owner_user_groups": [
+                    {
+                      "id": 2
                     }
                   ],
                   "owner_users": [
@@ -247,7 +691,48 @@ resources:
                       "id": 1
                     }
                   ],
-                  "role_permissions": "{\n    \"actions\": [\n        \"Microsoft.Authorization/roleDefinitions/read\"\n    ],\n    \"notActions\": [],\n    \"dataActions\": [],\n    \"notDataActions\": []\n}\n"
+                  "role_permissions": "{\n    \"assignableScopes\": [\n        \"/\"\n    ],\n    \"description\": \"Manage storage accounts and their contents\",\n    \"permissions\": [\n        {\n            \"actions\": [\n                \"Microsoft.Storage/storageAccounts/*\",\n                \"Microsoft.Resources/subscriptions/resourceGroups/read\",\n                \"Microsoft.Resources/subscriptions/resourceGroups/resources/read\"\n            ],\n            \"notActions\": [\n                \"Microsoft.Storage/storageAccounts/delete\"\n            ],\n            \"dataActions\": [\n                \"Microsoft.Storage/storageAccounts/blobServices/containers/*\",\n                \"Microsoft.Storage/storageAccounts/fileServices/shares/*\"\n            ],\n            \"notDataActions\": []\n        }\n    ]\n}\n"
+                }
+            - name: network_admin
+              manifest: |-
+                {
+                  "description": "Manage network security groups and firewall rules",
+                  "name": "Network Security Administrator",
+                  "owner_user_groups": [
+                    {
+                      "id": 3
+                    }
+                  ],
+                  "role_permissions": "{\n    \"assignableScopes\": [\n        \"/\"\n    ],\n    \"description\": \"Manage network security configurations\",\n    \"permissions\": [\n        {\n            \"actions\": [\n                \"Microsoft.Network/networkSecurityGroups/*\",\n                \"Microsoft.Network/virtualNetworks/subnets/join/action\",\n                \"Microsoft.Network/virtualNetworks/read\",\n                \"Microsoft.Network/publicIPAddresses/*\"\n            ],\n            \"notActions\": [],\n            \"dataActions\": [],\n            \"notDataActions\": []\n        }\n    ]\n}\n"
+                }
+            - name: webapp_developer
+              manifest: |-
+                {
+                  "description": "Manage web apps and app service plans",
+                  "name": "Web App Developer",
+                  "owner_users": [
+                    {
+                      "id": 1
+                    }
+                  ],
+                  "role_permissions": "{\n    \"assignableScopes\": [\n        \"/\"\n    ],\n    \"description\": \"Deploy and manage web applications\",\n    \"permissions\": [\n        {\n            \"actions\": [\n                \"Microsoft.Web/sites/*\",\n                \"Microsoft.Web/serverfarms/*\",\n                \"Microsoft.Resources/deployments/*\",\n                \"Microsoft.Insights/components/*\"\n            ],\n            \"notActions\": [\n                \"Microsoft.Web/sites/delete\",\n                \"Microsoft.Web/serverfarms/delete\"\n            ],\n            \"dataActions\": [],\n            \"notDataActions\": []\n        }\n    ]\n}\n"
+                }
+            - name: db_contributor
+              manifest: |-
+                {
+                  "description": "Manage SQL databases but not security-related policies",
+                  "name": "Database Contributor",
+                  "owner_user_groups": [
+                    {
+                      "id": 4
+                    }
+                  ],
+                  "owner_users": [
+                    {
+                      "id": 1
+                    }
+                  ],
+                  "role_permissions": "{\n    \"assignableScopes\": [\n        \"/\"\n    ],\n    \"description\": \"Manage SQL databases with restricted permissions\",\n    \"permissions\": [\n        {\n            \"actions\": [\n                \"Microsoft.Sql/servers/databases/*\",\n                \"Microsoft.Sql/servers/read\",\n                \"Microsoft.Resources/subscriptions/resourceGroups/read\"\n            ],\n            \"notActions\": [\n                \"Microsoft.Sql/servers/databases/delete\",\n                \"Microsoft.Sql/servers/databases/threatProtectionSettings/*\",\n                \"Microsoft.Sql/servers/databases/transparentDataEncryption/*\",\n                \"Microsoft.Sql/servers/databases/securityAlertPolicies/*\",\n                \"Microsoft.Sql/servers/databases/auditingSettings/*\"\n            ],\n            \"dataActions\": [\n                \"Microsoft.Sql/servers/databases/connect/action\",\n                \"Microsoft.Sql/servers/databases/read\",\n                \"Microsoft.Sql/servers/databases/write\"\n            ],\n            \"notDataActions\": []\n        }\n    ]\n}\n"
                 }
         argumentDocs:
             azure_managed_policy: (Boolean)
@@ -265,7 +750,91 @@ resources:
         name: kion_cloud_rule
         title: kion_cloud_rule Resource - terraform-provider-kion
         examples:
-            - name: cr1
+            - name: complete_example
+              manifest: |-
+                {
+                  "aws_cloudformation_templates": [
+                    {
+                      "id": 1
+                    }
+                  ],
+                  "aws_iam_policies": [
+                    {
+                      "id": 1
+                    }
+                  ],
+                  "azure_arm_template_definitions": [
+                    {
+                      "id": 1
+                    }
+                  ],
+                  "azure_policy_definitions": [
+                    {
+                      "id": 1
+                    }
+                  ],
+                  "azure_role_definitions": [
+                    {
+                      "id": 1
+                    }
+                  ],
+                  "compliance_standards": [
+                    {
+                      "id": 1
+                    }
+                  ],
+                  "concurrent_cft_sync": true,
+                  "description": "A comprehensive example of a cloud rule with all supported options.",
+                  "gcp_iam_roles": [
+                    {
+                      "id": 1
+                    }
+                  ],
+                  "internal_aws_amis": [
+                    {
+                      "id": 1
+                    }
+                  ],
+                  "internal_aws_service_catalog_portfolios": [
+                    {
+                      "id": 1
+                    }
+                  ],
+                  "labels": {
+                    "cost_center": "12345",
+                    "environment": "production",
+                    "team": "security"
+                  },
+                  "name": "Complete Cloud Rule Example",
+                  "ous": [
+                    {
+                      "id": 1
+                    }
+                  ],
+                  "owner_user_groups": [
+                    {
+                      "id": 2
+                    }
+                  ],
+                  "owner_users": [
+                    {
+                      "id": 1
+                    }
+                  ],
+                  "post_webhook_id": 2,
+                  "pre_webhook_id": 1,
+                  "projects": [
+                    {
+                      "id": 1
+                    }
+                  ],
+                  "service_control_policies": [
+                    {
+                      "id": 1
+                    }
+                  ]
+                }
+            - name: aws_example
               manifest: |-
                 {
                   "aws_iam_policies": [
@@ -273,14 +842,35 @@ resources:
                       "id": 1
                     }
                   ],
-                  "description": "Sample cloud rule.",
-                  "name": "sample-resource",
-                  "owner_user_groups": [
+                  "description": "Basic AWS security policies and templates",
+                  "name": "AWS Security Baseline",
+                  "owner_users": [
                     {
                       "id": 1
                     }
                   ],
-                  "owner_users": [
+                  "service_control_policies": [
+                    {
+                      "id": 1
+                    }
+                  ]
+                }
+            - name: azure_example
+              manifest: |-
+                {
+                  "azure_policy_definitions": [
+                    {
+                      "id": 1
+                    }
+                  ],
+                  "azure_role_definitions": [
+                    {
+                      "id": 1
+                    }
+                  ],
+                  "description": "Azure governance policies and roles",
+                  "name": "Azure Governance",
+                  "owner_user_groups": [
                     {
                       "id": 1
                     }
@@ -294,6 +884,7 @@ resources:
             azure_role_definitions: (Block Set) (see below for nested schema)
             built_in: (Boolean)
             compliance_standards: (Block Set) (see below for nested schema)
+            concurrent_cft_sync: (Boolean) Whether to run CFTs concurrently or not. If true, templates deploy in parallel (faster). If false, templates deploy sequentially (slower).
             description: (String)
             gcp_iam_roles: (Block Set) (see below for nested schema)
             id: (String) The ID of this resource.
@@ -315,22 +906,64 @@ resources:
         name: kion_compliance_check
         title: kion_compliance_check Resource - terraform-provider-kion
         examples:
-            - name: c1
+            - name: aws_iam_certificate
               manifest: |-
                 {
+                  "body": "---\npolicies:\n  - name: iam-certificate-expired\n    resource: aws.iam-certificate\n    description: |\n      Identify expired IAM SSL/TLS certificates\n    filters:\n      - type: value\n        key: Expiration\n        value_type: expiration\n        op: lt\n        value: 0\n    actions:\n      - type: webhook\n        url: '{{CT::CallbackURL}}'\n        method: POST\n        batch: true\n        headers:\n          Authorization: '`{{CT::Authorization}}`'\n        body: |-\n          {\n            \"compliance_check_id\": `{{CT::CheckId}}`,\n            \"account_number\": account_id,\n            \"region\": region,\n            \"scan_started_at\": execution_start,\n            \"findings\": resources[].{resource_name: ServerCertificateId, resource_type: `iam-certificate`, data_json: {key_create_date: \"c7n:matched-keys\"[].CreateDate}}\n          }\n",
                   "cloud_provider_id": 1,
                   "compliance_check_type_id": 1,
-                  "name": "sample-resource",
+                  "created_by_user_id": 1,
+                  "description": "Identify expired IAM SSL/TLS certificates",
+                  "frequency_minutes": 60,
+                  "frequency_type_id": 3,
+                  "is_all_regions": true,
+                  "is_auto_archived": false,
+                  "name": "IAM Certificate Expiration Check",
+                  "owner_users": [
+                    {
+                      "id": 1
+                    }
+                  ],
+                  "severity_type_id": 3
+                }
+            - name: azure_nsg_3389
+              manifest: |-
+                {
+                  "azure_policy_id": 1,
+                  "body": "---\npolicies:\n  - name: network-sg-with-inbound-3389\n    resource: azure.networksecuritygroup\n    description: |\n      Identify network security groups containing rules that allow ingress from port 3389\n    filters:\n      - type: ingress\n        ipProtocol: '*'\n        ports: '3389'\n        match: 'any'\n        access: 'Allow'\n    actions:\n      - type: webhook\n        url: '{{CT::CallbackURL}}'\n        method: POST\n        batch: true\n        headers:\n          Authorization: '`{{CT::Authorization}}`'\n        body: |-\n          {\n            \"compliance_check_id\": `{{CT::CheckId}}`,\n            \"account_number\": account_id,\n            \"scan_started_at\": execution_start,\n            \"findings\": resources[].{region: location, resource_name: name, resource_type: `Microsoft.Network/networkSecurityGroups`}\n          }\n",
+                  "cloud_provider_id": 2,
+                  "compliance_check_type_id": 2,
+                  "description": "Identify network security groups containing rules that allow ingress from port 3389",
+                  "frequency_minutes": 60,
+                  "frequency_type_id": 3,
+                  "is_all_regions": true,
+                  "is_auto_archived": false,
+                  "name": "NSG Port 3389 Check",
                   "owner_user_groups": [
                     {
                       "id": 1
                     }
                   ],
+                  "severity_type_id": 3
+                }
+            - name: gcp_compute_tags
+              manifest: |-
+                {
+                  "body": "---\nvars:\n  absent-tags-filter:\n    or:\n      - \"tag:data_class\": absent\n      - \"tag:owner\": absent\n      - \"tag:service\": absent\n\npolicies:\n  - name: compute-instance-with-non-compliant-tags\n    resource: gcp.instance\n    description: |\n      Identify Compute instances that are not compliant with tagging policies\n    filters:\n      - absent-tags-filter\n    actions:\n      - type: webhook\n        url: '{{CT::CallbackURL}}'\n        method: POST\n        batch: true\n        headers:\n          Authorization: '`{{CT::Authorization}}`'\n        body: |-\n          {\n            \"compliance_check_id\": `{{CT::CheckId}}`,\n            \"account_number\": account_id,\n            \"scan_started_at\": execution_start,\n            \"findings\": resources[].{resource_name: name, resource_type: kind, region: zone},\n            \"data_json\": {\n              \"instance_id\": id\n            }\n          }\n",
+                  "cloud_provider_id": 3,
+                  "compliance_check_type_id": 3,
+                  "description": "Identify Compute instances that are not compliant with tagging policies",
+                  "frequency_minutes": 60,
+                  "frequency_type_id": 3,
+                  "is_all_regions": true,
+                  "is_auto_archived": false,
+                  "name": "Compute Instance Tag Compliance",
                   "owner_users": [
                     {
                       "id": 1
                     }
-                  ]
+                  ],
+                  "severity_type_id": 3
                 }
         argumentDocs:
             azure_policy_id: (Number)
@@ -359,19 +992,71 @@ resources:
         name: kion_compliance_standard
         title: kion_compliance_standard Resource - terraform-provider-kion
         examples:
-            - name: s1
+            - name: complete_example
               manifest: |-
                 {
-                  "created_by_user_id": 1,
-                  "name": "sample-resource",
-                  "owner_user_groups": [
+                  "compliance_checks": [
                     {
                       "id": 1
+                    },
+                    {
+                      "id": 2
+                    }
+                  ],
+                  "created_by_user_id": 1,
+                  "description": "A comprehensive example of a compliance standard with all supported options.",
+                  "name": "Complete Compliance Standard Example",
+                  "owner_user_groups": [
+                    {
+                      "id": 2
                     }
                   ],
                   "owner_users": [
                     {
                       "id": 1
+                    }
+                  ]
+                }
+            - name: aws_security
+              manifest: |-
+                {
+                  "compliance_checks": [
+                    {
+                      "id": 3
+                    },
+                    {
+                      "id": 4
+                    }
+                  ],
+                  "created_by_user_id": 1,
+                  "description": "Basic AWS security compliance standard",
+                  "name": "AWS Security Standard",
+                  "owner_users": [
+                    {
+                      "id": 1
+                    }
+                  ]
+                }
+            - name: regulatory
+              manifest: |-
+                {
+                  "compliance_checks": [
+                    {
+                      "id": 5
+                    },
+                    {
+                      "id": 6
+                    },
+                    {
+                      "id": 7
+                    }
+                  ],
+                  "created_by_user_id": 1,
+                  "description": "Standard for meeting regulatory requirements",
+                  "name": "Regulatory Compliance",
+                  "owner_user_groups": [
+                    {
+                      "id": 3
                     }
                   ]
                 }
@@ -387,31 +1072,259 @@ resources:
             owner_user_groups: (Block Set) Must provide at least the owner_user_groups field or the owner_users field. (see below for nested schema)
             owner_users: (Block Set) Must provide at least the owner_user_groups field or the owner_users field. (see below for nested schema)
         importStatements: []
+    kion_custom_account:
+        subCategory: ""
+        description: 'Attaches a custom account to a project in Kion. If project_id is provided, the account will be added to the corresponding project, otherwise the account will be added to the account cache. Once added, an account can be moved between projects or in and out of the account cache by changing the project_id. When importing existing Kion accounts into terraform state, you can use one of these methods:'
+        name: kion_custom_account
+        title: kion_custom_account Resource - terraform-provider-kion
+        examples:
+            - name: complete_example
+              manifest: |-
+                {
+                  "account_number": "CUSTOM-123456",
+                  "labels": {
+                    "cost_center": "12345",
+                    "environment": "production",
+                    "team": "platform"
+                  },
+                  "name": "Terraform Complete Custom Account",
+                  "payer_id": 1,
+                  "project_id": 42,
+                  "start_datecode": "2024-03"
+                }
+        argumentDocs:
+            account_alias: (String) Account alias is an optional short unique name that helps identify the account within Kion.
+            account_number: (String) The account number of the custom account.
+            account_type_id: (Number) An ID representing the account type within Kion.
+            created_at: (String)
+            id: (String) The ID of this resource.
+            labels: (Map of String) A map of labels to assign to the account. The labels must already exist in Kion.
+            last_updated: (String)
+            location: (String) Where the account is attached. Either "project" or "cache".
+            name: (String) The name of the custom account within Kion.
+            payer_id: (Number) The ID of the billing source containing billing data for this account.
+            project_id: (Number) The ID of the Kion project to place this account within. If empty, the account will be placed within the account cache.
+            skip_access_checking: (Boolean) True to skip periodic access checking on the account.
+            start_datecode: (String) Date when the custom account will starting submitting payments against a funding source (YYYY-MM). Required if placing an account within a project.
+        importStatements: []
+    kion_custom_variable:
+        subCategory: ""
+        name: kion_custom_variable
+        title: kion_custom_variable Resource - terraform-provider-kion
+        examples:
+            - name: string_example
+              manifest: |-
+                {
+                  "default_value_string": "dev",
+                  "description": "Environment type for the deployment",
+                  "key_validation_message": "Key must contain only alphanumeric characters, underscores, and hyphens",
+                  "key_validation_regex": "^[a-zA-Z0-9_-]+$",
+                  "name": "environment",
+                  "owner_user_ids": [
+                    1
+                  ],
+                  "type": "string",
+                  "value_validation_message": "Value must be one of: dev, staging, prod",
+                  "value_validation_regex": "^(dev|staging|prod)$"
+                }
+            - name: list_example
+              manifest: |-
+                {
+                  "default_value_list": [
+                    "us-east-1",
+                    "us-west-2",
+                    "eu-west-1"
+                  ],
+                  "description": "List of allowed AWS regions",
+                  "key_validation_message": "Key must contain only alphanumeric characters, underscores, and hyphens",
+                  "key_validation_regex": "^[a-zA-Z0-9_-]+$",
+                  "name": "allowed_regions",
+                  "owner_user_group_ids": [
+                    1,
+                    2
+                  ],
+                  "type": "list",
+                  "value_validation_message": "Value must be a valid AWS region format (e.g., us-east-1)",
+                  "value_validation_regex": "^[a-z]{2}-[a-z]+-[0-9]$"
+                }
+            - name: map_example
+              manifest: |-
+                {
+                  "default_value_map": {
+                    "CostCenter": "12345",
+                    "Environment": "production",
+                    "Owner": "platform-team"
+                  },
+                  "description": "Default resource tags for cloud resources",
+                  "key_validation_message": "Key must contain only alphanumeric characters, underscores, and hyphens",
+                  "key_validation_regex": "^[a-zA-Z0-9_-]+$",
+                  "name": "resource_tags",
+                  "owner_user_group_ids": [
+                    2
+                  ],
+                  "owner_user_ids": [
+                    1
+                  ],
+                  "type": "map",
+                  "value_validation_message": "Value must contain only alphanumeric characters, underscores, and hyphens",
+                  "value_validation_regex": "^[a-zA-Z0-9_-]+$"
+                }
+        argumentDocs:
+            default_value_list: (List of String)
+            default_value_map: (Map of String)
+            default_value_string: (String)
+            description: (String)
+            id: (String) The ID of this resource.
+            key_validation_message: (String)
+            key_validation_regex: (String)
+            last_updated: (String)
+            name: (String)
+            owner_user_group_ids: (Set of Number)
+            owner_user_ids: (Set of Number)
+            type: (String)
+            value_validation_message: (String)
+            value_validation_regex: (String)
+        importStatements: []
+    kion_custom_variable_override:
+        subCategory: ""
+        name: kion_custom_variable_override
+        title: kion_custom_variable_override Resource - terraform-provider-kion
+        examples:
+            - name: project_string_override
+              manifest: |-
+                {
+                  "custom_variable_id": "${kion_custom_variable.string_example.id}",
+                  "entity_id": "123",
+                  "entity_type": "project",
+                  "value_string": "prod"
+                }
+              references:
+                custom_variable_id: kion_custom_variable.string_example.id
+            - name: ou_list_override
+              manifest: |-
+                {
+                  "custom_variable_id": "${kion_custom_variable.list_example.id}",
+                  "entity_id": "456",
+                  "entity_type": "ou",
+                  "value_list": [
+                    "us-east-1",
+                    "us-east-2"
+                  ]
+                }
+              references:
+                custom_variable_id: kion_custom_variable.list_example.id
+            - name: rule_map_override
+              manifest: |-
+                {
+                  "custom_variable_id": "${kion_custom_variable.map_example.id}",
+                  "entity_id": "789",
+                  "entity_type": "cloud_rule",
+                  "value_map": {
+                    "Environment": "staging",
+                    "Owner": "dev-team",
+                    "Project": "terraform-demo"
+                  }
+                }
+              references:
+                custom_variable_id: kion_custom_variable.map_example.id
+            - name: multi_env_override
+              manifest: |-
+                {
+                  "custom_variable_id": "${kion_custom_variable.string_example.id}",
+                  "entity_id": "321",
+                  "entity_type": "project",
+                  "value_string": "staging"
+                }
+              references:
+                custom_variable_id: kion_custom_variable.string_example.id
+        argumentDocs:
+            custom_variable_id: (String)
+            entity_id: (String)
+            entity_type: (String)
+            id: (String) The ID of this resource.
+            last_updated: (String)
+            value_list: (List of String)
+            value_map: (Map of String)
+            value_string: (String)
+        importStatements: []
     kion_funding_source:
         subCategory: ""
         name: kion_funding_source
         title: kion_funding_source Resource - terraform-provider-kion
         examples:
-            - name: fs1
+            - name: complete_example
               manifest: |-
                 {
-                  "amount": 10000,
-                  "description": "Sample funding source created via terraform",
-                  "end_datecode": "2023-12",
-                  "name": "Test Funding",
+                  "amount": 1000000,
+                  "description": "Main cloud infrastructure budget for fiscal year 2024",
+                  "end_datecode": "2024-12",
+                  "labels": {
+                    "cost_center": "12345",
+                    "department": "it",
+                    "environment": "production",
+                    "fiscal_year": "2024"
+                  },
+                  "name": "Annual Cloud Budget 2024",
                   "ou_id": 1,
                   "owner_user_groups": [
                     {
-                      "id": 3
+                      "id": 1
+                    },
+                    {
+                      "id": 2
                     }
                   ],
                   "owner_users": [
                     {
                       "id": 1
+                    },
+                    {
+                      "id": 2
                     }
                   ],
                   "permission_scheme_id": 4,
-                  "start_datecode": "2023-01"
+                  "start_datecode": "2024-01"
+                }
+            - name: project_budget
+              manifest: |-
+                {
+                  "amount": 50000,
+                  "description": "Dedicated budget for Project Alpha development",
+                  "end_datecode": "2024-06",
+                  "labels": {
+                    "environment": "development",
+                    "project": "alpha"
+                  },
+                  "name": "Project Alpha Budget",
+                  "ou_id": 2,
+                  "owner_users": [
+                    {
+                      "id": 3
+                    }
+                  ],
+                  "permission_scheme_id": 4,
+                  "start_datecode": "2024-01"
+                }
+            - name: quarterly_budget
+              manifest: |-
+                {
+                  "amount": 250000,
+                  "description": "Quarterly budget for cloud operations",
+                  "end_datecode": "2024-03",
+                  "labels": {
+                    "fiscal_year": "2024",
+                    "quarter": "Q1",
+                    "type": "operational"
+                  },
+                  "name": "Q1 2024 Operations Budget",
+                  "ou_id": 3,
+                  "owner_user_groups": [
+                    {
+                      "id": 3
+                    }
+                  ],
+                  "permission_scheme_id": 4,
+                  "start_datecode": "2024-01"
                 }
         argumentDocs:
             amount: (Number)
@@ -427,10 +1340,60 @@ resources:
             permission_scheme_id: (Number)
             start_datecode: (String)
         importStatements: []
-    kion_funding_source_permission_mapping Resource - terraform-provider-kion:
+    kion_funding_source_permission_mapping:
         subCategory: ""
-        name: kion_funding_source_permission_mapping Resource - terraform-provider-kion
+        name: kion_funding_source_permission_mapping
         title: kion_funding_source_permission_mapping Resource - terraform-provider-kion
+        examples:
+            - name: admin_mapping
+              manifest: |-
+                {
+                  "app_role_id": 1,
+                  "funding_source_id": "${kion_funding_source.complete_example.id}",
+                  "user_groups_ids": [
+                    1,
+                    2
+                  ],
+                  "user_ids": [
+                    1,
+                    2
+                  ]
+                }
+              references:
+                funding_source_id: kion_funding_source.complete_example.id
+            - name: viewer_mapping
+              manifest: |-
+                {
+                  "app_role_id": 2,
+                  "funding_source_id": "${kion_funding_source.complete_example.id}",
+                  "user_groups_ids": [
+                    3,
+                    4
+                  ],
+                  "user_ids": [
+                    3,
+                    4,
+                    5
+                  ]
+                }
+              references:
+                funding_source_id: kion_funding_source.complete_example.id
+            - name: project_mapping
+              manifest: |-
+                {
+                  "app_role_id": 3,
+                  "funding_source_id": "${kion_funding_source.project_budget.id}",
+                  "user_groups_ids": [
+                    5,
+                    6
+                  ],
+                  "user_ids": [
+                    6,
+                    7
+                  ]
+                }
+              references:
+                funding_source_id: kion_funding_source.project_budget.id
         argumentDocs:
             app_role_id: (Number) Application role ID for the permission mapping.
             funding_source_id: (Number) ID of the Funding Source to manage permission mappings for.
@@ -444,22 +1407,78 @@ resources:
         name: kion_gcp_account
         title: kion_gcp_account Resource - terraform-provider-kion
         examples:
-            - name: test4
+            - name: complete_example
+              manifest: |-
+                {
+                  "account_alias": "prod-gcp",
+                  "account_type_id": 1,
+                  "create_mode": "create",
+                  "google_cloud_parent_name": "folders/987654321",
+                  "google_cloud_project_id": "prod-project-123456",
+                  "labels": {
+                    "cost_center": "12345",
+                    "environment": "production",
+                    "team": "platform"
+                  },
+                  "move_project_settings": [
+                    {
+                      "financials": "move",
+                      "move_datecode": 202401
+                    }
+                  ],
+                  "name": "Production GCP Project",
+                  "payer_id": 1,
+                  "project_id": 42,
+                  "skip_access_checking": false,
+                  "start_datecode": "2024-01"
+                }
+            - name: import_example
+              manifest: |-
+                {
+                  "create_mode": "import",
+                  "google_cloud_project_id": "dev-project-654321",
+                  "labels": {
+                    "environment": "development",
+                    "imported": "true"
+                  },
+                  "name": "Existing Dev Project",
+                  "payer_id": 1,
+                  "project_id": 43,
+                  "start_datecode": "2024-01"
+                }
+            - name: cache_example
+              manifest: |-
+                {
+                  "account_alias": "staging-gcp",
+                  "create_mode": "create",
+                  "google_cloud_parent_name": "organizations/123456789",
+                  "google_cloud_project_id": "staging-project-789012",
+                  "labels": {
+                    "environment": "staging",
+                    "managed_by": "kion"
+                  },
+                  "name": "Staging GCP Project",
+                  "payer_id": 1
+                }
+            - name: move_example
               manifest: |-
                 {
                   "create_mode": "create",
-                  "google_cloud_project_id": "terraform-test-create",
-                  "name": "Terraform Created GCP Project - 4",
-                  "payer_id": 2,
-                  "project_id": "${kion_project.test1.id}",
-                  "start_datecode": "2023-01"
+                  "google_cloud_project_id": "moving-project-345678",
+                  "move_project_settings": [
+                    {
+                      "financials": "preserve"
+                    }
+                  ],
+                  "name": "Project to Move",
+                  "payer_id": 1,
+                  "project_id": 44,
+                  "start_datecode": "2024-01"
                 }
-              references:
-                project_id: kion_project.test1.id
         argumentDocs:
             account_alias: (String) Account alias is an optional short unique name that helps identify the account within Kion.
             account_type_id: (Number) An ID representing the account type within Kion.
-            create_mode: (String) One of "create" or "import".  If "create", Kion will attempt to create a new Google Cloud Project.  If "import", Kion will import the existing Google Cloud Project as specified by google_cloud_project_id.
+            create_mode: (String) One of "create" or "import".  If "create", Kion will attempt to create a new Google Cloud Project.  If "import", Kion will import the existing Google Cloud Project as specified by google_cloud_project_id. This field is only used during resource creation and is not stored by Kion.
             created_at: (String)
             financials: (String) One of "move" or "preserve".  If "move", financial history will be moved to the new project beginning on the date specified by the move_datecode parameter.  If "preserve", financial history will be preserved on the current project.
             google_cloud_parent_name: (String) The GCP resource identifier of the parent of this GCP Project.
@@ -481,20 +1500,79 @@ resources:
         name: kion_gcp_iam_role
         title: kion_gcp_iam_role Resource - terraform-provider-kion
         examples:
-            - name: gr1
+            - name: complete_example
               manifest: |-
                 {
-                  "description": "Allow user to list \u0026 get IAM roles.",
+                  "description": "Comprehensive administrative role for GCP resources",
                   "gcp_role_launch_stage": 4,
-                  "name": "Read permissions",
+                  "name": "Custom Admin Role",
+                  "owner_user_groups": [
+                    {
+                      "id": 1
+                    }
+                  ],
+                  "owner_users": [
+                    {
+                      "id": 1
+                    },
+                    {
+                      "id": 2
+                    }
+                  ],
+                  "role_permissions": [
+                    "compute.instances.list",
+                    "compute.instances.get",
+                    "compute.instances.start",
+                    "compute.instances.stop",
+                    "compute.disks.list",
+                    "compute.disks.get",
+                    "storage.buckets.list",
+                    "storage.objects.list"
+                  ],
+                  "system_managed_policy": false
+                }
+            - name: readonly_example
+              manifest: |-
+                {
+                  "description": "Provides read-only access to GCP resources",
+                  "gcp_role_launch_stage": 4,
+                  "name": "Read Only Access",
                   "owner_users": [
                     {
                       "id": 1
                     }
                   ],
                   "role_permissions": [
-                    "iam.roles.get",
-                    "iam.roles.list"
+                    "compute.instances.list",
+                    "compute.instances.get",
+                    "compute.disks.list",
+                    "compute.disks.get",
+                    "storage.buckets.list",
+                    "storage.objects.list"
+                  ]
+                }
+            - name: storage_admin
+              manifest: |-
+                {
+                  "description": "Manages GCP storage resources",
+                  "gcp_role_launch_stage": 4,
+                  "name": "Storage Administrator",
+                  "owner_user_groups": [
+                    {
+                      "id": 2
+                    }
+                  ],
+                  "role_permissions": [
+                    "storage.buckets.create",
+                    "storage.buckets.delete",
+                    "storage.buckets.get",
+                    "storage.buckets.list",
+                    "storage.buckets.update",
+                    "storage.objects.create",
+                    "storage.objects.delete",
+                    "storage.objects.get",
+                    "storage.objects.list",
+                    "storage.objects.update"
                   ]
                 }
         argumentDocs:
@@ -525,12 +1603,54 @@ resources:
         name: kion_label
         title: kion_label Resource - terraform-provider-kion
         examples:
-            - name: cost_center_x
+            - name: env_production
               manifest: |-
                 {
-                  "color": "#123abc",
-                  "key": "cost_center",
-                  "value": "x"
+                  "color": "#FF0000",
+                  "key": "Environment",
+                  "value": "Production"
+                }
+            - name: env_staging
+              manifest: |-
+                {
+                  "color": "#FFA500",
+                  "key": "Environment",
+                  "value": "Staging"
+                }
+            - name: env_development
+              manifest: |-
+                {
+                  "color": "#00FF00",
+                  "key": "Environment",
+                  "value": "Development"
+                }
+            - name: cost_center_it
+              manifest: |-
+                {
+                  "color": "#0000FF",
+                  "key": "CostCenter",
+                  "value": "IT-1234"
+                }
+            - name: cost_center_marketing
+              manifest: |-
+                {
+                  "color": "#800080",
+                  "key": "CostCenter",
+                  "value": "MKT-5678"
+                }
+            - name: team_platform
+              manifest: |-
+                {
+                  "color": "#FFD700",
+                  "key": "Team",
+                  "value": "Platform"
+                }
+            - name: team_security
+              manifest: |-
+                {
+                  "color": "#4B0082",
+                  "key": "Team",
+                  "value": "Security"
                 }
         argumentDocs:
             color: (String) The color of the label in hex format, (#123abc)
@@ -543,22 +1663,33 @@ resources:
         name: kion_ou
         title: kion_ou Resource - terraform-provider-kion
         examples:
-            - name: ou1
+            - name: production_ou
               manifest: |-
                 {
-                  "description": "Sample OU.",
-                  "name": "sample-ou",
+                  "description": "Production environment organizational unit",
+                  "labels": {
+                    "CostCenter": "IT-1234",
+                    "Environment": "Production",
+                    "Team": "Platform"
+                  },
+                  "name": "production",
                   "owner_user_groups": [
                     {
-                      "id": 1
+                      "id": 5
+                    },
+                    {
+                      "id": 6
                     }
                   ],
                   "owner_users": [
                     {
-                      "id": 1
+                      "id": 10
+                    },
+                    {
+                      "id": 11
                     }
                   ],
-                  "parent_ou_id": 0,
+                  "parent_ou_id": 1,
                   "permission_scheme_id": 2
                 }
         argumentDocs:
@@ -578,24 +1709,123 @@ resources:
         name: kion_ou_cloud_access_role
         title: kion_ou_cloud_access_role Resource - terraform-provider-kion
         examples:
-            - name: carou1
+            - name: example
               manifest: |-
                 {
-                  "aws_iam_policies": [
-                    {
-                      "id": 628
-                    }
-                  ],
-                  "aws_iam_role_name": "sample-car",
-                  "long_term_access_keys": true,
-                  "name": "sample-car",
-                  "ou_id": 3,
+                  "long_term_access_keys": false,
+                  "name": "example-ou-car",
+                  "ou_id": 1,
                   "short_term_access_keys": true,
                   "user_groups": [
                     {
                       "id": 1
                     }
                   ],
+                  "users": [
+                    {
+                      "id": 1
+                    }
+                  ],
+                  "web_access": true
+                }
+            - name: aws_admin
+              manifest: |-
+                {
+                  "aws_iam_path": "/kion/",
+                  "aws_iam_permissions_boundary": 1,
+                  "aws_iam_policies": [
+                    {
+                      "id": 1
+                    },
+                    {
+                      "id": 2
+                    }
+                  ],
+                  "aws_iam_role_name": "AdminRole",
+                  "long_term_access_keys": false,
+                  "name": "aws-admin-role",
+                  "ou_id": 1,
+                  "short_term_access_keys": true,
+                  "user_groups": [
+                    {
+                      "id": 1
+                    }
+                  ],
+                  "users": [
+                    {
+                      "id": 1
+                    }
+                  ],
+                  "web_access": true
+                }
+            - name: azure_admin
+              manifest: |-
+                {
+                  "azure_role_definitions": [
+                    {
+                      "id": 1
+                    },
+                    {
+                      "id": 2
+                    }
+                  ],
+                  "name": "azure-admin-role",
+                  "ou_id": 1,
+                  "user_groups": [
+                    {
+                      "id": 2
+                    }
+                  ],
+                  "web_access": true
+                }
+            - name: gcp_admin
+              manifest: |-
+                {
+                  "gcp_iam_roles": [
+                    {
+                      "id": 1
+                    },
+                    {
+                      "id": 2
+                    }
+                  ],
+                  "name": "gcp-admin-role",
+                  "ou_id": 1,
+                  "user_groups": [
+                    {
+                      "id": 2
+                    }
+                  ],
+                  "users": [
+                    {
+                      "id": 2
+                    }
+                  ],
+                  "web_access": true
+                }
+            - name: multi_cloud
+              manifest: |-
+                {
+                  "aws_iam_policies": [
+                    {
+                      "id": 1
+                    }
+                  ],
+                  "aws_iam_role_name": "CrossAccountRole",
+                  "azure_role_definitions": [
+                    {
+                      "id": 1
+                    }
+                  ],
+                  "gcp_iam_roles": [
+                    {
+                      "id": 1
+                    }
+                  ],
+                  "long_term_access_keys": false,
+                  "name": "multi-cloud-role",
+                  "ou_id": 1,
+                  "short_term_access_keys": true,
                   "users": [
                     {
                       "id": 1
@@ -620,10 +1850,41 @@ resources:
             users: (Block Set) (see below for nested schema)
             web_access: (Boolean)
         importStatements: []
-    kion_ou_permission_mapping Resource - terraform-provider-kion:
+    kion_ou_permission_mapping:
         subCategory: ""
-        name: kion_ou_permission_mapping Resource - terraform-provider-kion
+        name: kion_ou_permission_mapping
         title: kion_ou_permission_mapping Resource - terraform-provider-kion
+        examples:
+            - name: admin_permissions
+              manifest: |-
+                {
+                  "app_role_id": 1,
+                  "ou_id": 3,
+                  "user_groups_ids": [
+                    5,
+                    6
+                  ],
+                  "user_ids": [
+                    10,
+                    11,
+                    12
+                  ]
+                }
+            - name: viewer_permissions
+              manifest: |-
+                {
+                  "app_role_id": 2,
+                  "ou_id": 3,
+                  "user_groups_ids": [
+                    7,
+                    8
+                  ],
+                  "user_ids": [
+                    20,
+                    21,
+                    22
+                  ]
+                }
         argumentDocs:
             app_role_id: (Number) Application role ID for the permission mapping.
             id: (String) The ID of this resource.
@@ -636,30 +1897,159 @@ resources:
         name: kion_project
         title: kion_project Resource - terraform-provider-kion
         examples:
-            - name: p1
+            - name: development_project
               manifest: |-
                 {
-                  "description": "This is a sample project.",
-                  "name": "Tech Project I",
-                  "ou_id": 1,
-                  "owner_user_ids": [
+                  "auto_pay": true,
+                  "budget": [
                     {
-                      "id": 1
+                      "amount": 120000,
+                      "data": [
+                        {
+                          "amount": 12000,
+                          "datecode": "2024-01",
+                          "funding_source_id": 1,
+                          "priority": 1
+                        },
+                        {
+                          "amount": 8000,
+                          "datecode": "2024-02",
+                          "funding_source_id": 2,
+                          "priority": 1
+                        },
+                        {
+                          "amount": 10000,
+                          "datecode": "2024-03",
+                          "funding_source_id": 1,
+                          "priority": 1
+                        },
+                        {
+                          "amount": 10000,
+                          "datecode": "2024-04",
+                          "funding_source_id": 2,
+                          "priority": 1
+                        },
+                        {
+                          "amount": 10000,
+                          "datecode": "2024-05",
+                          "funding_source_id": 1,
+                          "priority": 1
+                        },
+                        {
+                          "amount": 10000,
+                          "datecode": "2024-06",
+                          "funding_source_id": 2,
+                          "priority": 1
+                        },
+                        {
+                          "amount": 10000,
+                          "datecode": "2024-07",
+                          "funding_source_id": 1,
+                          "priority": 1
+                        },
+                        {
+                          "amount": 10000,
+                          "datecode": "2024-08",
+                          "funding_source_id": 2,
+                          "priority": 1
+                        },
+                        {
+                          "amount": 10000,
+                          "datecode": "2024-09",
+                          "funding_source_id": 1,
+                          "priority": 1
+                        },
+                        {
+                          "amount": 10000,
+                          "datecode": "2024-10",
+                          "funding_source_id": 2,
+                          "priority": 1
+                        },
+                        {
+                          "amount": 10000,
+                          "datecode": "2024-11",
+                          "funding_source_id": 1,
+                          "priority": 1
+                        },
+                        {
+                          "amount": 10000,
+                          "datecode": "2024-12",
+                          "funding_source_id": 2,
+                          "priority": 1
+                        }
+                      ],
+                      "end_datecode": "2024-12",
+                      "funding_source_ids": [
+                        1,
+                        2
+                      ],
+                      "start_datecode": "2024-01"
                     }
                   ],
-                  "permission_scheme_id": 3,
-                  "project_funding": [
+                  "default_aws_region": "us-east-1",
+                  "description": "Infrastructure resources for the development team",
+                  "labels": {
+                    "CostCenter": "IT-1234",
+                    "Environment": "Development",
+                    "Owner": "DevOps",
+                    "Team": "Platform"
+                  },
+                  "name": "Development Infrastructure",
+                  "ou_id": 3,
+                  "owner_user_group_ids": [
                     {
-                      "amount": 1000,
-                      "end_datecode": "2022-01",
-                      "funding_order": 1,
-                      "funding_source_id": 1,
-                      "start_datecode": "2021-01"
+                      "id": 5
                     }
-                  ]
+                  ],
+                  "owner_user_ids": [
+                    {
+                      "id": 10
+                    },
+                    {
+                      "id": 11
+                    }
+                  ],
+                  "permission_scheme_id": 2
+                }
+            - name: production_project
+              manifest: |-
+                {
+                  "auto_pay": false,
+                  "budget": [
+                    {
+                      "amount": 240000,
+                      "end_datecode": "2025-01",
+                      "funding_source_ids": [
+                        3,
+                        4
+                      ],
+                      "start_datecode": "2024-01"
+                    }
+                  ],
+                  "default_aws_region": "us-west-2",
+                  "description": "Production environment infrastructure and services",
+                  "labels": {
+                    "CostCenter": "IT-5678",
+                    "Critical": "Yes",
+                    "Environment": "Production",
+                    "Team": "Operations"
+                  },
+                  "name": "Production Infrastructure",
+                  "ou_id": 3,
+                  "owner_user_group_ids": [
+                    {
+                      "id": 6
+                    }
+                  ],
+                  "owner_user_ids": [
+                    {
+                      "id": 12
+                    }
+                  ],
+                  "permission_scheme_id": 3
                 }
         argumentDocs:
-            amount: (Number) Total amount for the budget. This is required if data is not specified. Budget entries are created between start_datecode and end_datecode (exclusive) with the amount evenly distributed across the months.
+            amount: (Number) Total amount for the budget. This is required if data is not specified. Budget entries are created between start_datecode and end_datecode (exclusive) with the amount evenly distributed across the months. When monthly data is provided, the sum of all monthly amounts must equal this value.
             archived: (Boolean)
             auto_pay: (Boolean)
             budget: (Block Set) (see below for nested schema)
@@ -688,19 +2078,12 @@ resources:
         name: kion_project_cloud_access_role
         title: kion_project_cloud_access_role Resource - terraform-provider-kion
         examples:
-            - name: carp1
+            - name: example
               manifest: |-
                 {
-                  "aws_iam_permissions_boundary": 1,
-                  "aws_iam_policies": [
-                    {
-                      "id": 1
-                    }
-                  ],
-                  "aws_iam_role_name": "sample-car",
-                  "future_accounts": true,
-                  "long_term_access_keys": true,
-                  "name": "sample-car",
+                  "apply_to_all_accounts": true,
+                  "long_term_access_keys": false,
+                  "name": "example-project-car",
                   "project_id": 1,
                   "short_term_access_keys": true,
                   "user_groups": [
@@ -708,6 +2091,132 @@ resources:
                       "id": 1
                     }
                   ],
+                  "users": [
+                    {
+                      "id": 1
+                    }
+                  ],
+                  "web_access": true
+                }
+            - name: aws_admin
+              manifest: |-
+                {
+                  "accounts": [
+                    {
+                      "id": 1
+                    },
+                    {
+                      "id": 2
+                    }
+                  ],
+                  "aws_iam_path": "/kion/",
+                  "aws_iam_permissions_boundary": 1,
+                  "aws_iam_policies": [
+                    {
+                      "id": 1
+                    },
+                    {
+                      "id": 2
+                    }
+                  ],
+                  "aws_iam_role_name": "AdminRole",
+                  "future_accounts": true,
+                  "long_term_access_keys": false,
+                  "name": "aws-admin-role",
+                  "project_id": 1,
+                  "short_term_access_keys": true,
+                  "user_groups": [
+                    {
+                      "id": 1
+                    }
+                  ],
+                  "users": [
+                    {
+                      "id": 1
+                    }
+                  ],
+                  "web_access": true
+                }
+            - name: azure_admin
+              manifest: |-
+                {
+                  "accounts": [
+                    {
+                      "id": 3
+                    },
+                    {
+                      "id": 4
+                    }
+                  ],
+                  "azure_role_definitions": [
+                    {
+                      "id": 1
+                    },
+                    {
+                      "id": 2
+                    }
+                  ],
+                  "name": "azure-admin-role",
+                  "project_id": 2,
+                  "user_groups": [
+                    {
+                      "id": 2
+                    }
+                  ],
+                  "web_access": true
+                }
+            - name: gcp_admin
+              manifest: |-
+                {
+                  "apply_to_all_accounts": true,
+                  "future_accounts": true,
+                  "gcp_iam_roles": [
+                    {
+                      "id": 1
+                    },
+                    {
+                      "id": 2
+                    }
+                  ],
+                  "name": "gcp-admin-role",
+                  "project_id": 3,
+                  "user_groups": [
+                    {
+                      "id": 2
+                    }
+                  ],
+                  "users": [
+                    {
+                      "id": 2
+                    }
+                  ],
+                  "web_access": true
+                }
+            - name: multi_cloud
+              manifest: |-
+                {
+                  "apply_to_all_accounts": true,
+                  "aws_iam_policies": [
+                    {
+                      "id": 1
+                    }
+                  ],
+                  "aws_iam_role_name": "CrossAccountRole",
+                  "azure_role_definitions": [
+                    {
+                      "id": 1
+                    }
+                  ],
+                  "future_accounts": true,
+                  "gcp_iam_roles": [
+                    {
+                      "id": 1
+                    }
+                  ],
+                  "long_term_access_keys": false,
+                  "name": "multi-cloud-role",
+                  "project_id": 4,
+                  "short_term_access_keys": true,
                   "users": [
                     {
                       "id": 1
@@ -735,11 +2244,93 @@ resources:
             users: (Block Set) (see below for nested schema)
             web_access: (Boolean)
         importStatements: []
-    kion_project_enforcement Resource - terraform-provider-kion:
+    kion_project_enforcement:
         subCategory: ""
         description: Manages enforcement rules for projects to control service usage based on various criteria likespend limits and timeframe restrictions. . This resource allows for creating, reading, updating, and deleting project-specific enforcement settings.
-        name: kion_project_enforcement Resource - terraform-provider-kion
+        name: kion_project_enforcement
         title: kion_project_enforcement Resource - terraform-provider-kion
+        examples:
+            - name: dev_budget_enforcement
+              manifest: |-
+                {
+                  "description": "Monthly budget enforcement for development project",
+                  "enabled": true,
+                  "notification_frequency": "daily",
+                  "overburn": true,
+                  "project_id": 10,
+                  "threshold": 5000,
+                  "threshold_type": "dollar",
+                  "timeframe": "month",
+                  "user_group_ids": [
+                    25
+                  ],
+                  "user_ids": [
+                    15,
+                    16
+                  ]
+                }
+            - name: prod_spend_enforcement
+              manifest: |-
+                {
+                  "description": "Production spending enforcement",
+                  "enabled": true,
+                  "notification_frequency": "weekly",
+                  "overburn": false,
+                  "project_id": 11,
+                  "spend_option": "remaining",
+                  "threshold": 80,
+                  "threshold_type": "percent",
+                  "timeframe": "funding_source",
+                  "user_group_ids": [
+                    30,
+                    31
+                  ],
+                  "user_ids": [
+                    20,
+                    21
+                  ]
+                }
+            - name: analytics_service_enforcement
+              manifest: |-
+                {
+                  "amount_type": "last_month",
+                  "cloud_rule_id": 100,
+                  "description": "BigQuery usage enforcement",
+                  "enabled": true,
+                  "project_id": 12,
+                  "service_id": 50,
+                  "threshold": 10000,
+                  "threshold_type": "dollar",
+                  "timeframe": "month",
+                  "user_group_ids": [
+                    35
+                  ],
+                  "user_ids": [
+                    25
+                  ]
+                }
+            - name: annual_budget_enforcement
+              manifest: |-
+                {
+                  "description": "Annual budget enforcement",
+                  "enabled": true,
+                  "notification_frequency": "weekly",
+                  "overburn": true,
+                  "project_id": 11,
+                  "threshold": 200000,
+                  "threshold_type": "dollar",
+                  "timeframe": "year",
+                  "user_group_ids": [
+                    30,
+                    31,
+                    32
+                  ],
+                  "user_ids": [
+                    20,
+                    21,
+                    22
+                  ]
+                }
         argumentDocs:
             amount_type: (String) Type of the amount. Valid values are 'custom', 'last_month'.
             cloud_rule_id: (Number) Defines a Cloud Rule ID associated with the enforcement.
@@ -758,10 +2349,99 @@ resources:
             user_group_ids: (List of Number) List of user group IDs that will receive notifications from the enforcement.
             user_ids: (List of Number) List of user IDs that will receive notifications from the enforcement.
         importStatements: []
-    kion_project_permission_mapping Resource - terraform-provider-kion:
+    kion_project_note:
         subCategory: ""
-        name: kion_project_permission_mapping Resource - terraform-provider-kion
+        name: kion_project_note
+        title: kion_project_note Resource - terraform-provider-kion
+        examples:
+            - name: project_documentation
+              manifest: |-
+                {
+                  "create_user_id": 15,
+                  "name": "Project Overview and Configuration",
+                  "project_id": 10,
+                  "text": "# Project Overview\nThis project contains infrastructure for the development environment.\n\n## Important Contacts\n- Project Owner: Jane Smith (jane.smith@company.com)\n- Technical Lead: John Doe (john.doe@company.com)\n- Security Contact: Sarah Johnson (sarah.johnson@company.com)\n\n## Key Information\n- Environment: Development\n- Cost Center: IT-1234\n- Team: Platform Engineering\n- Start Date: 2024-01-01\n\n## Infrastructure Details\n### AWS Resources\n- Region: us-east-1\n- VPC ID: vpc-abc123def456\n- Subnet IDs: subnet-123, subnet-456\n- Security Groups: sg-789, sg-012\n\n### Azure Resources\n- Region: eastus\n- Resource Group: dev-platform-rg\n- VNET: platform-vnet\n\n## Security Requirements\n1. All resources must be tagged\n2. No public-facing resources without security review\n3. Daily backups required for critical systems\n4. All changes must go through IaC\n"
+                }
+            - name: operational_runbook
+              manifest: |-
+                {
+                  "create_user_id": 16,
+                  "name": "Operational Runbook",
+                  "project_id": 10,
+                  "text": "# Operational Runbook\n\n## Daily Checks\n1. Review CloudWatch dashboards\n2. Check backup completion status\n3. Verify auto-scaling metrics\n4. Monitor cost alerts\n\n## Common Issues and Resolution\n### High CPU Usage\n1. Check CloudWatch metrics\n2. Review application logs\n3. Scale up if necessary\n\n### Network Connectivity\n1. Verify security group rules\n2. Check VPC flow logs\n3. Validate route tables\n\n## Emergency Procedures\n### Production Access\n1. Request elevation through Kion\n2. Use break-glass procedure\n3. Document all actions taken\n\n### System Recovery\n1. Identify failure point\n2. Execute relevant playbook\n3. Update status page\n"
+                }
+            - name: compliance_doc
+              manifest: |-
+                {
+                  "create_user_id": 17,
+                  "name": "Compliance Requirements",
+                  "project_id": 10,
+                  "text": "# Compliance Documentation\n\n## Regulatory Requirements\n- SOC 2 Type II\n- HIPAA\n- PCI DSS\n\n## Data Classification\n- PII: Restricted\n- Financial: Confidential\n- Public: Unrestricted\n\n## Access Control\n1. Role-based access control (RBAC)\n2. Multi-factor authentication (MFA)\n3. Regular access reviews\n\n## Audit Requirements\n- Monthly access reviews\n- Quarterly compliance scans\n- Annual penetration testing\n\n## Incident Response\n1. Security incident reporting\n2. Data breach notification\n3. Recovery procedures\n"
+                }
+        argumentDocs:
+            create_user_id: (Number)
+            create_user_name: (String)
+            created_at: (String)
+            id: (String) The ID of this resource.
+            last_update_user_id: (Number)
+            last_update_user_name: (String)
+            last_updated: (String)
+            name: (String)
+            project_id: (Number)
+            text: (String)
+            updated_at: (String)
+        importStatements: []
+    kion_project_permission_mapping:
+        subCategory: ""
+        name: kion_project_permission_mapping
         title: kion_project_permission_mapping Resource - terraform-provider-kion
+        examples:
+            - name: admin_permissions
+              manifest: |-
+                {
+                  "app_role_id": 1,
+                  "project_id": 10,
+                  "user_groups_ids": [
+                    25,
+                    26
+                  ],
+                  "user_ids": [
+                    15,
+                    16
+                  ]
+                }
+            - name: viewer_permissions
+              manifest: |-
+                {
+                  "app_role_id": 2,
+                  "project_id": 10,
+                  "user_groups_ids": [
+                    30,
+                    31,
+                    32
+                  ],
+                  "user_ids": [
+                    20,
+                    21,
+                    22
+                  ]
+                }
+            - name: developer_permissions
+              manifest: |-
+                {
+                  "app_role_id": 3,
+                  "project_id": 10,
+                  "user_groups_ids": [
+                    35,
+                    36,
+                    37
+                  ],
+                  "user_ids": [
+                    25,
+                    26,
+                    27
+                  ]
+                }
         argumentDocs:
             app_role_id: (Number) Application role ID for the permission mapping.
             id: (String) The ID of this resource.
@@ -774,11 +2454,38 @@ resources:
         name: kion_saml_group_association
         title: kion_saml_group_association Resource - terraform-provider-kion
         examples:
-            - name: sa1
+            - name: devops_mapping
+              manifest: |-
+                {
+                  "assertion_name": "groups",
+                  "assertion_regex": "^devops-team",
+                  "idms_id": 5,
+                  "update_on_login": true,
+                  "user_group_id": 10
+                }
+            - name: security_mapping
               manifest: |-
                 {
                   "assertion_name": "memberOf",
-                  "assertion_regex": "^kion-admins",
+                  "assertion_regex": "^(security-team|compliance-team)",
+                  "idms_id": 5,
+                  "update_on_login": true,
+                  "user_group_id": 20
+                }
+            - name: platform_mapping
+              manifest: |-
+                {
+                  "assertion_name": "groups",
+                  "assertion_regex": "^cloud-platform-.*",
+                  "idms_id": 5,
+                  "update_on_login": true,
+                  "user_group_id": 30
+                }
+            - name: admin_mapping
+              manifest: |-
+                {
+                  "assertion_name": "memberOf",
+                  "assertion_regex": "^kion-administrators$",
                   "idms_id": 5,
                   "update_on_login": true,
                   "user_group_id": 1
@@ -799,22 +2506,56 @@ resources:
         name: kion_service_control_policy
         title: kion_service_control_policy Resource - terraform-provider-kion
         examples:
-            - name: scp1
+            - name: protect_critical_services
               manifest: |-
                 {
-                  "description": "This is a sample SCP.",
-                  "name": "Test SCP",
+                  "description": "Prevents modification of critical AWS services and configurations",
+                  "name": "Protect Critical Services",
                   "owner_user_groups": [
                     {
-                      "id": 1
+                      "id": 20
                     }
                   ],
                   "owner_users": [
                     {
-                      "id": 1
+                      "id": 10
                     }
                   ],
-                  "policy": "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Effect\": \"Deny\",\n      \"Action\": [\n        \"config:StopConfigurationRecorder\"\n      ],\n      \"Resource\": \"*\"\n    }\n  ]\n}\n"
+                  "policy": "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Effect\": \"Deny\",\n      \"Action\": [\n        \"config:DeleteConfigurationRecorder\",\n        \"config:StopConfigurationRecorder\",\n        \"cloudtrail:StopLogging\",\n        \"cloudtrail:DeleteTrail\",\n        \"guardduty:DeleteDetector\",\n        \"guardduty:DisassociateFromMasterAccount\"\n      ],\n      \"Resource\": \"*\"\n    }\n  ]\n}\n"
+                }
+            - name: enforce_tagging
+              manifest: |-
+                {
+                  "description": "Enforces mandatory tags on all resources",
+                  "name": "Mandatory Resource Tagging",
+                  "owner_user_groups": [
+                    {
+                      "id": 21
+                    }
+                  ],
+                  "owner_users": [
+                    {
+                      "id": 11
+                    }
+                  ],
+                  "policy": "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Effect\": \"Deny\",\n      \"Action\": [\n        \"ec2:RunInstances\",\n        \"rds:CreateDBInstance\",\n        \"s3:CreateBucket\"\n      ],\n      \"Resource\": \"*\",\n      \"Condition\": {\n        \"Null\": {\n          \"aws:RequestTag/Environment\": \"true\",\n          \"aws:RequestTag/CostCenter\": \"true\",\n          \"aws:RequestTag/Owner\": \"true\"\n        }\n      }\n    }\n  ]\n}\n"
+                }
+            - name: region_restriction
+              manifest: |-
+                {
+                  "description": "Restricts AWS resource creation to specific regions",
+                  "name": "Region Restriction",
+                  "owner_user_groups": [
+                    {
+                      "id": 22
+                    }
+                  ],
+                  "owner_users": [
+                    {
+                      "id": 12
+                    }
+                  ],
+                  "policy": "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Effect\": \"Deny\",\n      \"NotAction\": [\n        \"cloudfront:*\",\n        \"iam:*\",\n        \"route53:*\",\n        \"support:*\"\n      ],\n      \"Resource\": \"*\",\n      \"Condition\": {\n        \"StringNotEquals\": {\n          \"aws:RequestedRegion\": [\n            \"us-east-1\",\n            \"us-east-2\",\n            \"us-west-2\"\n          ]\n        }\n      }\n    }\n  ]\n}\n"
                 }
         argumentDocs:
             aws_managed_policy: (Boolean)
@@ -840,25 +2581,90 @@ resources:
         name: kion_user_group
         title: kion_user_group Resource - terraform-provider-kion
         examples:
-            - name: ug1
+            - name: devops_team
               manifest: |-
                 {
-                  "description": "This is a sample user group.",
+                  "description": "DevOps and Platform Engineering team members",
                   "idms_id": 1,
-                  "name": "sample-user-group2",
+                  "name": "DevOps Team",
                   "owner_groups": [
                     {
-                      "id": 1
+                      "id": 5
                     }
                   ],
                   "owner_users": [
                     {
-                      "id": 1
+                      "id": 10
+                    },
+                    {
+                      "id": 11
                     }
                   ],
                   "users": [
                     {
-                      "id": 1
+                      "id": 15
+                    },
+                    {
+                      "id": 16
+                    },
+                    {
+                      "id": 17
+                    }
+                  ]
+                }
+            - name: security_team
+              manifest: |-
+                {
+                  "description": "Security and compliance team members",
+                  "idms_id": 1,
+                  "name": "Security Team",
+                  "owner_groups": [
+                    {
+                      "id": 6
+                    }
+                  ],
+                  "owner_users": [
+                    {
+                      "id": 20
+                    }
+                  ],
+                  "users": [
+                    {
+                      "id": 25
+                    },
+                    {
+                      "id": 26
+                    }
+                  ]
+                }
+            - name: cloud_ops
+              manifest: |-
+                {
+                  "description": "Cloud infrastructure operations team",
+                  "idms_id": 1,
+                  "name": "Cloud Operations",
+                  "owner_groups": [
+                    {
+                      "id": 7
+                    }
+                  ],
+                  "owner_users": [
+                    {
+                      "id": 30
+                    },
+                    {
+                      "id": 31
+                    }
+                  ],
+                  "users": [
+                    {
+                      "id": 35
+                    },
+                    {
+                      "id": 36
+                    },
+                    {
+                      "id": 37
                     }
                   ]
                 }
@@ -874,10 +2680,93 @@ resources:
             owner_users: (Block Set) Must provide at least the owner_user_groups field or the owner_users field. (see below for nested schema)
             users: (Block Set) (see below for nested schema)
         importStatements: []
-    kion_webhook Resource - terraform-provider-kion:
+    kion_webhook:
         subCategory: ""
-        name: kion_webhook Resource - terraform-provider-kion
+        name: kion_webhook
         title: kion_webhook Resource - terraform-provider-kion
+        examples:
+            - name: funding_alerts
+              manifest: |-
+                {
+                  "description": "Notifies Slack channel about funding source changes",
+                  "event_types": [
+                    "funding-source.created",
+                    "funding-source.updated",
+                    "funding-source.deleted"
+                  ],
+                  "headers": {
+                    "Content-Type": "application/json"
+                  },
+                  "name": "Funding Source Alerts",
+                  "owner_user_groups": [
+                    {
+                      "id": 40
+                    }
+                  ],
+                  "owner_users": [
+                    {
+                      "id": 30
+                    }
+                  ],
+                  "url": "https://hooks.slack.com/services/XXXXX/YYYYY/ZZZZZ"
+                }
+            - name: security_alerts
+              manifest: |-
+                {
+                  "description": "Sends security-related events to Security Information and Event Management (SIEM) system",
+                  "event_types": [
+                    "compliance.check.failed",
+                    "compliance.check.passed",
+                    "aws-cloudtrail.security.event",
+                    "user.login.failed"
+                  ],
+                  "headers": {
+                    "Authorization": "Bearer ${var.siem_api_token}",
+                    "Content-Type": "application/json",
+                    "X-Source": "Kion"
+                  },
+                  "name": "Security Event Monitor",
+                  "owner_user_groups": [
+                    {
+                      "id": 41
+                    }
+                  ],
+                  "owner_users": [
+                    {
+                      "id": 31
+                    }
+                  ],
+                  "url": "https://siem.example.com/api/events"
+                }
+            - name: project_lifecycle
+              manifest: |-
+                {
+                  "description": "Monitors project creation, updates, and deletion events",
+                  "event_types": [
+                    "project.created",
+                    "project.updated",
+                    "project.deleted",
+                    "project.archived",
+                    "project.owner.added",
+                    "project.owner.removed"
+                  ],
+                  "headers": {
+                    "Content-Type": "application/json",
+                    "X-API-Key": "${var.automation_api_key}"
+                  },
+                  "name": "Project Lifecycle Monitor",
+                  "owner_user_groups": [
+                    {
+                      "id": 42
+                    }
+                  ],
+                  "owner_users": [
+                    {
+                      "id": 32
+                    }
+                  ],
+                  "url": "https://automation.example.com/webhooks/projects"
+                }
         argumentDocs:
             callout_url: (String) The URL to which the webhook will send requests.
             description: (String) Description of the webhook.

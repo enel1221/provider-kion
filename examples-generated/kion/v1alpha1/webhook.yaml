@@ -1,0 +1,23 @@
+apiVersion: kion.upbound.io/v1alpha1
+kind: Webhook
+metadata:
+  annotations:
+    meta.upbound.io/example-id: kion/v1alpha1/webhook
+  labels:
+    testing.upbound.io/example-name: funding_alerts
+  name: funding-alerts
+spec:
+  forProvider:
+    description: Notifies Slack channel about funding source changes
+    event_types:
+    - funding-source.created
+    - funding-source.updated
+    - funding-source.deleted
+    headers:
+      Content-Type: application/json
+    name: Funding Source Alerts
+    owner_user_groups:
+    - id: 40
+    owner_users:
+    - id: 30
+    url: https://hooks.slack.com/services/XXXXX/YYYYY/ZZZZZ

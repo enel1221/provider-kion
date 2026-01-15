@@ -4,15 +4,21 @@ metadata:
   annotations:
     meta.upbound.io/example-id: kion/v1alpha1/ou
   labels:
-    testing.upbound.io/example-name: ou1
-  name: ou1
+    testing.upbound.io/example-name: production_ou
+  name: production-ou
 spec:
   forProvider:
-    description: Sample OU.
-    name: sample-ou
+    description: Production environment organizational unit
+    labels:
+      CostCenter: IT-1234
+      Environment: Production
+      Team: Platform
+    name: production
     ownerUserGroups:
-    - id: 1
+    - id: 5
+    - id: 6
     ownerUsers:
-    - id: 1
-    parentOuId: 0
+    - id: 10
+    - id: 11
+    parentOuId: 1
     permissionSchemeId: 2

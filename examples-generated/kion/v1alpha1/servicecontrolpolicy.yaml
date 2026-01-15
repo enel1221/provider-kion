@@ -4,16 +4,16 @@ metadata:
   annotations:
     meta.upbound.io/example-id: kion/v1alpha1/servicecontrolpolicy
   labels:
-    testing.upbound.io/example-name: scp1
-  name: scp1
+    testing.upbound.io/example-name: protect_critical_services
+  name: protect-critical-services
 spec:
   forProvider:
-    description: This is a sample SCP.
-    name: Test SCP
+    description: Prevents modification of critical AWS services and configurations
+    name: Protect Critical Services
     ownerUserGroups:
-    - id: 1
+    - id: 20
     ownerUsers:
-    - id: 1
+    - id: 10
     policy: |
       {
         "Version": "2012-10-17",
@@ -21,7 +21,12 @@ spec:
           {
             "Effect": "Deny",
             "Action": [
-              "config:StopConfigurationRecorder"
+              "config:DeleteConfigurationRecorder",
+              "config:StopConfigurationRecorder",
+              "cloudtrail:StopLogging",
+              "cloudtrail:DeleteTrail",
+              "guardduty:DeleteDetector",
+              "guardduty:DisassociateFromMasterAccount"
             ],
             "Resource": "*"
           }

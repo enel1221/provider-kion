@@ -15,16 +15,20 @@ import (
 
 type SourcePermissionMappingInitParameters struct {
 
+	// (Number) Application role ID for the permission mapping.
 	// Application role ID for the permission mapping.
 	AppRoleID *float64 `json:"appRoleId,omitempty" tf:"app_role_id,omitempty"`
 
+	// (Number) ID of the Funding Source to manage permission mappings for.
 	// ID of the Funding Source to manage permission mappings for.
 	FundingSourceID *float64 `json:"fundingSourceId,omitempty" tf:"funding_source_id,omitempty"`
 
+	// (Set of Number) Set of user group IDs for the permission mapping (must be provided in numerical order).
 	// Set of user group IDs for the permission mapping (must be provided in numerical order).
 	// +listType=set
 	UserGroupsIds []*float64 `json:"userGroupsIds,omitempty" tf:"user_groups_ids,omitempty"`
 
+	// (Set of Number) Set of user IDs for the permission mapping (must be provided in numerical order).
 	// Set of user IDs for the permission mapping (must be provided in numerical order).
 	// +listType=set
 	UserIds []*float64 `json:"userIds,omitempty" tf:"user_ids,omitempty"`
@@ -32,18 +36,23 @@ type SourcePermissionMappingInitParameters struct {
 
 type SourcePermissionMappingObservation struct {
 
+	// (Number) Application role ID for the permission mapping.
 	// Application role ID for the permission mapping.
 	AppRoleID *float64 `json:"appRoleId,omitempty" tf:"app_role_id,omitempty"`
 
+	// (Number) ID of the Funding Source to manage permission mappings for.
 	// ID of the Funding Source to manage permission mappings for.
 	FundingSourceID *float64 `json:"fundingSourceId,omitempty" tf:"funding_source_id,omitempty"`
 
+	// (String) The ID of this resource.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// (Set of Number) Set of user group IDs for the permission mapping (must be provided in numerical order).
 	// Set of user group IDs for the permission mapping (must be provided in numerical order).
 	// +listType=set
 	UserGroupsIds []*float64 `json:"userGroupsIds,omitempty" tf:"user_groups_ids,omitempty"`
 
+	// (Set of Number) Set of user IDs for the permission mapping (must be provided in numerical order).
 	// Set of user IDs for the permission mapping (must be provided in numerical order).
 	// +listType=set
 	UserIds []*float64 `json:"userIds,omitempty" tf:"user_ids,omitempty"`
@@ -51,19 +60,23 @@ type SourcePermissionMappingObservation struct {
 
 type SourcePermissionMappingParameters struct {
 
+	// (Number) Application role ID for the permission mapping.
 	// Application role ID for the permission mapping.
 	// +kubebuilder:validation:Optional
 	AppRoleID *float64 `json:"appRoleId,omitempty" tf:"app_role_id,omitempty"`
 
+	// (Number) ID of the Funding Source to manage permission mappings for.
 	// ID of the Funding Source to manage permission mappings for.
 	// +kubebuilder:validation:Optional
 	FundingSourceID *float64 `json:"fundingSourceId,omitempty" tf:"funding_source_id,omitempty"`
 
+	// (Set of Number) Set of user group IDs for the permission mapping (must be provided in numerical order).
 	// Set of user group IDs for the permission mapping (must be provided in numerical order).
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	UserGroupsIds []*float64 `json:"userGroupsIds,omitempty" tf:"user_groups_ids,omitempty"`
 
+	// (Set of Number) Set of user IDs for the permission mapping (must be provided in numerical order).
 	// Set of user IDs for the permission mapping (must be provided in numerical order).
 	// +kubebuilder:validation:Optional
 	// +listType=set
@@ -97,7 +110,7 @@ type SourcePermissionMappingStatus struct {
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 
-// SourcePermissionMapping is the Schema for the SourcePermissionMappings API. <no value>
+// SourcePermissionMapping is the Schema for the SourcePermissionMappings API.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

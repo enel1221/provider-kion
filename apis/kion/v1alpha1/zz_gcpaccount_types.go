@@ -23,8 +23,8 @@ type GCPAccountInitParameters struct {
 	// An ID representing the account type within Kion.
 	AccountTypeID *float64 `json:"accountTypeId,omitempty" tf:"account_type_id,omitempty"`
 
-	// (String) One of "create" or "import".  If "create", Kion will attempt to create a new Google Cloud Project.  If "import", Kion will import the existing Google Cloud Project as specified by google_cloud_project_id.
-	// One of "create" or "import".  If "create", Kion will attempt to create a new Google Cloud Project.  If "import", Kion will import the existing Google Cloud Project as specified by google_cloud_project_id.
+	// (String) One of "create" or "import".  If "create", Kion will attempt to create a new Google Cloud Project.  If "import", Kion will import the existing Google Cloud Project as specified by google_cloud_project_id. This field is only used during resource creation and is not stored by Kion.
+	// One of "create" or "import".  If "create", Kion will attempt to create a new Google Cloud Project.  If "import", Kion will import the existing Google Cloud Project as specified by google_cloud_project_id. This field is only used during resource creation and is not stored by Kion.
 	CreateMode *string `json:"createMode,omitempty" tf:"create_mode,omitempty"`
 
 	// (String) The GCP resource identifier of the parent of this GCP Project.
@@ -113,8 +113,8 @@ type GCPAccountObservation struct {
 	// An ID representing the account type within Kion.
 	AccountTypeID *float64 `json:"accountTypeId,omitempty" tf:"account_type_id,omitempty"`
 
-	// (String) One of "create" or "import".  If "create", Kion will attempt to create a new Google Cloud Project.  If "import", Kion will import the existing Google Cloud Project as specified by google_cloud_project_id.
-	// One of "create" or "import".  If "create", Kion will attempt to create a new Google Cloud Project.  If "import", Kion will import the existing Google Cloud Project as specified by google_cloud_project_id.
+	// (String) One of "create" or "import".  If "create", Kion will attempt to create a new Google Cloud Project.  If "import", Kion will import the existing Google Cloud Project as specified by google_cloud_project_id. This field is only used during resource creation and is not stored by Kion.
+	// One of "create" or "import".  If "create", Kion will attempt to create a new Google Cloud Project.  If "import", Kion will import the existing Google Cloud Project as specified by google_cloud_project_id. This field is only used during resource creation and is not stored by Kion.
 	CreateMode *string `json:"createMode,omitempty" tf:"create_mode,omitempty"`
 
 	// (String)
@@ -180,8 +180,8 @@ type GCPAccountParameters struct {
 	// +kubebuilder:validation:Optional
 	AccountTypeID *float64 `json:"accountTypeId,omitempty" tf:"account_type_id,omitempty"`
 
-	// (String) One of "create" or "import".  If "create", Kion will attempt to create a new Google Cloud Project.  If "import", Kion will import the existing Google Cloud Project as specified by google_cloud_project_id.
-	// One of "create" or "import".  If "create", Kion will attempt to create a new Google Cloud Project.  If "import", Kion will import the existing Google Cloud Project as specified by google_cloud_project_id.
+	// (String) One of "create" or "import".  If "create", Kion will attempt to create a new Google Cloud Project.  If "import", Kion will import the existing Google Cloud Project as specified by google_cloud_project_id. This field is only used during resource creation and is not stored by Kion.
+	// One of "create" or "import".  If "create", Kion will attempt to create a new Google Cloud Project.  If "import", Kion will import the existing Google Cloud Project as specified by google_cloud_project_id. This field is only used during resource creation and is not stored by Kion.
 	// +kubebuilder:validation:Optional
 	CreateMode *string `json:"createMode,omitempty" tf:"create_mode,omitempty"`
 
@@ -272,7 +272,6 @@ type GCPAccountStatus struct {
 type GCPAccount struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.createMode) || (has(self.initProvider) && has(self.initProvider.createMode))",message="spec.forProvider.createMode is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.name) || (has(self.initProvider) && has(self.initProvider.name))",message="spec.forProvider.name is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.payerId) || (has(self.initProvider) && has(self.initProvider.payerId))",message="spec.forProvider.payerId is a required parameter"
 	Spec   GCPAccountSpec   `json:"spec"`

@@ -3674,6 +3674,11 @@ func (in *CloudRuleInitParameters) DeepCopyInto(out *CloudRuleInitParameters) {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
+	if in.ConcurrentCftSync != nil {
+		in, out := &in.ConcurrentCftSync, &out.ConcurrentCftSync
+		*out = new(bool)
+		**out = **in
+	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
 		*out = new(string)
@@ -3864,6 +3869,11 @@ func (in *CloudRuleObservation) DeepCopyInto(out *CloudRuleObservation) {
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
+	}
+	if in.ConcurrentCftSync != nil {
+		in, out := &in.ConcurrentCftSync, &out.ConcurrentCftSync
+		*out = new(bool)
+		**out = **in
 	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
@@ -4143,6 +4153,11 @@ func (in *CloudRuleParameters) DeepCopyInto(out *CloudRuleParameters) {
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
+	}
+	if in.ConcurrentCftSync != nil {
+		in, out := &in.ConcurrentCftSync, &out.ConcurrentCftSync
+		*out = new(bool)
+		**out = **in
 	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description

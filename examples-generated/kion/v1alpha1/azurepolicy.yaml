@@ -1,0 +1,43 @@
+apiVersion: kion.upbound.io/v1alpha1
+kind: AzurePolicy
+metadata:
+  annotations:
+    meta.upbound.io/example-id: kion/v1alpha1/azurepolicy
+  labels:
+    testing.upbound.io/example-name: require_tags
+  name: require-tags
+spec:
+  forProvider:
+    description: Requires resources to have an environment tag
+    name: Require Environment Tag
+    ownerUsers:
+    - id: 1
+    parameters: |
+      {
+          "tagName": {
+              "type": "String",
+              "metadata": {
+                  "displayName": "Tag Name",
+                  "description": "Name of the tag to enforce"
+              },
+              "defaultValue": "environment"
+          }
+      }
+    policy: |
+      {
+          "if": {
+              "allOf": [
+                  {
+                      "field": "type",
+                      "equals": "Microsoft.Resources/subscriptions/resourceGroups"
+                  },
+                  {
+                      "field": "tags['environment']",
+                      "exists": "false"
+                  }
+              ]
+          },
+          "then": {
+              "effect": "deny"
+          }
+      }

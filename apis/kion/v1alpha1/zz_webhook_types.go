@@ -15,136 +15,173 @@ import (
 
 type WebhookInitParameters struct {
 
+	// (String) The URL to which the webhook will send requests.
 	// The URL to which the webhook will send requests.
 	CalloutURL *string `json:"calloutUrl,omitempty" tf:"callout_url,omitempty"`
 
+	// (String) Description of the webhook.
 	// Description of the webhook.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// (String) The name of the webhook.
 	// The name of the webhook.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
+	// (Set of Number) Set of user group IDs that own the webhook.
 	// Set of user group IDs that own the webhook.
 	// +listType=set
 	OwnerUserGroupIds []*float64 `json:"ownerUserGroupIds,omitempty" tf:"owner_user_group_ids,omitempty"`
 
+	// (Set of Number) Set of user IDs that own the webhook.
 	// Set of user IDs that own the webhook.
 	// +listType=set
 	OwnerUserIds []*float64 `json:"ownerUserIds,omitempty" tf:"owner_user_ids,omitempty"`
 
+	// (String) The request body to be sent with the webhook.
 	// The request body to be sent with the webhook.
 	RequestBody *string `json:"requestBody,omitempty" tf:"request_body,omitempty"`
 
+	// (String) HTTP headers to use when the webhook is triggered
 	// HTTP headers to use when the webhook is triggered
 	RequestHeaders *string `json:"requestHeaders,omitempty" tf:"request_headers,omitempty"`
 
+	// (String) HTTP method to be used for the webhook (GET, POST, etc.).
 	// HTTP method to be used for the webhook (GET, POST, etc.).
 	RequestMethod *string `json:"requestMethod,omitempty" tf:"request_method,omitempty"`
 
+	// (Boolean) Whether the webhook should send secure information.
 	// Whether the webhook should send secure information.
 	ShouldSendSecureInfo *bool `json:"shouldSendSecureInfo,omitempty" tf:"should_send_secure_info,omitempty"`
 
+	// (Boolean) Whether to skip SSL verification.
 	// Whether to skip SSL verification.
 	SkipSSL *bool `json:"skipSsl,omitempty" tf:"skip_ssl,omitempty"`
 
+	// (Number) The number of seconds the application will wait before considering the webhook 'timed out'
 	// The number of seconds the application will wait before considering the webhook 'timed out'
 	TimeoutInSeconds *float64 `json:"timeoutInSeconds,omitempty" tf:"timeout_in_seconds,omitempty"`
 
+	// (Boolean) Whether to use request headers in the webhook request.
 	// Whether to use request headers in the webhook request.
 	UseRequestHeaders *bool `json:"useRequestHeaders,omitempty" tf:"use_request_headers,omitempty"`
 }
 
 type WebhookObservation struct {
 
+	// (String) The URL to which the webhook will send requests.
 	// The URL to which the webhook will send requests.
 	CalloutURL *string `json:"calloutUrl,omitempty" tf:"callout_url,omitempty"`
 
+	// (String) Description of the webhook.
 	// Description of the webhook.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// (String) The ID of this resource.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// (String) The name of the webhook.
 	// The name of the webhook.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
+	// (Set of Number) Set of user group IDs that own the webhook.
 	// Set of user group IDs that own the webhook.
 	// +listType=set
 	OwnerUserGroupIds []*float64 `json:"ownerUserGroupIds,omitempty" tf:"owner_user_group_ids,omitempty"`
 
+	// (Set of Number) Set of user IDs that own the webhook.
 	// Set of user IDs that own the webhook.
 	// +listType=set
 	OwnerUserIds []*float64 `json:"ownerUserIds,omitempty" tf:"owner_user_ids,omitempty"`
 
+	// (String) The request body to be sent with the webhook.
 	// The request body to be sent with the webhook.
 	RequestBody *string `json:"requestBody,omitempty" tf:"request_body,omitempty"`
 
+	// (String) HTTP headers to use when the webhook is triggered
 	// HTTP headers to use when the webhook is triggered
 	RequestHeaders *string `json:"requestHeaders,omitempty" tf:"request_headers,omitempty"`
 
+	// (String) HTTP method to be used for the webhook (GET, POST, etc.).
 	// HTTP method to be used for the webhook (GET, POST, etc.).
 	RequestMethod *string `json:"requestMethod,omitempty" tf:"request_method,omitempty"`
 
+	// (Boolean) Whether the webhook should send secure information.
 	// Whether the webhook should send secure information.
 	ShouldSendSecureInfo *bool `json:"shouldSendSecureInfo,omitempty" tf:"should_send_secure_info,omitempty"`
 
+	// (Boolean) Whether to skip SSL verification.
 	// Whether to skip SSL verification.
 	SkipSSL *bool `json:"skipSsl,omitempty" tf:"skip_ssl,omitempty"`
 
+	// (Number) The number of seconds the application will wait before considering the webhook 'timed out'
 	// The number of seconds the application will wait before considering the webhook 'timed out'
 	TimeoutInSeconds *float64 `json:"timeoutInSeconds,omitempty" tf:"timeout_in_seconds,omitempty"`
 
+	// (Boolean) Whether to use request headers in the webhook request.
 	// Whether to use request headers in the webhook request.
 	UseRequestHeaders *bool `json:"useRequestHeaders,omitempty" tf:"use_request_headers,omitempty"`
 }
 
 type WebhookParameters struct {
 
+	// (String) The URL to which the webhook will send requests.
 	// The URL to which the webhook will send requests.
 	// +kubebuilder:validation:Optional
 	CalloutURL *string `json:"calloutUrl,omitempty" tf:"callout_url,omitempty"`
 
+	// (String) Description of the webhook.
 	// Description of the webhook.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// (String) The name of the webhook.
 	// The name of the webhook.
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
+	// (Set of Number) Set of user group IDs that own the webhook.
 	// Set of user group IDs that own the webhook.
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	OwnerUserGroupIds []*float64 `json:"ownerUserGroupIds,omitempty" tf:"owner_user_group_ids,omitempty"`
 
+	// (Set of Number) Set of user IDs that own the webhook.
 	// Set of user IDs that own the webhook.
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	OwnerUserIds []*float64 `json:"ownerUserIds,omitempty" tf:"owner_user_ids,omitempty"`
 
+	// (String) The request body to be sent with the webhook.
 	// The request body to be sent with the webhook.
 	// +kubebuilder:validation:Optional
 	RequestBody *string `json:"requestBody,omitempty" tf:"request_body,omitempty"`
 
+	// (String) HTTP headers to use when the webhook is triggered
 	// HTTP headers to use when the webhook is triggered
 	// +kubebuilder:validation:Optional
 	RequestHeaders *string `json:"requestHeaders,omitempty" tf:"request_headers,omitempty"`
 
+	// (String) HTTP method to be used for the webhook (GET, POST, etc.).
 	// HTTP method to be used for the webhook (GET, POST, etc.).
 	// +kubebuilder:validation:Optional
 	RequestMethod *string `json:"requestMethod,omitempty" tf:"request_method,omitempty"`
 
+	// (Boolean) Whether the webhook should send secure information.
 	// Whether the webhook should send secure information.
 	// +kubebuilder:validation:Optional
 	ShouldSendSecureInfo *bool `json:"shouldSendSecureInfo,omitempty" tf:"should_send_secure_info,omitempty"`
 
+	// (Boolean) Whether to skip SSL verification.
 	// Whether to skip SSL verification.
 	// +kubebuilder:validation:Optional
 	SkipSSL *bool `json:"skipSsl,omitempty" tf:"skip_ssl,omitempty"`
 
+	// (Number) The number of seconds the application will wait before considering the webhook 'timed out'
 	// The number of seconds the application will wait before considering the webhook 'timed out'
 	// +kubebuilder:validation:Optional
 	TimeoutInSeconds *float64 `json:"timeoutInSeconds,omitempty" tf:"timeout_in_seconds,omitempty"`
 
+	// (Boolean) Whether to use request headers in the webhook request.
 	// Whether to use request headers in the webhook request.
 	// +kubebuilder:validation:Optional
 	UseRequestHeaders *bool `json:"useRequestHeaders,omitempty" tf:"use_request_headers,omitempty"`
@@ -177,7 +214,7 @@ type WebhookStatus struct {
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 
-// Webhook is the Schema for the Webhooks API. <no value>
+// Webhook is the Schema for the Webhooks API.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

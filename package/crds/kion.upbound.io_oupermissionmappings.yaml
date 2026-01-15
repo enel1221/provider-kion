@@ -35,7 +35,7 @@ spec:
     schema:
       openAPIV3Schema:
         description: OUPermissionMapping is the Schema for the OUPermissionMappings
-          API. <no value>
+          API.
         properties:
           apiVersion:
             description: |-
@@ -74,21 +74,27 @@ spec:
               forProvider:
                 properties:
                   appRoleId:
-                    description: Application role ID for the permission mapping.
+                    description: |-
+                      (Number) Application role ID for the permission mapping.
+                      Application role ID for the permission mapping.
                     type: number
                   ouId:
-                    description: ID of the OU to manage permission mappings for.
+                    description: |-
+                      (Number) ID of the OU to manage permission mappings for.
+                      ID of the OU to manage permission mappings for.
                     type: number
                   userGroupsIds:
-                    description: Set of user group IDs for the permission mapping
-                      (must be provided in numerical order).
+                    description: |-
+                      (Set of Number) Set of user group IDs for the permission mapping (must be provided in numerical order).
+                      Set of user group IDs for the permission mapping (must be provided in numerical order).
                     items:
                       type: number
                     type: array
                     x-kubernetes-list-type: set
                   userIds:
-                    description: Set of user IDs for the permission mapping (must
-                      be provided in numerical order).
+                    description: |-
+                      (Set of Number) Set of user IDs for the permission mapping (must be provided in numerical order).
+                      Set of user IDs for the permission mapping (must be provided in numerical order).
                     items:
                       type: number
                     type: array
@@ -108,21 +114,27 @@ spec:
                   autoscaler.
                 properties:
                   appRoleId:
-                    description: Application role ID for the permission mapping.
+                    description: |-
+                      (Number) Application role ID for the permission mapping.
+                      Application role ID for the permission mapping.
                     type: number
                   ouId:
-                    description: ID of the OU to manage permission mappings for.
+                    description: |-
+                      (Number) ID of the OU to manage permission mappings for.
+                      ID of the OU to manage permission mappings for.
                     type: number
                   userGroupsIds:
-                    description: Set of user group IDs for the permission mapping
-                      (must be provided in numerical order).
+                    description: |-
+                      (Set of Number) Set of user group IDs for the permission mapping (must be provided in numerical order).
+                      Set of user group IDs for the permission mapping (must be provided in numerical order).
                     items:
                       type: number
                     type: array
                     x-kubernetes-list-type: set
                   userIds:
-                    description: Set of user IDs for the permission mapping (must
-                      be provided in numerical order).
+                    description: |-
+                      (Set of Number) Set of user IDs for the permission mapping (must be provided in numerical order).
+                      Set of user IDs for the permission mapping (must be provided in numerical order).
                     items:
                       type: number
                     type: array
@@ -318,23 +330,30 @@ spec:
               atProvider:
                 properties:
                   appRoleId:
-                    description: Application role ID for the permission mapping.
+                    description: |-
+                      (Number) Application role ID for the permission mapping.
+                      Application role ID for the permission mapping.
                     type: number
                   id:
+                    description: (String) The ID of this resource.
                     type: string
                   ouId:
-                    description: ID of the OU to manage permission mappings for.
+                    description: |-
+                      (Number) ID of the OU to manage permission mappings for.
+                      ID of the OU to manage permission mappings for.
                     type: number
                   userGroupsIds:
-                    description: Set of user group IDs for the permission mapping
-                      (must be provided in numerical order).
+                    description: |-
+                      (Set of Number) Set of user group IDs for the permission mapping (must be provided in numerical order).
+                      Set of user group IDs for the permission mapping (must be provided in numerical order).
                     items:
                       type: number
                     type: array
                     x-kubernetes-list-type: set
                   userIds:
-                    description: Set of user IDs for the permission mapping (must
-                      be provided in numerical order).
+                    description: |-
+                      (Set of Number) Set of user IDs for the permission mapping (must be provided in numerical order).
+                      Set of user IDs for the permission mapping (must be provided in numerical order).
                     items:
                       type: number
                     type: array

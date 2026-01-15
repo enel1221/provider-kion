@@ -4,17 +4,13 @@ metadata:
   annotations:
     meta.upbound.io/example-id: kion/v1alpha1/projectcloudaccessrole
   labels:
-    testing.upbound.io/example-name: carp1
-  name: carp1
+    testing.upbound.io/example-name: example
+  name: example
 spec:
   forProvider:
-    awsIamPermissionsBoundary: 1
-    awsIamPolicies:
-    - id: 1
-    awsIamRoleName: sample-car
-    futureAccounts: true
-    longTermAccessKeys: true
-    name: sample-car
+    applyToAllAccounts: true
+    longTermAccessKeys: false
+    name: example-project-car
     projectId: 1
     shortTermAccessKeys: true
     userGroups:

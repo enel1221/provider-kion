@@ -35,7 +35,7 @@ spec:
     schema:
       openAPIV3Schema:
         description: ProjectPermissionMapping is the Schema for the ProjectPermissionMappings
-          API. <no value>
+          API.
         properties:
           apiVersion:
             description: |-
@@ -75,21 +75,27 @@ spec:
               forProvider:
                 properties:
                   appRoleId:
-                    description: Application role ID for the permission mapping.
+                    description: |-
+                      (Number) Application role ID for the permission mapping.
+                      Application role ID for the permission mapping.
                     type: number
                   projectId:
-                    description: ID of the project to manage permission mappings for.
+                    description: |-
+                      (Number) ID of the project to manage permission mappings for.
+                      ID of the project to manage permission mappings for.
                     type: number
                   userGroupsIds:
-                    description: Set of user group IDs for the permission mapping
-                      (must be provided in numerical order).
+                    description: |-
+                      (Set of Number) Set of user group IDs for the permission mapping (must be provided in numerical order).
+                      Set of user group IDs for the permission mapping (must be provided in numerical order).
                     items:
                       type: number
                     type: array
                     x-kubernetes-list-type: set
                   userIds:
-                    description: Set of user IDs for the permission mapping (must
-                      be provided in numerical order).
+                    description: |-
+                      (Set of Number) Set of user IDs for the permission mapping (must be provided in numerical order).
+                      Set of user IDs for the permission mapping (must be provided in numerical order).
                     items:
                       type: number
                     type: array
@@ -109,21 +115,27 @@ spec:
                   autoscaler.
                 properties:
                   appRoleId:
-                    description: Application role ID for the permission mapping.
+                    description: |-
+                      (Number) Application role ID for the permission mapping.
+                      Application role ID for the permission mapping.
                     type: number
                   projectId:
-                    description: ID of the project to manage permission mappings for.
+                    description: |-
+                      (Number) ID of the project to manage permission mappings for.
+                      ID of the project to manage permission mappings for.
                     type: number
                   userGroupsIds:
-                    description: Set of user group IDs for the permission mapping
-                      (must be provided in numerical order).
+                    description: |-
+                      (Set of Number) Set of user group IDs for the permission mapping (must be provided in numerical order).
+                      Set of user group IDs for the permission mapping (must be provided in numerical order).
                     items:
                       type: number
                     type: array
                     x-kubernetes-list-type: set
                   userIds:
-                    description: Set of user IDs for the permission mapping (must
-                      be provided in numerical order).
+                    description: |-
+                      (Set of Number) Set of user IDs for the permission mapping (must be provided in numerical order).
+                      Set of user IDs for the permission mapping (must be provided in numerical order).
                     items:
                       type: number
                     type: array
@@ -320,23 +332,30 @@ spec:
               atProvider:
                 properties:
                   appRoleId:
-                    description: Application role ID for the permission mapping.
+                    description: |-
+                      (Number) Application role ID for the permission mapping.
+                      Application role ID for the permission mapping.
                     type: number
                   id:
+                    description: (String) The ID of this resource.
                     type: string
                   projectId:
-                    description: ID of the project to manage permission mappings for.
+                    description: |-
+                      (Number) ID of the project to manage permission mappings for.
+                      ID of the project to manage permission mappings for.
                     type: number
                   userGroupsIds:
-                    description: Set of user group IDs for the permission mapping
-                      (must be provided in numerical order).
+                    description: |-
+                      (Set of Number) Set of user group IDs for the permission mapping (must be provided in numerical order).
+                      Set of user group IDs for the permission mapping (must be provided in numerical order).
                     items:
                       type: number
                     type: array
                     x-kubernetes-list-type: set
                   userIds:
-                    description: Set of user IDs for the permission mapping (must
-                      be provided in numerical order).
+                    description: |-
+                      (Set of Number) Set of user IDs for the permission mapping (must be provided in numerical order).
+                      Set of user IDs for the permission mapping (must be provided in numerical order).
                     items:
                       type: number
                     type: array

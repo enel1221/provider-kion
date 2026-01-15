@@ -42,8 +42,7 @@ spec:
           the account will be added to the account cache. Once added, an account can
           be moved between projects or in and out of the account cache by changing
           the project_id.  When moving accounts between projects, use move_project_settings
-          to control how financials will be treated between the old and new project.test-cached-account
-          account_cache_id=321
+          to control how financials will be treated between the old and new project
         properties:
           apiVersion:
             description: |-
@@ -185,8 +184,8 @@ spec:
                     type: number
                   projectId:
                     description: |-
-                      (Number) The ID of the Kion project to place this account within.  If empty, the account will be placed within the account cache.
-                      The ID of the Kion project to place this account within.  If empty, the account will be placed within the account cache.
+                      (Number) The ID of the Kion project to place this account within. If empty, the account will be placed within the account cache.
+                      The ID of the Kion project to place this account within. If empty, the account will be placed within the account cache.
                     type: number
                   skipAccessChecking:
                     description: |-
@@ -195,8 +194,8 @@ spec:
                     type: boolean
                   startDatecode:
                     description: |-
-                      MM).  Required if placing an account within a project.
-                      Date when the AWS account will starting submitting payments against a funding source (YYYY-MM).  Required if placing an account within a project.
+                      MM). Required if placing an account within a project.
+                      Date when the AWS account will starting submitting payments against a funding source (YYYY-MM). Required if placing an account within a project.
                     type: string
                   useOrgAccountInfo:
                     description: |-
@@ -321,8 +320,8 @@ spec:
                     type: number
                   projectId:
                     description: |-
-                      (Number) The ID of the Kion project to place this account within.  If empty, the account will be placed within the account cache.
-                      The ID of the Kion project to place this account within.  If empty, the account will be placed within the account cache.
+                      (Number) The ID of the Kion project to place this account within. If empty, the account will be placed within the account cache.
+                      The ID of the Kion project to place this account within. If empty, the account will be placed within the account cache.
                     type: number
                   skipAccessChecking:
                     description: |-
@@ -331,8 +330,8 @@ spec:
                     type: boolean
                   startDatecode:
                     description: |-
-                      MM).  Required if placing an account within a project.
-                      Date when the AWS account will starting submitting payments against a funding source (YYYY-MM).  Required if placing an account within a project.
+                      MM). Required if placing an account within a project.
+                      Date when the AWS account will starting submitting payments against a funding source (YYYY-MM). Required if placing an account within a project.
                     type: string
                   useOrgAccountInfo:
                     description: |-
@@ -613,8 +612,8 @@ spec:
                     type: string
                   location:
                     description: |-
-                      (String) Where the account is attached.  Either "project" or "cache".
-                      Where the account is attached.  Either "project" or "cache".
+                      (String) Where the account is attached. Either "project" or "cache".
+                      Where the account is attached. Either "project" or "cache".
                     type: string
                   moveProjectSettings:
                     description: |-
@@ -646,8 +645,8 @@ spec:
                     type: number
                   projectId:
                     description: |-
-                      (Number) The ID of the Kion project to place this account within.  If empty, the account will be placed within the account cache.
-                      The ID of the Kion project to place this account within.  If empty, the account will be placed within the account cache.
+                      (Number) The ID of the Kion project to place this account within. If empty, the account will be placed within the account cache.
+                      The ID of the Kion project to place this account within. If empty, the account will be placed within the account cache.
                     type: number
                   serviceExternalId:
                     description: |-
@@ -661,8 +660,8 @@ spec:
                     type: boolean
                   startDatecode:
                     description: |-
-                      MM).  Required if placing an account within a project.
-                      Date when the AWS account will starting submitting payments against a funding source (YYYY-MM).  Required if placing an account within a project.
+                      MM). Required if placing an account within a project.
+                      Date when the AWS account will starting submitting payments against a funding source (YYYY-MM). Required if placing an account within a project.
                     type: string
                   useOrgAccountInfo:
                     description: |-
