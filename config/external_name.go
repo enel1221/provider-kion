@@ -1,6 +1,6 @@
 package config
 
-import "github.com/crossplane/upjet/pkg/config"
+import "github.com/crossplane/upjet/v2/pkg/config"
 
 // ExternalNameConfigs maps Kion resource identifiers to their corresponding external name configuration
 // functions. Each key in the map represents a specific Kion resource, and the associated value specifies

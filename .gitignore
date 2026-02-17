@@ -10,3 +10,6 @@ cover.out
 .vscode/
 .idea/
 .dev/
+.kion-tf/
+.kubernetes-provider/
+.upjet/

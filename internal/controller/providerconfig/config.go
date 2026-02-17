@@ -5,14 +5,28 @@ Copyright 2021 Upbound Inc.
 package providerconfig
 
 import (
-	"github.com/crossplane/crossplane-runtime/pkg/event"
-	"github.com/crossplane/crossplane-runtime/pkg/reconciler/providerconfig"
-	"github.com/crossplane/crossplane-runtime/pkg/resource"
-	"github.com/crossplane/upjet/pkg/controller"
+	"github.com/crossplane/crossplane-runtime/v2/pkg/event"
+	"github.com/crossplane/crossplane-runtime/v2/pkg/reconciler/providerconfig"
+	"github.com/crossplane/crossplane-runtime/v2/pkg/resource"
+	"github.com/crossplane/upjet/v2/pkg/controller"
 	ctrl "sigs.k8s.io/controller-runtime"
 
 	"github.com/enel1221/provider-kion/apis/v1beta1"
 )
+
+// SetupGated registers the ProviderConfig controller with the CRD
+// safe-start gate. Kion uses SetupGated so that the provider-config
+// reconciler is only started once the ProviderConfig CRD has been
+// established.
+func SetupGated(mgr ctrl.Manager, o controller.Options) error {
+	o.Options.Gate.Register(func() {
+		if err := Setup(mgr, o); err != nil {
+			mgr.GetLogger().Error(err, "unable to set up reconciler",
+				"gvk", v1beta1.ProviderConfigGroupVersionKind.String())
+		}
+	}, v1beta1.ProviderConfigGroupVersionKind)
+	return nil
+}
 
 // Setup adds a controller that reconciles ProviderConfigs by accounting for
 // their current usage.
