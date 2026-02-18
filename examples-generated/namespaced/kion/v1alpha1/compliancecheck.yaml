@@ -1,0 +1,51 @@
+apiVersion: kion.m.upbound.io/v1alpha1
+kind: ComplianceCheck
+metadata:
+  annotations:
+    meta.upbound.io/example-id: kion/v1alpha1/compliancecheck
+  labels:
+    testing.upbound.io/example-name: aws_iam_certificate
+  name: aws-iam-certificate
+  namespace: upbound-system
+spec:
+  forProvider:
+    body: |
+      ---
+      policies:
+        - name: iam-certificate-expired
+          resource: aws.iam-certificate
+          description: |
+            Identify expired IAM SSL/TLS certificates
+          filters:
+            - type: value
+              key: Expiration
+              value_type: expiration
+              op: lt
+              value: 0
+          actions:
+            - type: webhook
+              url: '{{CT::CallbackURL}}'
+              method: POST
+              batch: true
+              headers:
+                Authorization: '`{{CT::Authorization}}`'
+              body: |-
+                {
+                  "compliance_check_id": `{{CT::CheckId}}`,
+                  "account_number": account_id,
+                  "region": region,
+                  "scan_started_at": execution_start,
+                  "findings": resources[].{resource_name: ServerCertificateId, resource_type: `iam-certificate`, data_json: {key_create_date: "c7n:matched-keys"[].CreateDate}}
+                }
+    cloudProviderId: 1
+    complianceCheckTypeId: 1
+    createdByUserId: 1
+    description: Identify expired IAM SSL/TLS certificates
+    frequencyMinutes: 60
+    frequencyTypeId: 3
+    isAllRegions: true
+    isAutoArchived: false
+    name: IAM Certificate Expiration Check
+    ownerUsers:
+    - id: 1
+    severityTypeId: 3

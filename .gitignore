@@ -11,5 +11,5 @@ cover.out
 .idea/
 .dev/
 .kion-tf/
-.kubernetes-provider/
 .upjet/
+.provider-upjet-azuread/

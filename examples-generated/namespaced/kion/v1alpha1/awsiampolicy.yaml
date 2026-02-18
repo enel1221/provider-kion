@@ -1,0 +1,32 @@
+apiVersion: kion.m.upbound.io/v1alpha1
+kind: AWSIAMPolicy
+metadata:
+  annotations:
+    meta.upbound.io/example-id: kion/v1alpha1/awsiampolicy
+  labels:
+    testing.upbound.io/example-name: basic
+  name: basic
+  namespace: upbound-system
+spec:
+  forProvider:
+    description: Basic IAM policy example
+    name: basic-iam-policy
+    ownerUsers:
+    - id: 1
+    policy: |-
+      ${jsonencode({
+          Version = "2012-10-17"
+          Statement = [
+            {
+              Effect = "Allow"
+              Action = [
+                "s3:ListBucket",
+                "s3:GetObject"
+              ]
+              Resource = [
+                "arn:aws:s3:::example-bucket",
+                "arn:aws:s3:::example-bucket/*"
+              ]
+            }
+          ]
+        })}
