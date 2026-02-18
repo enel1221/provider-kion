@@ -4,7 +4,7 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.18.0
-  name: sourcepermissionmappings.kion.m.upbound.io
+  name: fundingsourcepermissionmappings.kion.m.upbound.io
 spec:
   group: kion.m.upbound.io
   names:
@@ -12,10 +12,10 @@ spec:
     - crossplane
     - managed
     - kion
-    kind: SourcePermissionMapping
-    listKind: SourcePermissionMappingList
-    plural: sourcepermissionmappings
-    singular: sourcepermissionmapping
+    kind: FundingSourcePermissionMapping
+    listKind: FundingSourcePermissionMappingList
+    plural: fundingsourcepermissionmappings
+    singular: fundingsourcepermissionmapping
   scope: Namespaced
   versions:
   - additionalPrinterColumns:
@@ -34,7 +34,7 @@ spec:
     name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: SourcePermissionMapping is the Schema for the SourcePermissionMappings
+        description: FundingSourcePermissionMapping is the Schema for the FundingSourcePermissionMappings
           API.
         properties:
           apiVersion:
@@ -55,8 +55,8 @@ spec:
           metadata:
             type: object
           spec:
-            description: SourcePermissionMappingSpec defines the desired state of
-              SourcePermissionMapping
+            description: FundingSourcePermissionMappingSpec defines the desired state
+              of FundingSourcePermissionMapping
             properties:
               forProvider:
                 properties:
@@ -689,8 +689,8 @@ spec:
                 || ''Update'' in self.managementPolicies) || has(self.forProvider.appRoleId)
                 || (has(self.initProvider) && has(self.initProvider.appRoleId))'
           status:
-            description: SourcePermissionMappingStatus defines the observed state
-              of SourcePermissionMapping.
+            description: FundingSourcePermissionMappingStatus defines the observed
+              state of FundingSourcePermissionMapping.
             properties:
               atProvider:
                 properties:

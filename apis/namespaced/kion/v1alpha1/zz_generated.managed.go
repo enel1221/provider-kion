@@ -448,6 +448,46 @@ func (mg *FundingSource) SetWriteConnectionSecretToReference(r *xpv1.LocalSecret
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
+// GetCondition of this FundingSourcePermissionMapping.
+func (mg *FundingSourcePermissionMapping) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+	return mg.Status.GetCondition(ct)
+}
+
+// GetManagementPolicies of this FundingSourcePermissionMapping.
+func (mg *FundingSourcePermissionMapping) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
+}
+
+// GetProviderConfigReference of this FundingSourcePermissionMapping.
+func (mg *FundingSourcePermissionMapping) GetProviderConfigReference() *xpv1.ProviderConfigReference {
+	return mg.Spec.ProviderConfigReference
+}
+
+// GetWriteConnectionSecretToReference of this FundingSourcePermissionMapping.
+func (mg *FundingSourcePermissionMapping) GetWriteConnectionSecretToReference() *xpv1.LocalSecretReference {
+	return mg.Spec.WriteConnectionSecretToReference
+}
+
+// SetConditions of this FundingSourcePermissionMapping.
+func (mg *FundingSourcePermissionMapping) SetConditions(c ...xpv1.Condition) {
+	mg.Status.SetConditions(c...)
+}
+
+// SetManagementPolicies of this FundingSourcePermissionMapping.
+func (mg *FundingSourcePermissionMapping) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
+}
+
+// SetProviderConfigReference of this FundingSourcePermissionMapping.
+func (mg *FundingSourcePermissionMapping) SetProviderConfigReference(r *xpv1.ProviderConfigReference) {
+	mg.Spec.ProviderConfigReference = r
+}
+
+// SetWriteConnectionSecretToReference of this FundingSourcePermissionMapping.
+func (mg *FundingSourcePermissionMapping) SetWriteConnectionSecretToReference(r *xpv1.LocalSecretReference) {
+	mg.Spec.WriteConnectionSecretToReference = r
+}
+
 // GetCondition of this GCPAccount.
 func (mg *GCPAccount) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
 	return mg.Status.GetCondition(ct)
@@ -1005,46 +1045,6 @@ func (mg *ServiceControlPolicy) SetProviderConfigReference(r *xpv1.ProviderConfi
 
 // SetWriteConnectionSecretToReference of this ServiceControlPolicy.
 func (mg *ServiceControlPolicy) SetWriteConnectionSecretToReference(r *xpv1.LocalSecretReference) {
-	mg.Spec.WriteConnectionSecretToReference = r
-}
-
-// GetCondition of this SourcePermissionMapping.
-func (mg *SourcePermissionMapping) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
-	return mg.Status.GetCondition(ct)
-}
-
-// GetManagementPolicies of this SourcePermissionMapping.
-func (mg *SourcePermissionMapping) GetManagementPolicies() xpv1.ManagementPolicies {
-	return mg.Spec.ManagementPolicies
-}
-
-// GetProviderConfigReference of this SourcePermissionMapping.
-func (mg *SourcePermissionMapping) GetProviderConfigReference() *xpv1.ProviderConfigReference {
-	return mg.Spec.ProviderConfigReference
-}
-
-// GetWriteConnectionSecretToReference of this SourcePermissionMapping.
-func (mg *SourcePermissionMapping) GetWriteConnectionSecretToReference() *xpv1.LocalSecretReference {
-	return mg.Spec.WriteConnectionSecretToReference
-}
-
-// SetConditions of this SourcePermissionMapping.
-func (mg *SourcePermissionMapping) SetConditions(c ...xpv1.Condition) {
-	mg.Status.SetConditions(c...)
-}
-
-// SetManagementPolicies of this SourcePermissionMapping.
-func (mg *SourcePermissionMapping) SetManagementPolicies(r xpv1.ManagementPolicies) {
-	mg.Spec.ManagementPolicies = r
-}
-
-// SetProviderConfigReference of this SourcePermissionMapping.
-func (mg *SourcePermissionMapping) SetProviderConfigReference(r *xpv1.ProviderConfigReference) {
-	mg.Spec.ProviderConfigReference = r
-}
-
-// SetWriteConnectionSecretToReference of this SourcePermissionMapping.
-func (mg *SourcePermissionMapping) SetWriteConnectionSecretToReference(r *xpv1.LocalSecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 

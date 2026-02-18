@@ -636,6 +636,119 @@ func (mg *CloudRule) ResolveReferences(ctx context.Context, c client.Reader) err
 	return nil
 }
 
+// ResolveReferences of this FundingSourcePermissionMapping.
+func (mg *FundingSourcePermissionMapping) ResolveReferences(ctx context.Context, c client.Reader) error {
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var mrsp reference.MultiResolutionResponse
+	var err error
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromFloatPtrValue(mg.Spec.ForProvider.FundingSourceID),
+		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
+		Reference:    mg.Spec.ForProvider.FundingSourceIDRef,
+		Selector:     mg.Spec.ForProvider.FundingSourceIDSelector,
+		To: reference.To{
+			List:    &FundingSourceList{},
+			Managed: &FundingSource{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.FundingSourceID")
+	}
+	mg.Spec.ForProvider.FundingSourceID = reference.ToFloatPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.FundingSourceIDRef = rsp.ResolvedReference
+
+	mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
+		CurrentValues: reference.FromFloatPtrValues(mg.Spec.ForProvider.UserGroupsIds),
+		Extract:       reference.ExternalName(),
+		Namespace:     mg.GetNamespace(),
+		References:    mg.Spec.ForProvider.UserGroupsIdsRefs,
+		Selector:      mg.Spec.ForProvider.UserGroupsIdsSelector,
+		To: reference.To{
+			List:    &GroupList{},
+			Managed: &Group{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.UserGroupsIds")
+	}
+	mg.Spec.ForProvider.UserGroupsIds = reference.ToFloatPtrValues(mrsp.ResolvedValues)
+	mg.Spec.ForProvider.UserGroupsIdsRefs = mrsp.ResolvedReferences
+
+	mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
+		CurrentValues: reference.FromFloatPtrValues(mg.Spec.ForProvider.UserIds),
+		Extract:       reference.ExternalName(),
+		Namespace:     mg.GetNamespace(),
+		References:    mg.Spec.ForProvider.UserIdsRefs,
+		Selector:      mg.Spec.ForProvider.UserIdsSelector,
+		To: reference.To{
+			List:    &UserList{},
+			Managed: &User{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.UserIds")
+	}
+	mg.Spec.ForProvider.UserIds = reference.ToFloatPtrValues(mrsp.ResolvedValues)
+	mg.Spec.ForProvider.UserIdsRefs = mrsp.ResolvedReferences
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromFloatPtrValue(mg.Spec.InitProvider.FundingSourceID),
+		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
+		Reference:    mg.Spec.InitProvider.FundingSourceIDRef,
+		Selector:     mg.Spec.InitProvider.FundingSourceIDSelector,
+		To: reference.To{
+			List:    &FundingSourceList{},
+			Managed: &FundingSource{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.FundingSourceID")
+	}
+	mg.Spec.InitProvider.FundingSourceID = reference.ToFloatPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.FundingSourceIDRef = rsp.ResolvedReference
+
+	mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
+		CurrentValues: reference.FromFloatPtrValues(mg.Spec.InitProvider.UserGroupsIds),
+		Extract:       reference.ExternalName(),
+		Namespace:     mg.GetNamespace(),
+		References:    mg.Spec.InitProvider.UserGroupsIdsRefs,
+		Selector:      mg.Spec.InitProvider.UserGroupsIdsSelector,
+		To: reference.To{
+			List:    &GroupList{},
+			Managed: &Group{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.UserGroupsIds")
+	}
+	mg.Spec.InitProvider.UserGroupsIds = reference.ToFloatPtrValues(mrsp.ResolvedValues)
+	mg.Spec.InitProvider.UserGroupsIdsRefs = mrsp.ResolvedReferences
+
+	mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
+		CurrentValues: reference.FromFloatPtrValues(mg.Spec.InitProvider.UserIds),
+		Extract:       reference.ExternalName(),
+		Namespace:     mg.GetNamespace(),
+		References:    mg.Spec.InitProvider.UserIdsRefs,
+		Selector:      mg.Spec.InitProvider.UserIdsSelector,
+		To: reference.To{
+			List:    &UserList{},
+			Managed: &User{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.UserIds")
+	}
+	mg.Spec.InitProvider.UserIds = reference.ToFloatPtrValues(mrsp.ResolvedValues)
+	mg.Spec.InitProvider.UserIdsRefs = mrsp.ResolvedReferences
+
+	return nil
+}
+
 // ResolveReferences of this GCPAccount.
 func (mg *GCPAccount) ResolveReferences(ctx context.Context, c client.Reader) error {
 	r := reference.NewAPIResolver(c, mg)
@@ -1474,119 +1587,6 @@ func (mg *ProjectPermissionMapping) ResolveReferences(ctx context.Context, c cli
 	}
 	mg.Spec.InitProvider.ProjectID = reference.ToFloatPtrValue(rsp.ResolvedValue)
 	mg.Spec.InitProvider.ProjectIDRef = rsp.ResolvedReference
-
-	mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
-		CurrentValues: reference.FromFloatPtrValues(mg.Spec.InitProvider.UserGroupsIds),
-		Extract:       reference.ExternalName(),
-		Namespace:     mg.GetNamespace(),
-		References:    mg.Spec.InitProvider.UserGroupsIdsRefs,
-		Selector:      mg.Spec.InitProvider.UserGroupsIdsSelector,
-		To: reference.To{
-			List:    &GroupList{},
-			Managed: &Group{},
-		},
-	})
-	if err != nil {
-		return errors.Wrap(err, "mg.Spec.InitProvider.UserGroupsIds")
-	}
-	mg.Spec.InitProvider.UserGroupsIds = reference.ToFloatPtrValues(mrsp.ResolvedValues)
-	mg.Spec.InitProvider.UserGroupsIdsRefs = mrsp.ResolvedReferences
-
-	mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
-		CurrentValues: reference.FromFloatPtrValues(mg.Spec.InitProvider.UserIds),
-		Extract:       reference.ExternalName(),
-		Namespace:     mg.GetNamespace(),
-		References:    mg.Spec.InitProvider.UserIdsRefs,
-		Selector:      mg.Spec.InitProvider.UserIdsSelector,
-		To: reference.To{
-			List:    &UserList{},
-			Managed: &User{},
-		},
-	})
-	if err != nil {
-		return errors.Wrap(err, "mg.Spec.InitProvider.UserIds")
-	}
-	mg.Spec.InitProvider.UserIds = reference.ToFloatPtrValues(mrsp.ResolvedValues)
-	mg.Spec.InitProvider.UserIdsRefs = mrsp.ResolvedReferences
-
-	return nil
-}
-
-// ResolveReferences of this SourcePermissionMapping.
-func (mg *SourcePermissionMapping) ResolveReferences(ctx context.Context, c client.Reader) error {
-	r := reference.NewAPIResolver(c, mg)
-
-	var rsp reference.ResolutionResponse
-	var mrsp reference.MultiResolutionResponse
-	var err error
-
-	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-		CurrentValue: reference.FromFloatPtrValue(mg.Spec.ForProvider.FundingSourceID),
-		Extract:      reference.ExternalName(),
-		Namespace:    mg.GetNamespace(),
-		Reference:    mg.Spec.ForProvider.FundingSourceIDRef,
-		Selector:     mg.Spec.ForProvider.FundingSourceIDSelector,
-		To: reference.To{
-			List:    &FundingSourceList{},
-			Managed: &FundingSource{},
-		},
-	})
-	if err != nil {
-		return errors.Wrap(err, "mg.Spec.ForProvider.FundingSourceID")
-	}
-	mg.Spec.ForProvider.FundingSourceID = reference.ToFloatPtrValue(rsp.ResolvedValue)
-	mg.Spec.ForProvider.FundingSourceIDRef = rsp.ResolvedReference
-
-	mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
-		CurrentValues: reference.FromFloatPtrValues(mg.Spec.ForProvider.UserGroupsIds),
-		Extract:       reference.ExternalName(),
-		Namespace:     mg.GetNamespace(),
-		References:    mg.Spec.ForProvider.UserGroupsIdsRefs,
-		Selector:      mg.Spec.ForProvider.UserGroupsIdsSelector,
-		To: reference.To{
-			List:    &GroupList{},
-			Managed: &Group{},
-		},
-	})
-	if err != nil {
-		return errors.Wrap(err, "mg.Spec.ForProvider.UserGroupsIds")
-	}
-	mg.Spec.ForProvider.UserGroupsIds = reference.ToFloatPtrValues(mrsp.ResolvedValues)
-	mg.Spec.ForProvider.UserGroupsIdsRefs = mrsp.ResolvedReferences
-
-	mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
-		CurrentValues: reference.FromFloatPtrValues(mg.Spec.ForProvider.UserIds),
-		Extract:       reference.ExternalName(),
-		Namespace:     mg.GetNamespace(),
-		References:    mg.Spec.ForProvider.UserIdsRefs,
-		Selector:      mg.Spec.ForProvider.UserIdsSelector,
-		To: reference.To{
-			List:    &UserList{},
-			Managed: &User{},
-		},
-	})
-	if err != nil {
-		return errors.Wrap(err, "mg.Spec.ForProvider.UserIds")
-	}
-	mg.Spec.ForProvider.UserIds = reference.ToFloatPtrValues(mrsp.ResolvedValues)
-	mg.Spec.ForProvider.UserIdsRefs = mrsp.ResolvedReferences
-
-	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-		CurrentValue: reference.FromFloatPtrValue(mg.Spec.InitProvider.FundingSourceID),
-		Extract:      reference.ExternalName(),
-		Namespace:    mg.GetNamespace(),
-		Reference:    mg.Spec.InitProvider.FundingSourceIDRef,
-		Selector:     mg.Spec.InitProvider.FundingSourceIDSelector,
-		To: reference.To{
-			List:    &FundingSourceList{},
-			Managed: &FundingSource{},
-		},
-	})
-	if err != nil {
-		return errors.Wrap(err, "mg.Spec.InitProvider.FundingSourceID")
-	}
-	mg.Spec.InitProvider.FundingSourceID = reference.ToFloatPtrValue(rsp.ResolvedValue)
-	mg.Spec.InitProvider.FundingSourceIDRef = rsp.ResolvedReference
 
 	mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
 		CurrentValues: reference.FromFloatPtrValues(mg.Spec.InitProvider.UserGroupsIds),

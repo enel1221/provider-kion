@@ -20,6 +20,7 @@ import (
 	compliancecheck "github.com/enel1221/provider-kion/internal/controller/namespaced/kion/compliancecheck"
 	compliancestandard "github.com/enel1221/provider-kion/internal/controller/namespaced/kion/compliancestandard"
 	fundingsource "github.com/enel1221/provider-kion/internal/controller/namespaced/kion/fundingsource"
+	fundingsourcepermissionmapping "github.com/enel1221/provider-kion/internal/controller/namespaced/kion/fundingsourcepermissionmapping"
 	gcpaccount "github.com/enel1221/provider-kion/internal/controller/namespaced/kion/gcpaccount"
 	gcpiamrole "github.com/enel1221/provider-kion/internal/controller/namespaced/kion/gcpiamrole"
 	globalpermissionmapping "github.com/enel1221/provider-kion/internal/controller/namespaced/kion/globalpermissionmapping"
@@ -34,7 +35,6 @@ import (
 	projectenforcement "github.com/enel1221/provider-kion/internal/controller/namespaced/kion/projectenforcement"
 	projectpermissionmapping "github.com/enel1221/provider-kion/internal/controller/namespaced/kion/projectpermissionmapping"
 	servicecontrolpolicy "github.com/enel1221/provider-kion/internal/controller/namespaced/kion/servicecontrolpolicy"
-	sourcepermissionmapping "github.com/enel1221/provider-kion/internal/controller/namespaced/kion/sourcepermissionmapping"
 	user "github.com/enel1221/provider-kion/internal/controller/namespaced/kion/user"
 	webhook "github.com/enel1221/provider-kion/internal/controller/namespaced/kion/webhook"
 	providerconfig "github.com/enel1221/provider-kion/internal/controller/namespaced/providerconfig"
@@ -55,6 +55,7 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		compliancecheck.Setup,
 		compliancestandard.Setup,
 		fundingsource.Setup,
+		fundingsourcepermissionmapping.Setup,
 		gcpaccount.Setup,
 		gcpiamrole.Setup,
 		globalpermissionmapping.Setup,
@@ -69,7 +70,6 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		projectenforcement.Setup,
 		projectpermissionmapping.Setup,
 		servicecontrolpolicy.Setup,
-		sourcepermissionmapping.Setup,
 		user.Setup,
 		webhook.Setup,
 		providerconfig.Setup,
@@ -96,6 +96,7 @@ func SetupGated(mgr ctrl.Manager, o controller.Options) error {
 		compliancecheck.SetupGated,
 		compliancestandard.SetupGated,
 		fundingsource.SetupGated,
+		fundingsourcepermissionmapping.SetupGated,
 		gcpaccount.SetupGated,
 		gcpiamrole.SetupGated,
 		globalpermissionmapping.SetupGated,
@@ -110,7 +111,6 @@ func SetupGated(mgr ctrl.Manager, o controller.Options) error {
 		projectenforcement.SetupGated,
 		projectpermissionmapping.SetupGated,
 		servicecontrolpolicy.SetupGated,
-		sourcepermissionmapping.SetupGated,
 		user.SetupGated,
 		webhook.SetupGated,
 		providerconfig.SetupGated,

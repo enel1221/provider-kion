@@ -11,9 +11,10 @@ import (
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
 	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
 )
 
-type SourcePermissionMappingInitParameters struct {
+type FundingSourcePermissionMappingInitParameters struct {
 
 	// (Number) Application role ID for the permission mapping.
 	// Application role ID for the permission mapping.
@@ -21,47 +22,47 @@ type SourcePermissionMappingInitParameters struct {
 
 	// (Number) ID of the Funding Source to manage permission mappings for.
 	// ID of the Funding Source to manage permission mappings for.
-	// +crossplane:generate:reference:type=github.com/enel1221/provider-kion/apis/cluster/kion/v1alpha1.FundingSource
+	// +crossplane:generate:reference:type=github.com/enel1221/provider-kion/apis/namespaced/kion/v1alpha1.FundingSource
 	FundingSourceID *float64 `json:"fundingSourceId,omitempty" tf:"funding_source_id,omitempty"`
 
 	// Reference to a FundingSource in kion to populate fundingSourceId.
 	// +kubebuilder:validation:Optional
-	FundingSourceIDRef *v1.Reference `json:"fundingSourceIdRef,omitempty" tf:"-"`
+	FundingSourceIDRef *v1.NamespacedReference `json:"fundingSourceIdRef,omitempty" tf:"-"`
 
 	// Selector for a FundingSource in kion to populate fundingSourceId.
 	// +kubebuilder:validation:Optional
-	FundingSourceIDSelector *v1.Selector `json:"fundingSourceIdSelector,omitempty" tf:"-"`
+	FundingSourceIDSelector *v1.NamespacedSelector `json:"fundingSourceIdSelector,omitempty" tf:"-"`
 
 	// (Set of Number) Set of user group IDs for the permission mapping (must be provided in numerical order).
 	// Set of user group IDs for the permission mapping (must be provided in numerical order).
-	// +crossplane:generate:reference:type=github.com/enel1221/provider-kion/apis/cluster/kion/v1alpha1.Group
+	// +crossplane:generate:reference:type=github.com/enel1221/provider-kion/apis/namespaced/kion/v1alpha1.Group
 	// +listType=set
 	UserGroupsIds []*float64 `json:"userGroupsIds,omitempty" tf:"user_groups_ids,omitempty"`
 
 	// References to Group in kion to populate userGroupsIds.
 	// +kubebuilder:validation:Optional
-	UserGroupsIdsRefs []v1.Reference `json:"userGroupsIdsRefs,omitempty" tf:"-"`
+	UserGroupsIdsRefs []v1.NamespacedReference `json:"userGroupsIdsRefs,omitempty" tf:"-"`
 
 	// Selector for a list of Group in kion to populate userGroupsIds.
 	// +kubebuilder:validation:Optional
-	UserGroupsIdsSelector *v1.Selector `json:"userGroupsIdsSelector,omitempty" tf:"-"`
+	UserGroupsIdsSelector *v1.NamespacedSelector `json:"userGroupsIdsSelector,omitempty" tf:"-"`
 
 	// (Set of Number) Set of user IDs for the permission mapping (must be provided in numerical order).
 	// Set of user IDs for the permission mapping (must be provided in numerical order).
-	// +crossplane:generate:reference:type=github.com/enel1221/provider-kion/apis/cluster/kion/v1alpha1.User
+	// +crossplane:generate:reference:type=github.com/enel1221/provider-kion/apis/namespaced/kion/v1alpha1.User
 	// +listType=set
 	UserIds []*float64 `json:"userIds,omitempty" tf:"user_ids,omitempty"`
 
 	// References to User in kion to populate userIds.
 	// +kubebuilder:validation:Optional
-	UserIdsRefs []v1.Reference `json:"userIdsRefs,omitempty" tf:"-"`
+	UserIdsRefs []v1.NamespacedReference `json:"userIdsRefs,omitempty" tf:"-"`
 
 	// Selector for a list of User in kion to populate userIds.
 	// +kubebuilder:validation:Optional
-	UserIdsSelector *v1.Selector `json:"userIdsSelector,omitempty" tf:"-"`
+	UserIdsSelector *v1.NamespacedSelector `json:"userIdsSelector,omitempty" tf:"-"`
 }
 
-type SourcePermissionMappingObservation struct {
+type FundingSourcePermissionMappingObservation struct {
 
 	// (Number) Application role ID for the permission mapping.
 	// Application role ID for the permission mapping.
@@ -85,7 +86,7 @@ type SourcePermissionMappingObservation struct {
 	UserIds []*float64 `json:"userIds,omitempty" tf:"user_ids,omitempty"`
 }
 
-type SourcePermissionMappingParameters struct {
+type FundingSourcePermissionMappingParameters struct {
 
 	// (Number) Application role ID for the permission mapping.
 	// Application role ID for the permission mapping.
@@ -94,53 +95,53 @@ type SourcePermissionMappingParameters struct {
 
 	// (Number) ID of the Funding Source to manage permission mappings for.
 	// ID of the Funding Source to manage permission mappings for.
-	// +crossplane:generate:reference:type=github.com/enel1221/provider-kion/apis/cluster/kion/v1alpha1.FundingSource
+	// +crossplane:generate:reference:type=github.com/enel1221/provider-kion/apis/namespaced/kion/v1alpha1.FundingSource
 	// +kubebuilder:validation:Optional
 	FundingSourceID *float64 `json:"fundingSourceId,omitempty" tf:"funding_source_id,omitempty"`
 
 	// Reference to a FundingSource in kion to populate fundingSourceId.
 	// +kubebuilder:validation:Optional
-	FundingSourceIDRef *v1.Reference `json:"fundingSourceIdRef,omitempty" tf:"-"`
+	FundingSourceIDRef *v1.NamespacedReference `json:"fundingSourceIdRef,omitempty" tf:"-"`
 
 	// Selector for a FundingSource in kion to populate fundingSourceId.
 	// +kubebuilder:validation:Optional
-	FundingSourceIDSelector *v1.Selector `json:"fundingSourceIdSelector,omitempty" tf:"-"`
+	FundingSourceIDSelector *v1.NamespacedSelector `json:"fundingSourceIdSelector,omitempty" tf:"-"`
 
 	// (Set of Number) Set of user group IDs for the permission mapping (must be provided in numerical order).
 	// Set of user group IDs for the permission mapping (must be provided in numerical order).
-	// +crossplane:generate:reference:type=github.com/enel1221/provider-kion/apis/cluster/kion/v1alpha1.Group
+	// +crossplane:generate:reference:type=github.com/enel1221/provider-kion/apis/namespaced/kion/v1alpha1.Group
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	UserGroupsIds []*float64 `json:"userGroupsIds,omitempty" tf:"user_groups_ids,omitempty"`
 
 	// References to Group in kion to populate userGroupsIds.
 	// +kubebuilder:validation:Optional
-	UserGroupsIdsRefs []v1.Reference `json:"userGroupsIdsRefs,omitempty" tf:"-"`
+	UserGroupsIdsRefs []v1.NamespacedReference `json:"userGroupsIdsRefs,omitempty" tf:"-"`
 
 	// Selector for a list of Group in kion to populate userGroupsIds.
 	// +kubebuilder:validation:Optional
-	UserGroupsIdsSelector *v1.Selector `json:"userGroupsIdsSelector,omitempty" tf:"-"`
+	UserGroupsIdsSelector *v1.NamespacedSelector `json:"userGroupsIdsSelector,omitempty" tf:"-"`
 
 	// (Set of Number) Set of user IDs for the permission mapping (must be provided in numerical order).
 	// Set of user IDs for the permission mapping (must be provided in numerical order).
-	// +crossplane:generate:reference:type=github.com/enel1221/provider-kion/apis/cluster/kion/v1alpha1.User
+	// +crossplane:generate:reference:type=github.com/enel1221/provider-kion/apis/namespaced/kion/v1alpha1.User
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	UserIds []*float64 `json:"userIds,omitempty" tf:"user_ids,omitempty"`
 
 	// References to User in kion to populate userIds.
 	// +kubebuilder:validation:Optional
-	UserIdsRefs []v1.Reference `json:"userIdsRefs,omitempty" tf:"-"`
+	UserIdsRefs []v1.NamespacedReference `json:"userIdsRefs,omitempty" tf:"-"`
 
 	// Selector for a list of User in kion to populate userIds.
 	// +kubebuilder:validation:Optional
-	UserIdsSelector *v1.Selector `json:"userIdsSelector,omitempty" tf:"-"`
+	UserIdsSelector *v1.NamespacedSelector `json:"userIdsSelector,omitempty" tf:"-"`
 }
 
-// SourcePermissionMappingSpec defines the desired state of SourcePermissionMapping
-type SourcePermissionMappingSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     SourcePermissionMappingParameters `json:"forProvider"`
+// FundingSourcePermissionMappingSpec defines the desired state of FundingSourcePermissionMapping
+type FundingSourcePermissionMappingSpec struct {
+	v2.ManagedResourceSpec `json:",inline"`
+	ForProvider            FundingSourcePermissionMappingParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -151,50 +152,50 @@ type SourcePermissionMappingSpec struct {
 	// required on creation, but we do not desire to update them after creation,
 	// for example because of an external controller is managing them, like an
 	// autoscaler.
-	InitProvider SourcePermissionMappingInitParameters `json:"initProvider,omitempty"`
+	InitProvider FundingSourcePermissionMappingInitParameters `json:"initProvider,omitempty"`
 }
 
-// SourcePermissionMappingStatus defines the observed state of SourcePermissionMapping.
-type SourcePermissionMappingStatus struct {
+// FundingSourcePermissionMappingStatus defines the observed state of FundingSourcePermissionMapping.
+type FundingSourcePermissionMappingStatus struct {
 	v1.ResourceStatus `json:",inline"`
-	AtProvider        SourcePermissionMappingObservation `json:"atProvider,omitempty"`
+	AtProvider        FundingSourcePermissionMappingObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 
-// SourcePermissionMapping is the Schema for the SourcePermissionMappings API.
+// FundingSourcePermissionMapping is the Schema for the FundingSourcePermissionMappings API.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,kion}
-type SourcePermissionMapping struct {
+// +kubebuilder:resource:scope=Namespaced,categories={crossplane,managed,kion}
+type FundingSourcePermissionMapping struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.appRoleId) || (has(self.initProvider) && has(self.initProvider.appRoleId))",message="spec.forProvider.appRoleId is a required parameter"
-	Spec   SourcePermissionMappingSpec   `json:"spec"`
-	Status SourcePermissionMappingStatus `json:"status,omitempty"`
+	Spec   FundingSourcePermissionMappingSpec   `json:"spec"`
+	Status FundingSourcePermissionMappingStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 
-// SourcePermissionMappingList contains a list of SourcePermissionMappings
-type SourcePermissionMappingList struct {
+// FundingSourcePermissionMappingList contains a list of FundingSourcePermissionMappings
+type FundingSourcePermissionMappingList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []SourcePermissionMapping `json:"items"`
+	Items           []FundingSourcePermissionMapping `json:"items"`
 }
 
 // Repository type metadata.
 var (
-	SourcePermissionMapping_Kind             = "SourcePermissionMapping"
-	SourcePermissionMapping_GroupKind        = schema.GroupKind{Group: CRDGroup, Kind: SourcePermissionMapping_Kind}.String()
-	SourcePermissionMapping_KindAPIVersion   = SourcePermissionMapping_Kind + "." + CRDGroupVersion.String()
-	SourcePermissionMapping_GroupVersionKind = CRDGroupVersion.WithKind(SourcePermissionMapping_Kind)
+	FundingSourcePermissionMapping_Kind             = "FundingSourcePermissionMapping"
+	FundingSourcePermissionMapping_GroupKind        = schema.GroupKind{Group: CRDGroup, Kind: FundingSourcePermissionMapping_Kind}.String()
+	FundingSourcePermissionMapping_KindAPIVersion   = FundingSourcePermissionMapping_Kind + "." + CRDGroupVersion.String()
+	FundingSourcePermissionMapping_GroupVersionKind = CRDGroupVersion.WithKind(FundingSourcePermissionMapping_Kind)
 )
 
 func init() {
-	SchemeBuilder.Register(&SourcePermissionMapping{}, &SourcePermissionMappingList{})
+	SchemeBuilder.Register(&FundingSourcePermissionMapping{}, &FundingSourcePermissionMappingList{})
 }

@@ -1,12 +1,11 @@
-apiVersion: kion.m.upbound.io/v1alpha1
-kind: SourcePermissionMapping
+apiVersion: kion.upbound.io/v1alpha1
+kind: FundingSourcePermissionMapping
 metadata:
   annotations:
-    meta.upbound.io/example-id: kion/v1alpha1/sourcepermissionmapping
+    meta.upbound.io/example-id: kion/v1alpha1/fundingsourcepermissionmapping
   labels:
     testing.upbound.io/example-name: admin_mapping
   name: admin-mapping
-  namespace: upbound-system
 spec:
   forProvider:
     appRoleId: 1

@@ -107,6 +107,15 @@ func (l *FundingSourceList) GetItems() []resource.Managed {
 	return items
 }
 
+// GetItems of this FundingSourcePermissionMappingList.
+func (l *FundingSourcePermissionMappingList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
 // GetItems of this GCPAccountList.
 func (l *GCPAccountList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
@@ -226,15 +235,6 @@ func (l *ProjectPermissionMappingList) GetItems() []resource.Managed {
 
 // GetItems of this ServiceControlPolicyList.
 func (l *ServiceControlPolicyList) GetItems() []resource.Managed {
-	items := make([]resource.Managed, len(l.Items))
-	for i := range l.Items {
-		items[i] = &l.Items[i]
-	}
-	return items
-}
-
-// GetItems of this SourcePermissionMappingList.
-func (l *SourcePermissionMappingList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
 	for i := range l.Items {
 		items[i] = &l.Items[i]

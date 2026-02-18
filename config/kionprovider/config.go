@@ -246,6 +246,7 @@ func Configure(p *config.Provider) {
 
 	p.AddResourceConfigurator("kion_funding_source_permission_mapping", func(r *config.Resource) {
 		r.ShortGroup = shortGroup
+		r.Kind = "FundingSourcePermissionMapping"
 		r.References["funding_source_id"] = config.Reference{
 			TerraformName: "kion_funding_source",
 		}

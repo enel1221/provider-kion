@@ -40,6 +40,9 @@ func (tr *ComplianceStandard) Hub() {}
 func (tr *FundingSource) Hub() {}
 
 // Hub marks this type as a conversion hub.
+func (tr *FundingSourcePermissionMapping) Hub() {}
+
+// Hub marks this type as a conversion hub.
 func (tr *GCPAccount) Hub() {}
 
 // Hub marks this type as a conversion hub.
@@ -80,9 +83,6 @@ func (tr *ProjectPermissionMapping) Hub() {}
 
 // Hub marks this type as a conversion hub.
 func (tr *ServiceControlPolicy) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *SourcePermissionMapping) Hub() {}
 
 // Hub marks this type as a conversion hub.
 func (tr *User) Hub() {}
