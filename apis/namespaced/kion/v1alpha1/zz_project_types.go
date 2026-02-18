@@ -308,7 +308,16 @@ type ProjectInitParameters struct {
 
 	// (Number)
 	// The ID of the OU to place this project within. Can be changed to move the project to a different OU using the move_ou_settings.
+	// +crossplane:generate:reference:type=github.com/enel1221/provider-kion/apis/namespaced/kion/v1alpha1.Ou
 	OuID *float64 `json:"ouId,omitempty" tf:"ou_id,omitempty"`
+
+	// Reference to a Ou in kion to populate ouId.
+	// +kubebuilder:validation:Optional
+	OuIDRef *v1.NamespacedReference `json:"ouIdRef,omitempty" tf:"-"`
+
+	// Selector for a Ou in kion to populate ouId.
+	// +kubebuilder:validation:Optional
+	OuIDSelector *v1.NamespacedSelector `json:"ouIdSelector,omitempty" tf:"-"`
 
 	// (Block Set) Must provide at least the owner_user_groups field or the owner_users field. (see below for nested schema)
 	// Must provide at least the owner_user_groups field or the owner_users field.
@@ -416,8 +425,17 @@ type ProjectParameters struct {
 
 	// (Number)
 	// The ID of the OU to place this project within. Can be changed to move the project to a different OU using the move_ou_settings.
+	// +crossplane:generate:reference:type=github.com/enel1221/provider-kion/apis/namespaced/kion/v1alpha1.Ou
 	// +kubebuilder:validation:Optional
 	OuID *float64 `json:"ouId,omitempty" tf:"ou_id,omitempty"`
+
+	// Reference to a Ou in kion to populate ouId.
+	// +kubebuilder:validation:Optional
+	OuIDRef *v1.NamespacedReference `json:"ouIdRef,omitempty" tf:"-"`
+
+	// Selector for a Ou in kion to populate ouId.
+	// +kubebuilder:validation:Optional
+	OuIDSelector *v1.NamespacedSelector `json:"ouIdSelector,omitempty" tf:"-"`
 
 	// (Block Set) Must provide at least the owner_user_groups field or the owner_users field. (see below for nested schema)
 	// Must provide at least the owner_user_groups field or the owner_users field.
@@ -475,7 +493,6 @@ type Project struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.name) || (has(self.initProvider) && has(self.initProvider.name))",message="spec.forProvider.name is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.ouId) || (has(self.initProvider) && has(self.initProvider.ouId))",message="spec.forProvider.ouId is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.permissionSchemeId) || (has(self.initProvider) && has(self.initProvider.permissionSchemeId))",message="spec.forProvider.permissionSchemeId is a required parameter"
 	Spec   ProjectSpec   `json:"spec"`
 	Status ProjectStatus `json:"status,omitempty"`

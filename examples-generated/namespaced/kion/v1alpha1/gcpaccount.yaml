@@ -23,6 +23,8 @@ spec:
       moveDatecode: 202401
     name: Production GCP Project
     payerId: 1
-    projectId: 42
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
     skipAccessChecking: false
     startDatecode: 2024-01

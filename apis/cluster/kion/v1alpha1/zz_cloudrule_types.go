@@ -16,7 +16,16 @@ import (
 type AwsCloudFormationTemplatesInitParameters struct {
 
 	// (String) The ID of this resource.
+	// +crossplane:generate:reference:type=github.com/enel1221/provider-kion/apis/cluster/kion/v1alpha1.CloudFormationTemplate
 	ID *float64 `json:"id,omitempty" tf:"id,omitempty"`
+
+	// Reference to a CloudFormationTemplate in kion to populate id.
+	// +kubebuilder:validation:Optional
+	IDRef *v1.Reference `json:"idRef,omitempty" tf:"-"`
+
+	// Selector for a CloudFormationTemplate in kion to populate id.
+	// +kubebuilder:validation:Optional
+	IDSelector *v1.Selector `json:"idSelector,omitempty" tf:"-"`
 }
 
 type AwsCloudFormationTemplatesObservation struct {
@@ -28,14 +37,32 @@ type AwsCloudFormationTemplatesObservation struct {
 type AwsCloudFormationTemplatesParameters struct {
 
 	// (String) The ID of this resource.
+	// +crossplane:generate:reference:type=github.com/enel1221/provider-kion/apis/cluster/kion/v1alpha1.CloudFormationTemplate
 	// +kubebuilder:validation:Optional
 	ID *float64 `json:"id,omitempty" tf:"id,omitempty"`
+
+	// Reference to a CloudFormationTemplate in kion to populate id.
+	// +kubebuilder:validation:Optional
+	IDRef *v1.Reference `json:"idRef,omitempty" tf:"-"`
+
+	// Selector for a CloudFormationTemplate in kion to populate id.
+	// +kubebuilder:validation:Optional
+	IDSelector *v1.Selector `json:"idSelector,omitempty" tf:"-"`
 }
 
 type AwsIAMPoliciesInitParameters struct {
 
 	// (String) The ID of this resource.
+	// +crossplane:generate:reference:type=github.com/enel1221/provider-kion/apis/cluster/kion/v1alpha1.AWSIAMPolicy
 	ID *float64 `json:"id,omitempty" tf:"id,omitempty"`
+
+	// Reference to a AWSIAMPolicy in kion to populate id.
+	// +kubebuilder:validation:Optional
+	IDRef *v1.Reference `json:"idRef,omitempty" tf:"-"`
+
+	// Selector for a AWSIAMPolicy in kion to populate id.
+	// +kubebuilder:validation:Optional
+	IDSelector *v1.Selector `json:"idSelector,omitempty" tf:"-"`
 }
 
 type AwsIAMPoliciesObservation struct {
@@ -47,14 +74,32 @@ type AwsIAMPoliciesObservation struct {
 type AwsIAMPoliciesParameters struct {
 
 	// (String) The ID of this resource.
+	// +crossplane:generate:reference:type=github.com/enel1221/provider-kion/apis/cluster/kion/v1alpha1.AWSIAMPolicy
 	// +kubebuilder:validation:Optional
 	ID *float64 `json:"id,omitempty" tf:"id,omitempty"`
+
+	// Reference to a AWSIAMPolicy in kion to populate id.
+	// +kubebuilder:validation:Optional
+	IDRef *v1.Reference `json:"idRef,omitempty" tf:"-"`
+
+	// Selector for a AWSIAMPolicy in kion to populate id.
+	// +kubebuilder:validation:Optional
+	IDSelector *v1.Selector `json:"idSelector,omitempty" tf:"-"`
 }
 
 type AzureArmTemplateDefinitionsInitParameters struct {
 
 	// (String) The ID of this resource.
+	// +crossplane:generate:reference:type=github.com/enel1221/provider-kion/apis/cluster/kion/v1alpha1.ArmTemplate
 	ID *float64 `json:"id,omitempty" tf:"id,omitempty"`
+
+	// Reference to a ArmTemplate in kion to populate id.
+	// +kubebuilder:validation:Optional
+	IDRef *v1.Reference `json:"idRef,omitempty" tf:"-"`
+
+	// Selector for a ArmTemplate in kion to populate id.
+	// +kubebuilder:validation:Optional
+	IDSelector *v1.Selector `json:"idSelector,omitempty" tf:"-"`
 }
 
 type AzureArmTemplateDefinitionsObservation struct {
@@ -66,14 +111,32 @@ type AzureArmTemplateDefinitionsObservation struct {
 type AzureArmTemplateDefinitionsParameters struct {
 
 	// (String) The ID of this resource.
+	// +crossplane:generate:reference:type=github.com/enel1221/provider-kion/apis/cluster/kion/v1alpha1.ArmTemplate
 	// +kubebuilder:validation:Optional
 	ID *float64 `json:"id,omitempty" tf:"id,omitempty"`
+
+	// Reference to a ArmTemplate in kion to populate id.
+	// +kubebuilder:validation:Optional
+	IDRef *v1.Reference `json:"idRef,omitempty" tf:"-"`
+
+	// Selector for a ArmTemplate in kion to populate id.
+	// +kubebuilder:validation:Optional
+	IDSelector *v1.Selector `json:"idSelector,omitempty" tf:"-"`
 }
 
 type AzurePolicyDefinitionsInitParameters struct {
 
 	// (String) The ID of this resource.
+	// +crossplane:generate:reference:type=github.com/enel1221/provider-kion/apis/cluster/kion/v1alpha1.AzurePolicy
 	ID *float64 `json:"id,omitempty" tf:"id,omitempty"`
+
+	// Reference to a AzurePolicy in kion to populate id.
+	// +kubebuilder:validation:Optional
+	IDRef *v1.Reference `json:"idRef,omitempty" tf:"-"`
+
+	// Selector for a AzurePolicy in kion to populate id.
+	// +kubebuilder:validation:Optional
+	IDSelector *v1.Selector `json:"idSelector,omitempty" tf:"-"`
 }
 
 type AzurePolicyDefinitionsObservation struct {
@@ -85,14 +148,32 @@ type AzurePolicyDefinitionsObservation struct {
 type AzurePolicyDefinitionsParameters struct {
 
 	// (String) The ID of this resource.
+	// +crossplane:generate:reference:type=github.com/enel1221/provider-kion/apis/cluster/kion/v1alpha1.AzurePolicy
 	// +kubebuilder:validation:Optional
 	ID *float64 `json:"id,omitempty" tf:"id,omitempty"`
+
+	// Reference to a AzurePolicy in kion to populate id.
+	// +kubebuilder:validation:Optional
+	IDRef *v1.Reference `json:"idRef,omitempty" tf:"-"`
+
+	// Selector for a AzurePolicy in kion to populate id.
+	// +kubebuilder:validation:Optional
+	IDSelector *v1.Selector `json:"idSelector,omitempty" tf:"-"`
 }
 
 type AzureRoleDefinitionsInitParameters struct {
 
 	// (String) The ID of this resource.
+	// +crossplane:generate:reference:type=github.com/enel1221/provider-kion/apis/cluster/kion/v1alpha1.AzureRole
 	ID *float64 `json:"id,omitempty" tf:"id,omitempty"`
+
+	// Reference to a AzureRole in kion to populate id.
+	// +kubebuilder:validation:Optional
+	IDRef *v1.Reference `json:"idRef,omitempty" tf:"-"`
+
+	// Selector for a AzureRole in kion to populate id.
+	// +kubebuilder:validation:Optional
+	IDSelector *v1.Selector `json:"idSelector,omitempty" tf:"-"`
 }
 
 type AzureRoleDefinitionsObservation struct {
@@ -104,8 +185,17 @@ type AzureRoleDefinitionsObservation struct {
 type AzureRoleDefinitionsParameters struct {
 
 	// (String) The ID of this resource.
+	// +crossplane:generate:reference:type=github.com/enel1221/provider-kion/apis/cluster/kion/v1alpha1.AzureRole
 	// +kubebuilder:validation:Optional
 	ID *float64 `json:"id,omitempty" tf:"id,omitempty"`
+
+	// Reference to a AzureRole in kion to populate id.
+	// +kubebuilder:validation:Optional
+	IDRef *v1.Reference `json:"idRef,omitempty" tf:"-"`
+
+	// Selector for a AzureRole in kion to populate id.
+	// +kubebuilder:validation:Optional
+	IDSelector *v1.Selector `json:"idSelector,omitempty" tf:"-"`
 }
 
 type CloudRuleInitParameters struct {
@@ -167,10 +257,28 @@ type CloudRuleInitParameters struct {
 	OwnerUsers []CloudRuleOwnerUsersInitParameters `json:"ownerUsers,omitempty" tf:"owner_users,omitempty"`
 
 	// (Number)
+	// +crossplane:generate:reference:type=github.com/enel1221/provider-kion/apis/cluster/kion/v1alpha1.Webhook
 	PostWebhookID *float64 `json:"postWebhookId,omitempty" tf:"post_webhook_id,omitempty"`
 
+	// Reference to a Webhook in kion to populate postWebhookId.
+	// +kubebuilder:validation:Optional
+	PostWebhookIDRef *v1.Reference `json:"postWebhookIdRef,omitempty" tf:"-"`
+
+	// Selector for a Webhook in kion to populate postWebhookId.
+	// +kubebuilder:validation:Optional
+	PostWebhookIDSelector *v1.Selector `json:"postWebhookIdSelector,omitempty" tf:"-"`
+
 	// (Number)
+	// +crossplane:generate:reference:type=github.com/enel1221/provider-kion/apis/cluster/kion/v1alpha1.Webhook
 	PreWebhookID *float64 `json:"preWebhookId,omitempty" tf:"pre_webhook_id,omitempty"`
+
+	// Reference to a Webhook in kion to populate preWebhookId.
+	// +kubebuilder:validation:Optional
+	PreWebhookIDRef *v1.Reference `json:"preWebhookIdRef,omitempty" tf:"-"`
+
+	// Selector for a Webhook in kion to populate preWebhookId.
+	// +kubebuilder:validation:Optional
+	PreWebhookIDSelector *v1.Selector `json:"preWebhookIdSelector,omitempty" tf:"-"`
 
 	// (Block Set) (see below for nested schema)
 	Projects []ProjectsInitParameters `json:"projects,omitempty" tf:"projects,omitempty"`
@@ -259,7 +367,16 @@ type CloudRuleObservation struct {
 type CloudRuleOwnerUserGroupsInitParameters struct {
 
 	// (String) The ID of this resource.
+	// +crossplane:generate:reference:type=github.com/enel1221/provider-kion/apis/cluster/kion/v1alpha1.Group
 	ID *float64 `json:"id,omitempty" tf:"id,omitempty"`
+
+	// Reference to a Group in kion to populate id.
+	// +kubebuilder:validation:Optional
+	IDRef *v1.Reference `json:"idRef,omitempty" tf:"-"`
+
+	// Selector for a Group in kion to populate id.
+	// +kubebuilder:validation:Optional
+	IDSelector *v1.Selector `json:"idSelector,omitempty" tf:"-"`
 }
 
 type CloudRuleOwnerUserGroupsObservation struct {
@@ -271,14 +388,32 @@ type CloudRuleOwnerUserGroupsObservation struct {
 type CloudRuleOwnerUserGroupsParameters struct {
 
 	// (String) The ID of this resource.
+	// +crossplane:generate:reference:type=github.com/enel1221/provider-kion/apis/cluster/kion/v1alpha1.Group
 	// +kubebuilder:validation:Optional
 	ID *float64 `json:"id,omitempty" tf:"id,omitempty"`
+
+	// Reference to a Group in kion to populate id.
+	// +kubebuilder:validation:Optional
+	IDRef *v1.Reference `json:"idRef,omitempty" tf:"-"`
+
+	// Selector for a Group in kion to populate id.
+	// +kubebuilder:validation:Optional
+	IDSelector *v1.Selector `json:"idSelector,omitempty" tf:"-"`
 }
 
 type CloudRuleOwnerUsersInitParameters struct {
 
 	// (String) The ID of this resource.
+	// +crossplane:generate:reference:type=github.com/enel1221/provider-kion/apis/cluster/kion/v1alpha1.User
 	ID *float64 `json:"id,omitempty" tf:"id,omitempty"`
+
+	// Reference to a User in kion to populate id.
+	// +kubebuilder:validation:Optional
+	IDRef *v1.Reference `json:"idRef,omitempty" tf:"-"`
+
+	// Selector for a User in kion to populate id.
+	// +kubebuilder:validation:Optional
+	IDSelector *v1.Selector `json:"idSelector,omitempty" tf:"-"`
 }
 
 type CloudRuleOwnerUsersObservation struct {
@@ -290,8 +425,17 @@ type CloudRuleOwnerUsersObservation struct {
 type CloudRuleOwnerUsersParameters struct {
 
 	// (String) The ID of this resource.
+	// +crossplane:generate:reference:type=github.com/enel1221/provider-kion/apis/cluster/kion/v1alpha1.User
 	// +kubebuilder:validation:Optional
 	ID *float64 `json:"id,omitempty" tf:"id,omitempty"`
+
+	// Reference to a User in kion to populate id.
+	// +kubebuilder:validation:Optional
+	IDRef *v1.Reference `json:"idRef,omitempty" tf:"-"`
+
+	// Selector for a User in kion to populate id.
+	// +kubebuilder:validation:Optional
+	IDSelector *v1.Selector `json:"idSelector,omitempty" tf:"-"`
 }
 
 type CloudRuleParameters struct {
@@ -370,12 +514,30 @@ type CloudRuleParameters struct {
 	OwnerUsers []CloudRuleOwnerUsersParameters `json:"ownerUsers,omitempty" tf:"owner_users,omitempty"`
 
 	// (Number)
+	// +crossplane:generate:reference:type=github.com/enel1221/provider-kion/apis/cluster/kion/v1alpha1.Webhook
 	// +kubebuilder:validation:Optional
 	PostWebhookID *float64 `json:"postWebhookId,omitempty" tf:"post_webhook_id,omitempty"`
 
+	// Reference to a Webhook in kion to populate postWebhookId.
+	// +kubebuilder:validation:Optional
+	PostWebhookIDRef *v1.Reference `json:"postWebhookIdRef,omitempty" tf:"-"`
+
+	// Selector for a Webhook in kion to populate postWebhookId.
+	// +kubebuilder:validation:Optional
+	PostWebhookIDSelector *v1.Selector `json:"postWebhookIdSelector,omitempty" tf:"-"`
+
 	// (Number)
+	// +crossplane:generate:reference:type=github.com/enel1221/provider-kion/apis/cluster/kion/v1alpha1.Webhook
 	// +kubebuilder:validation:Optional
 	PreWebhookID *float64 `json:"preWebhookId,omitempty" tf:"pre_webhook_id,omitempty"`
+
+	// Reference to a Webhook in kion to populate preWebhookId.
+	// +kubebuilder:validation:Optional
+	PreWebhookIDRef *v1.Reference `json:"preWebhookIdRef,omitempty" tf:"-"`
+
+	// Selector for a Webhook in kion to populate preWebhookId.
+	// +kubebuilder:validation:Optional
+	PreWebhookIDSelector *v1.Selector `json:"preWebhookIdSelector,omitempty" tf:"-"`
 
 	// (Block Set) (see below for nested schema)
 	// +kubebuilder:validation:Optional
@@ -389,7 +551,16 @@ type CloudRuleParameters struct {
 type ComplianceStandardsInitParameters struct {
 
 	// (String) The ID of this resource.
+	// +crossplane:generate:reference:type=github.com/enel1221/provider-kion/apis/cluster/kion/v1alpha1.ComplianceStandard
 	ID *float64 `json:"id,omitempty" tf:"id,omitempty"`
+
+	// Reference to a ComplianceStandard in kion to populate id.
+	// +kubebuilder:validation:Optional
+	IDRef *v1.Reference `json:"idRef,omitempty" tf:"-"`
+
+	// Selector for a ComplianceStandard in kion to populate id.
+	// +kubebuilder:validation:Optional
+	IDSelector *v1.Selector `json:"idSelector,omitempty" tf:"-"`
 }
 
 type ComplianceStandardsObservation struct {
@@ -401,14 +572,32 @@ type ComplianceStandardsObservation struct {
 type ComplianceStandardsParameters struct {
 
 	// (String) The ID of this resource.
+	// +crossplane:generate:reference:type=github.com/enel1221/provider-kion/apis/cluster/kion/v1alpha1.ComplianceStandard
 	// +kubebuilder:validation:Optional
 	ID *float64 `json:"id,omitempty" tf:"id,omitempty"`
+
+	// Reference to a ComplianceStandard in kion to populate id.
+	// +kubebuilder:validation:Optional
+	IDRef *v1.Reference `json:"idRef,omitempty" tf:"-"`
+
+	// Selector for a ComplianceStandard in kion to populate id.
+	// +kubebuilder:validation:Optional
+	IDSelector *v1.Selector `json:"idSelector,omitempty" tf:"-"`
 }
 
 type GCPIAMRolesInitParameters struct {
 
 	// (String) The ID of this resource.
+	// +crossplane:generate:reference:type=github.com/enel1221/provider-kion/apis/cluster/kion/v1alpha1.GCPIAMRole
 	ID *float64 `json:"id,omitempty" tf:"id,omitempty"`
+
+	// Reference to a GCPIAMRole in kion to populate id.
+	// +kubebuilder:validation:Optional
+	IDRef *v1.Reference `json:"idRef,omitempty" tf:"-"`
+
+	// Selector for a GCPIAMRole in kion to populate id.
+	// +kubebuilder:validation:Optional
+	IDSelector *v1.Selector `json:"idSelector,omitempty" tf:"-"`
 }
 
 type GCPIAMRolesObservation struct {
@@ -420,8 +609,17 @@ type GCPIAMRolesObservation struct {
 type GCPIAMRolesParameters struct {
 
 	// (String) The ID of this resource.
+	// +crossplane:generate:reference:type=github.com/enel1221/provider-kion/apis/cluster/kion/v1alpha1.GCPIAMRole
 	// +kubebuilder:validation:Optional
 	ID *float64 `json:"id,omitempty" tf:"id,omitempty"`
+
+	// Reference to a GCPIAMRole in kion to populate id.
+	// +kubebuilder:validation:Optional
+	IDRef *v1.Reference `json:"idRef,omitempty" tf:"-"`
+
+	// Selector for a GCPIAMRole in kion to populate id.
+	// +kubebuilder:validation:Optional
+	IDSelector *v1.Selector `json:"idSelector,omitempty" tf:"-"`
 }
 
 type InternalAwsAmisInitParameters struct {
@@ -465,7 +663,16 @@ type InternalAwsServiceCatalogPortfoliosParameters struct {
 type OusInitParameters struct {
 
 	// (String) The ID of this resource.
+	// +crossplane:generate:reference:type=github.com/enel1221/provider-kion/apis/cluster/kion/v1alpha1.Ou
 	ID *float64 `json:"id,omitempty" tf:"id,omitempty"`
+
+	// Reference to a Ou in kion to populate id.
+	// +kubebuilder:validation:Optional
+	IDRef *v1.Reference `json:"idRef,omitempty" tf:"-"`
+
+	// Selector for a Ou in kion to populate id.
+	// +kubebuilder:validation:Optional
+	IDSelector *v1.Selector `json:"idSelector,omitempty" tf:"-"`
 }
 
 type OusObservation struct {
@@ -477,14 +684,32 @@ type OusObservation struct {
 type OusParameters struct {
 
 	// (String) The ID of this resource.
+	// +crossplane:generate:reference:type=github.com/enel1221/provider-kion/apis/cluster/kion/v1alpha1.Ou
 	// +kubebuilder:validation:Optional
 	ID *float64 `json:"id,omitempty" tf:"id,omitempty"`
+
+	// Reference to a Ou in kion to populate id.
+	// +kubebuilder:validation:Optional
+	IDRef *v1.Reference `json:"idRef,omitempty" tf:"-"`
+
+	// Selector for a Ou in kion to populate id.
+	// +kubebuilder:validation:Optional
+	IDSelector *v1.Selector `json:"idSelector,omitempty" tf:"-"`
 }
 
 type ProjectsInitParameters struct {
 
 	// (String) The ID of this resource.
+	// +crossplane:generate:reference:type=github.com/enel1221/provider-kion/apis/cluster/kion/v1alpha1.Project
 	ID *float64 `json:"id,omitempty" tf:"id,omitempty"`
+
+	// Reference to a Project in kion to populate id.
+	// +kubebuilder:validation:Optional
+	IDRef *v1.Reference `json:"idRef,omitempty" tf:"-"`
+
+	// Selector for a Project in kion to populate id.
+	// +kubebuilder:validation:Optional
+	IDSelector *v1.Selector `json:"idSelector,omitempty" tf:"-"`
 }
 
 type ProjectsObservation struct {
@@ -496,14 +721,32 @@ type ProjectsObservation struct {
 type ProjectsParameters struct {
 
 	// (String) The ID of this resource.
+	// +crossplane:generate:reference:type=github.com/enel1221/provider-kion/apis/cluster/kion/v1alpha1.Project
 	// +kubebuilder:validation:Optional
 	ID *float64 `json:"id,omitempty" tf:"id,omitempty"`
+
+	// Reference to a Project in kion to populate id.
+	// +kubebuilder:validation:Optional
+	IDRef *v1.Reference `json:"idRef,omitempty" tf:"-"`
+
+	// Selector for a Project in kion to populate id.
+	// +kubebuilder:validation:Optional
+	IDSelector *v1.Selector `json:"idSelector,omitempty" tf:"-"`
 }
 
 type ServiceControlPoliciesInitParameters struct {
 
 	// (String) The ID of this resource.
+	// +crossplane:generate:reference:type=github.com/enel1221/provider-kion/apis/cluster/kion/v1alpha1.ServiceControlPolicy
 	ID *float64 `json:"id,omitempty" tf:"id,omitempty"`
+
+	// Reference to a ServiceControlPolicy in kion to populate id.
+	// +kubebuilder:validation:Optional
+	IDRef *v1.Reference `json:"idRef,omitempty" tf:"-"`
+
+	// Selector for a ServiceControlPolicy in kion to populate id.
+	// +kubebuilder:validation:Optional
+	IDSelector *v1.Selector `json:"idSelector,omitempty" tf:"-"`
 }
 
 type ServiceControlPoliciesObservation struct {
@@ -515,8 +758,17 @@ type ServiceControlPoliciesObservation struct {
 type ServiceControlPoliciesParameters struct {
 
 	// (String) The ID of this resource.
+	// +crossplane:generate:reference:type=github.com/enel1221/provider-kion/apis/cluster/kion/v1alpha1.ServiceControlPolicy
 	// +kubebuilder:validation:Optional
 	ID *float64 `json:"id,omitempty" tf:"id,omitempty"`
+
+	// Reference to a ServiceControlPolicy in kion to populate id.
+	// +kubebuilder:validation:Optional
+	IDRef *v1.Reference `json:"idRef,omitempty" tf:"-"`
+
+	// Selector for a ServiceControlPolicy in kion to populate id.
+	// +kubebuilder:validation:Optional
+	IDSelector *v1.Selector `json:"idSelector,omitempty" tf:"-"`
 }
 
 // CloudRuleSpec defines the desired state of CloudRule

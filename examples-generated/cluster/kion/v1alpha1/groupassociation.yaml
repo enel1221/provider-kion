@@ -12,4 +12,6 @@ spec:
     assertionRegex: ^devops-team
     idmsId: 5
     updateOnLogin: true
-    userGroupId: 10
+    userGroupIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example

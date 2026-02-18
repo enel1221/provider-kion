@@ -22,17 +22,44 @@ type OUPermissionMappingInitParameters struct {
 
 	// (Number) ID of the OU to manage permission mappings for.
 	// ID of the OU to manage permission mappings for.
+	// +crossplane:generate:reference:type=github.com/enel1221/provider-kion/apis/namespaced/kion/v1alpha1.Ou
 	OuID *float64 `json:"ouId,omitempty" tf:"ou_id,omitempty"`
+
+	// Reference to a Ou in kion to populate ouId.
+	// +kubebuilder:validation:Optional
+	OuIDRef *v1.NamespacedReference `json:"ouIdRef,omitempty" tf:"-"`
+
+	// Selector for a Ou in kion to populate ouId.
+	// +kubebuilder:validation:Optional
+	OuIDSelector *v1.NamespacedSelector `json:"ouIdSelector,omitempty" tf:"-"`
 
 	// (Set of Number) Set of user group IDs for the permission mapping (must be provided in numerical order).
 	// Set of user group IDs for the permission mapping (must be provided in numerical order).
+	// +crossplane:generate:reference:type=github.com/enel1221/provider-kion/apis/namespaced/kion/v1alpha1.Group
 	// +listType=set
 	UserGroupsIds []*float64 `json:"userGroupsIds,omitempty" tf:"user_groups_ids,omitempty"`
 
+	// References to Group in kion to populate userGroupsIds.
+	// +kubebuilder:validation:Optional
+	UserGroupsIdsRefs []v1.NamespacedReference `json:"userGroupsIdsRefs,omitempty" tf:"-"`
+
+	// Selector for a list of Group in kion to populate userGroupsIds.
+	// +kubebuilder:validation:Optional
+	UserGroupsIdsSelector *v1.NamespacedSelector `json:"userGroupsIdsSelector,omitempty" tf:"-"`
+
 	// (Set of Number) Set of user IDs for the permission mapping (must be provided in numerical order).
 	// Set of user IDs for the permission mapping (must be provided in numerical order).
+	// +crossplane:generate:reference:type=github.com/enel1221/provider-kion/apis/namespaced/kion/v1alpha1.User
 	// +listType=set
 	UserIds []*float64 `json:"userIds,omitempty" tf:"user_ids,omitempty"`
+
+	// References to User in kion to populate userIds.
+	// +kubebuilder:validation:Optional
+	UserIdsRefs []v1.NamespacedReference `json:"userIdsRefs,omitempty" tf:"-"`
+
+	// Selector for a list of User in kion to populate userIds.
+	// +kubebuilder:validation:Optional
+	UserIdsSelector *v1.NamespacedSelector `json:"userIdsSelector,omitempty" tf:"-"`
 }
 
 type OUPermissionMappingObservation struct {
@@ -68,20 +95,47 @@ type OUPermissionMappingParameters struct {
 
 	// (Number) ID of the OU to manage permission mappings for.
 	// ID of the OU to manage permission mappings for.
+	// +crossplane:generate:reference:type=github.com/enel1221/provider-kion/apis/namespaced/kion/v1alpha1.Ou
 	// +kubebuilder:validation:Optional
 	OuID *float64 `json:"ouId,omitempty" tf:"ou_id,omitempty"`
 
+	// Reference to a Ou in kion to populate ouId.
+	// +kubebuilder:validation:Optional
+	OuIDRef *v1.NamespacedReference `json:"ouIdRef,omitempty" tf:"-"`
+
+	// Selector for a Ou in kion to populate ouId.
+	// +kubebuilder:validation:Optional
+	OuIDSelector *v1.NamespacedSelector `json:"ouIdSelector,omitempty" tf:"-"`
+
 	// (Set of Number) Set of user group IDs for the permission mapping (must be provided in numerical order).
 	// Set of user group IDs for the permission mapping (must be provided in numerical order).
+	// +crossplane:generate:reference:type=github.com/enel1221/provider-kion/apis/namespaced/kion/v1alpha1.Group
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	UserGroupsIds []*float64 `json:"userGroupsIds,omitempty" tf:"user_groups_ids,omitempty"`
 
+	// References to Group in kion to populate userGroupsIds.
+	// +kubebuilder:validation:Optional
+	UserGroupsIdsRefs []v1.NamespacedReference `json:"userGroupsIdsRefs,omitempty" tf:"-"`
+
+	// Selector for a list of Group in kion to populate userGroupsIds.
+	// +kubebuilder:validation:Optional
+	UserGroupsIdsSelector *v1.NamespacedSelector `json:"userGroupsIdsSelector,omitempty" tf:"-"`
+
 	// (Set of Number) Set of user IDs for the permission mapping (must be provided in numerical order).
 	// Set of user IDs for the permission mapping (must be provided in numerical order).
+	// +crossplane:generate:reference:type=github.com/enel1221/provider-kion/apis/namespaced/kion/v1alpha1.User
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	UserIds []*float64 `json:"userIds,omitempty" tf:"user_ids,omitempty"`
+
+	// References to User in kion to populate userIds.
+	// +kubebuilder:validation:Optional
+	UserIdsRefs []v1.NamespacedReference `json:"userIdsRefs,omitempty" tf:"-"`
+
+	// Selector for a list of User in kion to populate userIds.
+	// +kubebuilder:validation:Optional
+	UserIdsSelector *v1.NamespacedSelector `json:"userIdsSelector,omitempty" tf:"-"`
 }
 
 // OUPermissionMappingSpec defines the desired state of OUPermissionMapping
@@ -121,9 +175,6 @@ type OUPermissionMapping struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.appRoleId) || (has(self.initProvider) && has(self.initProvider.appRoleId))",message="spec.forProvider.appRoleId is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.ouId) || (has(self.initProvider) && has(self.initProvider.ouId))",message="spec.forProvider.ouId is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.userGroupsIds) || (has(self.initProvider) && has(self.initProvider.userGroupsIds))",message="spec.forProvider.userGroupsIds is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.userIds) || (has(self.initProvider) && has(self.initProvider.userIds))",message="spec.forProvider.userIds is a required parameter"
 	Spec   OUPermissionMappingSpec   `json:"spec"`
 	Status OUPermissionMappingStatus `json:"status,omitempty"`
 }

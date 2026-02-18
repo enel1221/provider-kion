@@ -10,21 +10,35 @@ metadata:
 spec:
   forProvider:
     awsCloudformationTemplates:
-    - id: 1
+    - idSelector:
+        matchLabels:
+          testing.upbound.io/example-name: example
     awsIamPolicies:
-    - id: 1
+    - idSelector:
+        matchLabels:
+          testing.upbound.io/example-name: example
     azureArmTemplateDefinitions:
-    - id: 1
+    - idSelector:
+        matchLabels:
+          testing.upbound.io/example-name: example
     azurePolicyDefinitions:
-    - id: 1
+    - idSelector:
+        matchLabels:
+          testing.upbound.io/example-name: example
     azureRoleDefinitions:
-    - id: 1
+    - idSelector:
+        matchLabels:
+          testing.upbound.io/example-name: example
     complianceStandards:
-    - id: 1
+    - idSelector:
+        matchLabels:
+          testing.upbound.io/example-name: example
     concurrentCftSync: true
     description: A comprehensive example of a cloud rule with all supported options.
     gcpIamRoles:
-    - id: 1
+    - idSelector:
+        matchLabels:
+          testing.upbound.io/example-name: example
     internalAwsAmis:
     - id: 1
     internalAwsServiceCatalogPortfolios:
@@ -35,14 +49,28 @@ spec:
       team: security
     name: Complete Cloud Rule Example
     ous:
-    - id: 1
+    - idSelector:
+        matchLabels:
+          testing.upbound.io/example-name: example
     ownerUserGroups:
-    - id: 2
+    - idSelector:
+        matchLabels:
+          testing.upbound.io/example-name: example
     ownerUsers:
-    - id: 1
-    postWebhookId: 2
-    preWebhookId: 1
+    - idSelector:
+        matchLabels:
+          testing.upbound.io/example-name: example
+    postWebhookIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    preWebhookIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
     projects:
-    - id: 1
+    - idSelector:
+        matchLabels:
+          testing.upbound.io/example-name: example
     serviceControlPolicies:
-    - id: 1
+    - idSelector:
+        matchLabels:
+          testing.upbound.io/example-name: example

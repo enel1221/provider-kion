@@ -20,12 +20,30 @@ type GlobalPermissionMappingInitParameters struct {
 	AppRoleID *float64 `json:"appRoleId,omitempty" tf:"app_role_id,omitempty"`
 
 	// Set of user group IDs for the permission mapping.
+	// +crossplane:generate:reference:type=github.com/enel1221/provider-kion/apis/namespaced/kion/v1alpha1.Group
 	// +listType=set
 	UserGroupsIds []*float64 `json:"userGroupsIds,omitempty" tf:"user_groups_ids,omitempty"`
 
+	// References to Group in kion to populate userGroupsIds.
+	// +kubebuilder:validation:Optional
+	UserGroupsIdsRefs []v1.NamespacedReference `json:"userGroupsIdsRefs,omitempty" tf:"-"`
+
+	// Selector for a list of Group in kion to populate userGroupsIds.
+	// +kubebuilder:validation:Optional
+	UserGroupsIdsSelector *v1.NamespacedSelector `json:"userGroupsIdsSelector,omitempty" tf:"-"`
+
 	// Set of user IDs for the permission mapping.
+	// +crossplane:generate:reference:type=github.com/enel1221/provider-kion/apis/namespaced/kion/v1alpha1.User
 	// +listType=set
 	UserIds []*float64 `json:"userIds,omitempty" tf:"user_ids,omitempty"`
+
+	// References to User in kion to populate userIds.
+	// +kubebuilder:validation:Optional
+	UserIdsRefs []v1.NamespacedReference `json:"userIdsRefs,omitempty" tf:"-"`
+
+	// Selector for a list of User in kion to populate userIds.
+	// +kubebuilder:validation:Optional
+	UserIdsSelector *v1.NamespacedSelector `json:"userIdsSelector,omitempty" tf:"-"`
 }
 
 type GlobalPermissionMappingObservation struct {
@@ -51,14 +69,32 @@ type GlobalPermissionMappingParameters struct {
 	AppRoleID *float64 `json:"appRoleId,omitempty" tf:"app_role_id,omitempty"`
 
 	// Set of user group IDs for the permission mapping.
+	// +crossplane:generate:reference:type=github.com/enel1221/provider-kion/apis/namespaced/kion/v1alpha1.Group
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	UserGroupsIds []*float64 `json:"userGroupsIds,omitempty" tf:"user_groups_ids,omitempty"`
 
+	// References to Group in kion to populate userGroupsIds.
+	// +kubebuilder:validation:Optional
+	UserGroupsIdsRefs []v1.NamespacedReference `json:"userGroupsIdsRefs,omitempty" tf:"-"`
+
+	// Selector for a list of Group in kion to populate userGroupsIds.
+	// +kubebuilder:validation:Optional
+	UserGroupsIdsSelector *v1.NamespacedSelector `json:"userGroupsIdsSelector,omitempty" tf:"-"`
+
 	// Set of user IDs for the permission mapping.
+	// +crossplane:generate:reference:type=github.com/enel1221/provider-kion/apis/namespaced/kion/v1alpha1.User
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	UserIds []*float64 `json:"userIds,omitempty" tf:"user_ids,omitempty"`
+
+	// References to User in kion to populate userIds.
+	// +kubebuilder:validation:Optional
+	UserIdsRefs []v1.NamespacedReference `json:"userIdsRefs,omitempty" tf:"-"`
+
+	// Selector for a list of User in kion to populate userIds.
+	// +kubebuilder:validation:Optional
+	UserIdsSelector *v1.NamespacedSelector `json:"userIdsSelector,omitempty" tf:"-"`
 }
 
 // GlobalPermissionMappingSpec defines the desired state of GlobalPermissionMapping
@@ -98,8 +134,6 @@ type GlobalPermissionMapping struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.appRoleId) || (has(self.initProvider) && has(self.initProvider.appRoleId))",message="spec.forProvider.appRoleId is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.userGroupsIds) || (has(self.initProvider) && has(self.initProvider.userGroupsIds))",message="spec.forProvider.userGroupsIds is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.userIds) || (has(self.initProvider) && has(self.initProvider.userIds))",message="spec.forProvider.userIds is a required parameter"
 	Spec   GlobalPermissionMappingSpec   `json:"spec"`
 	Status GlobalPermissionMappingStatus `json:"status,omitempty"`
 }

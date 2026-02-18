@@ -21,17 +21,44 @@ type SourcePermissionMappingInitParameters struct {
 
 	// (Number) ID of the Funding Source to manage permission mappings for.
 	// ID of the Funding Source to manage permission mappings for.
+	// +crossplane:generate:reference:type=github.com/enel1221/provider-kion/apis/cluster/kion/v1alpha1.FundingSource
 	FundingSourceID *float64 `json:"fundingSourceId,omitempty" tf:"funding_source_id,omitempty"`
+
+	// Reference to a FundingSource in kion to populate fundingSourceId.
+	// +kubebuilder:validation:Optional
+	FundingSourceIDRef *v1.Reference `json:"fundingSourceIdRef,omitempty" tf:"-"`
+
+	// Selector for a FundingSource in kion to populate fundingSourceId.
+	// +kubebuilder:validation:Optional
+	FundingSourceIDSelector *v1.Selector `json:"fundingSourceIdSelector,omitempty" tf:"-"`
 
 	// (Set of Number) Set of user group IDs for the permission mapping (must be provided in numerical order).
 	// Set of user group IDs for the permission mapping (must be provided in numerical order).
+	// +crossplane:generate:reference:type=github.com/enel1221/provider-kion/apis/cluster/kion/v1alpha1.Group
 	// +listType=set
 	UserGroupsIds []*float64 `json:"userGroupsIds,omitempty" tf:"user_groups_ids,omitempty"`
 
+	// References to Group in kion to populate userGroupsIds.
+	// +kubebuilder:validation:Optional
+	UserGroupsIdsRefs []v1.Reference `json:"userGroupsIdsRefs,omitempty" tf:"-"`
+
+	// Selector for a list of Group in kion to populate userGroupsIds.
+	// +kubebuilder:validation:Optional
+	UserGroupsIdsSelector *v1.Selector `json:"userGroupsIdsSelector,omitempty" tf:"-"`
+
 	// (Set of Number) Set of user IDs for the permission mapping (must be provided in numerical order).
 	// Set of user IDs for the permission mapping (must be provided in numerical order).
+	// +crossplane:generate:reference:type=github.com/enel1221/provider-kion/apis/cluster/kion/v1alpha1.User
 	// +listType=set
 	UserIds []*float64 `json:"userIds,omitempty" tf:"user_ids,omitempty"`
+
+	// References to User in kion to populate userIds.
+	// +kubebuilder:validation:Optional
+	UserIdsRefs []v1.Reference `json:"userIdsRefs,omitempty" tf:"-"`
+
+	// Selector for a list of User in kion to populate userIds.
+	// +kubebuilder:validation:Optional
+	UserIdsSelector *v1.Selector `json:"userIdsSelector,omitempty" tf:"-"`
 }
 
 type SourcePermissionMappingObservation struct {
@@ -67,20 +94,47 @@ type SourcePermissionMappingParameters struct {
 
 	// (Number) ID of the Funding Source to manage permission mappings for.
 	// ID of the Funding Source to manage permission mappings for.
+	// +crossplane:generate:reference:type=github.com/enel1221/provider-kion/apis/cluster/kion/v1alpha1.FundingSource
 	// +kubebuilder:validation:Optional
 	FundingSourceID *float64 `json:"fundingSourceId,omitempty" tf:"funding_source_id,omitempty"`
 
+	// Reference to a FundingSource in kion to populate fundingSourceId.
+	// +kubebuilder:validation:Optional
+	FundingSourceIDRef *v1.Reference `json:"fundingSourceIdRef,omitempty" tf:"-"`
+
+	// Selector for a FundingSource in kion to populate fundingSourceId.
+	// +kubebuilder:validation:Optional
+	FundingSourceIDSelector *v1.Selector `json:"fundingSourceIdSelector,omitempty" tf:"-"`
+
 	// (Set of Number) Set of user group IDs for the permission mapping (must be provided in numerical order).
 	// Set of user group IDs for the permission mapping (must be provided in numerical order).
+	// +crossplane:generate:reference:type=github.com/enel1221/provider-kion/apis/cluster/kion/v1alpha1.Group
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	UserGroupsIds []*float64 `json:"userGroupsIds,omitempty" tf:"user_groups_ids,omitempty"`
 
+	// References to Group in kion to populate userGroupsIds.
+	// +kubebuilder:validation:Optional
+	UserGroupsIdsRefs []v1.Reference `json:"userGroupsIdsRefs,omitempty" tf:"-"`
+
+	// Selector for a list of Group in kion to populate userGroupsIds.
+	// +kubebuilder:validation:Optional
+	UserGroupsIdsSelector *v1.Selector `json:"userGroupsIdsSelector,omitempty" tf:"-"`
+
 	// (Set of Number) Set of user IDs for the permission mapping (must be provided in numerical order).
 	// Set of user IDs for the permission mapping (must be provided in numerical order).
+	// +crossplane:generate:reference:type=github.com/enel1221/provider-kion/apis/cluster/kion/v1alpha1.User
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	UserIds []*float64 `json:"userIds,omitempty" tf:"user_ids,omitempty"`
+
+	// References to User in kion to populate userIds.
+	// +kubebuilder:validation:Optional
+	UserIdsRefs []v1.Reference `json:"userIdsRefs,omitempty" tf:"-"`
+
+	// Selector for a list of User in kion to populate userIds.
+	// +kubebuilder:validation:Optional
+	UserIdsSelector *v1.Selector `json:"userIdsSelector,omitempty" tf:"-"`
 }
 
 // SourcePermissionMappingSpec defines the desired state of SourcePermissionMapping
@@ -120,9 +174,6 @@ type SourcePermissionMapping struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.appRoleId) || (has(self.initProvider) && has(self.initProvider.appRoleId))",message="spec.forProvider.appRoleId is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.fundingSourceId) || (has(self.initProvider) && has(self.initProvider.fundingSourceId))",message="spec.forProvider.fundingSourceId is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.userGroupsIds) || (has(self.initProvider) && has(self.initProvider.userGroupsIds))",message="spec.forProvider.userGroupsIds is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.userIds) || (has(self.initProvider) && has(self.initProvider.userIds))",message="spec.forProvider.userIds is a required parameter"
 	Spec   SourcePermissionMappingSpec   `json:"spec"`
 	Status SourcePermissionMappingStatus `json:"status,omitempty"`
 }

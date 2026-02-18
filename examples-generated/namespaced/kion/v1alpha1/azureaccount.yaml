@@ -17,6 +17,8 @@ spec:
       billingProfileInvoice: SH3V-xxxx-xxx-xxx
     name: MCA Subscription Example
     payerId: 1
-    projectId: 42
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
     startDatecode: 2024-03
     subscriptionName: terraform-mca-subscription

@@ -35,7 +35,16 @@ type OUCloudAccessRoleAwsIAMPoliciesParameters struct {
 type OUCloudAccessRoleAzureRoleDefinitionsInitParameters struct {
 
 	// (String) The ID of this resource.
+	// +crossplane:generate:reference:type=github.com/enel1221/provider-kion/apis/cluster/kion/v1alpha1.AzureRole
 	ID *float64 `json:"id,omitempty" tf:"id,omitempty"`
+
+	// Reference to a AzureRole in kion to populate id.
+	// +kubebuilder:validation:Optional
+	IDRef *v1.Reference `json:"idRef,omitempty" tf:"-"`
+
+	// Selector for a AzureRole in kion to populate id.
+	// +kubebuilder:validation:Optional
+	IDSelector *v1.Selector `json:"idSelector,omitempty" tf:"-"`
 }
 
 type OUCloudAccessRoleAzureRoleDefinitionsObservation struct {
@@ -47,14 +56,32 @@ type OUCloudAccessRoleAzureRoleDefinitionsObservation struct {
 type OUCloudAccessRoleAzureRoleDefinitionsParameters struct {
 
 	// (String) The ID of this resource.
+	// +crossplane:generate:reference:type=github.com/enel1221/provider-kion/apis/cluster/kion/v1alpha1.AzureRole
 	// +kubebuilder:validation:Optional
 	ID *float64 `json:"id,omitempty" tf:"id,omitempty"`
+
+	// Reference to a AzureRole in kion to populate id.
+	// +kubebuilder:validation:Optional
+	IDRef *v1.Reference `json:"idRef,omitempty" tf:"-"`
+
+	// Selector for a AzureRole in kion to populate id.
+	// +kubebuilder:validation:Optional
+	IDSelector *v1.Selector `json:"idSelector,omitempty" tf:"-"`
 }
 
 type OUCloudAccessRoleGCPIAMRolesInitParameters struct {
 
 	// (String) The ID of this resource.
+	// +crossplane:generate:reference:type=github.com/enel1221/provider-kion/apis/cluster/kion/v1alpha1.GCPIAMRole
 	ID *float64 `json:"id,omitempty" tf:"id,omitempty"`
+
+	// Reference to a GCPIAMRole in kion to populate id.
+	// +kubebuilder:validation:Optional
+	IDRef *v1.Reference `json:"idRef,omitempty" tf:"-"`
+
+	// Selector for a GCPIAMRole in kion to populate id.
+	// +kubebuilder:validation:Optional
+	IDSelector *v1.Selector `json:"idSelector,omitempty" tf:"-"`
 }
 
 type OUCloudAccessRoleGCPIAMRolesObservation struct {
@@ -66,8 +93,17 @@ type OUCloudAccessRoleGCPIAMRolesObservation struct {
 type OUCloudAccessRoleGCPIAMRolesParameters struct {
 
 	// (String) The ID of this resource.
+	// +crossplane:generate:reference:type=github.com/enel1221/provider-kion/apis/cluster/kion/v1alpha1.GCPIAMRole
 	// +kubebuilder:validation:Optional
 	ID *float64 `json:"id,omitempty" tf:"id,omitempty"`
+
+	// Reference to a GCPIAMRole in kion to populate id.
+	// +kubebuilder:validation:Optional
+	IDRef *v1.Reference `json:"idRef,omitempty" tf:"-"`
+
+	// Selector for a GCPIAMRole in kion to populate id.
+	// +kubebuilder:validation:Optional
+	IDSelector *v1.Selector `json:"idSelector,omitempty" tf:"-"`
 }
 
 type OUCloudAccessRoleInitParameters struct {
@@ -100,7 +136,16 @@ type OUCloudAccessRoleInitParameters struct {
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// (Number)
+	// +crossplane:generate:reference:type=github.com/enel1221/provider-kion/apis/cluster/kion/v1alpha1.Ou
 	OuID *float64 `json:"ouId,omitempty" tf:"ou_id,omitempty"`
+
+	// Reference to a Ou in kion to populate ouId.
+	// +kubebuilder:validation:Optional
+	OuIDRef *v1.Reference `json:"ouIdRef,omitempty" tf:"-"`
+
+	// Selector for a Ou in kion to populate ouId.
+	// +kubebuilder:validation:Optional
+	OuIDSelector *v1.Selector `json:"ouIdSelector,omitempty" tf:"-"`
 
 	// (Boolean)
 	ShortTermAccessKeys *bool `json:"shortTermAccessKeys,omitempty" tf:"short_term_access_keys,omitempty"`
@@ -202,8 +247,17 @@ type OUCloudAccessRoleParameters struct {
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// (Number)
+	// +crossplane:generate:reference:type=github.com/enel1221/provider-kion/apis/cluster/kion/v1alpha1.Ou
 	// +kubebuilder:validation:Optional
 	OuID *float64 `json:"ouId,omitempty" tf:"ou_id,omitempty"`
+
+	// Reference to a Ou in kion to populate ouId.
+	// +kubebuilder:validation:Optional
+	OuIDRef *v1.Reference `json:"ouIdRef,omitempty" tf:"-"`
+
+	// Selector for a Ou in kion to populate ouId.
+	// +kubebuilder:validation:Optional
+	OuIDSelector *v1.Selector `json:"ouIdSelector,omitempty" tf:"-"`
 
 	// (Boolean)
 	// +kubebuilder:validation:Optional
@@ -225,7 +279,16 @@ type OUCloudAccessRoleParameters struct {
 type UserGroupsInitParameters struct {
 
 	// (String) The ID of this resource.
+	// +crossplane:generate:reference:type=github.com/enel1221/provider-kion/apis/cluster/kion/v1alpha1.Group
 	ID *float64 `json:"id,omitempty" tf:"id,omitempty"`
+
+	// Reference to a Group in kion to populate id.
+	// +kubebuilder:validation:Optional
+	IDRef *v1.Reference `json:"idRef,omitempty" tf:"-"`
+
+	// Selector for a Group in kion to populate id.
+	// +kubebuilder:validation:Optional
+	IDSelector *v1.Selector `json:"idSelector,omitempty" tf:"-"`
 }
 
 type UserGroupsObservation struct {
@@ -237,8 +300,17 @@ type UserGroupsObservation struct {
 type UserGroupsParameters struct {
 
 	// (String) The ID of this resource.
+	// +crossplane:generate:reference:type=github.com/enel1221/provider-kion/apis/cluster/kion/v1alpha1.Group
 	// +kubebuilder:validation:Optional
 	ID *float64 `json:"id,omitempty" tf:"id,omitempty"`
+
+	// Reference to a Group in kion to populate id.
+	// +kubebuilder:validation:Optional
+	IDRef *v1.Reference `json:"idRef,omitempty" tf:"-"`
+
+	// Selector for a Group in kion to populate id.
+	// +kubebuilder:validation:Optional
+	IDSelector *v1.Selector `json:"idSelector,omitempty" tf:"-"`
 }
 
 type UsersInitParameters struct {
@@ -297,7 +369,6 @@ type OUCloudAccessRole struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.name) || (has(self.initProvider) && has(self.initProvider.name))",message="spec.forProvider.name is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.ouId) || (has(self.initProvider) && has(self.initProvider.ouId))",message="spec.forProvider.ouId is a required parameter"
 	Spec   OUCloudAccessRoleSpec   `json:"spec"`
 	Status OUCloudAccessRoleStatus `json:"status,omitempty"`
 }

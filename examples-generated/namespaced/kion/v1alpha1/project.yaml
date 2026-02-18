@@ -74,7 +74,9 @@ spec:
       Owner: DevOps
       Team: Platform
     name: Development Infrastructure
-    ouId: 3
+    ouIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
     ownerUserGroupIds:
     - id: 5
     ownerUserIds:

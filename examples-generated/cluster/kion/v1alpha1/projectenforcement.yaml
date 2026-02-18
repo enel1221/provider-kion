@@ -12,7 +12,9 @@ spec:
     enabled: true
     notificationFrequency: daily
     overburn: true
-    projectId: 10
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
     threshold: 5000
     thresholdType: dollar
     timeframe: month

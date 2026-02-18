@@ -31,7 +31,16 @@ type GroupAssociationInitParameters struct {
 	UpdateOnLogin *bool `json:"updateOnLogin,omitempty" tf:"update_on_login,omitempty"`
 
 	// (Number)
+	// +crossplane:generate:reference:type=github.com/enel1221/provider-kion/apis/cluster/kion/v1alpha1.Group
 	UserGroupID *float64 `json:"userGroupId,omitempty" tf:"user_group_id,omitempty"`
+
+	// Reference to a Group in kion to populate userGroupId.
+	// +kubebuilder:validation:Optional
+	UserGroupIDRef *v1.Reference `json:"userGroupIdRef,omitempty" tf:"-"`
+
+	// Selector for a Group in kion to populate userGroupId.
+	// +kubebuilder:validation:Optional
+	UserGroupIDSelector *v1.Selector `json:"userGroupIdSelector,omitempty" tf:"-"`
 }
 
 type GroupAssociationObservation struct {
@@ -87,8 +96,17 @@ type GroupAssociationParameters struct {
 	UpdateOnLogin *bool `json:"updateOnLogin,omitempty" tf:"update_on_login,omitempty"`
 
 	// (Number)
+	// +crossplane:generate:reference:type=github.com/enel1221/provider-kion/apis/cluster/kion/v1alpha1.Group
 	// +kubebuilder:validation:Optional
 	UserGroupID *float64 `json:"userGroupId,omitempty" tf:"user_group_id,omitempty"`
+
+	// Reference to a Group in kion to populate userGroupId.
+	// +kubebuilder:validation:Optional
+	UserGroupIDRef *v1.Reference `json:"userGroupIdRef,omitempty" tf:"-"`
+
+	// Selector for a Group in kion to populate userGroupId.
+	// +kubebuilder:validation:Optional
+	UserGroupIDSelector *v1.Selector `json:"userGroupIdSelector,omitempty" tf:"-"`
 }
 
 // GroupAssociationSpec defines the desired state of GroupAssociation

@@ -11,10 +11,14 @@ spec:
     applyToAllAccounts: true
     longTermAccessKeys: false
     name: example-project-car
-    projectId: 1
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
     shortTermAccessKeys: true
     userGroups:
-    - id: 1
+    - idSelector:
+        matchLabels:
+          testing.upbound.io/example-name: example
     users:
     - id: 1
     webAccess: true

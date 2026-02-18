@@ -9,10 +9,12 @@ metadata:
 spec:
   forProvider:
     appRoleId: 1
-    projectId: 10
-    userGroupsIds:
-    - 25
-    - 26
-    userIds:
-    - 15
-    - 16
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    userGroupsIdsRefs:
+    - name: example
+    - name: example
+    userIdsRefs:
+    - name: example
+    - name: example

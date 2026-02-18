@@ -20,5 +20,7 @@ spec:
     ownerUsers:
     - id: 10
     - id: 11
-    parentOuId: 1
+    parentOuIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
     permissionSchemeId: 2

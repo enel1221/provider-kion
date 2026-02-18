@@ -22,7 +22,16 @@ type ProjectEnforcementInitParameters struct {
 
 	// (Number) Defines a Cloud Rule ID associated with the enforcement.
 	// Defines a Cloud Rule ID associated with the enforcement.
+	// +crossplane:generate:reference:type=github.com/enel1221/provider-kion/apis/namespaced/kion/v1alpha1.CloudRule
 	CloudRuleID *float64 `json:"cloudRuleId,omitempty" tf:"cloud_rule_id,omitempty"`
+
+	// Reference to a CloudRule in kion to populate cloudRuleId.
+	// +kubebuilder:validation:Optional
+	CloudRuleIDRef *v1.NamespacedReference `json:"cloudRuleIdRef,omitempty" tf:"-"`
+
+	// Selector for a CloudRule in kion to populate cloudRuleId.
+	// +kubebuilder:validation:Optional
+	CloudRuleIDSelector *v1.NamespacedSelector `json:"cloudRuleIdSelector,omitempty" tf:"-"`
 
 	// provided description of the enforcement.
 	// Optional, user-provided description of the enforcement.
@@ -42,7 +51,16 @@ type ProjectEnforcementInitParameters struct {
 
 	// (Number) ID of the project under enforcement.
 	// ID of the project under enforcement.
+	// +crossplane:generate:reference:type=github.com/enel1221/provider-kion/apis/namespaced/kion/v1alpha1.Project
 	ProjectID *float64 `json:"projectId,omitempty" tf:"project_id,omitempty"`
+
+	// Reference to a Project in kion to populate projectId.
+	// +kubebuilder:validation:Optional
+	ProjectIDRef *v1.NamespacedReference `json:"projectIdRef,omitempty" tf:"-"`
+
+	// Selector for a Project in kion to populate projectId.
+	// +kubebuilder:validation:Optional
+	ProjectIDSelector *v1.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
 	// (Number) ID of the service related to the enforcement.
 	// ID of the service related to the enforcement.
@@ -148,8 +166,17 @@ type ProjectEnforcementParameters struct {
 
 	// (Number) Defines a Cloud Rule ID associated with the enforcement.
 	// Defines a Cloud Rule ID associated with the enforcement.
+	// +crossplane:generate:reference:type=github.com/enel1221/provider-kion/apis/namespaced/kion/v1alpha1.CloudRule
 	// +kubebuilder:validation:Optional
 	CloudRuleID *float64 `json:"cloudRuleId,omitempty" tf:"cloud_rule_id,omitempty"`
+
+	// Reference to a CloudRule in kion to populate cloudRuleId.
+	// +kubebuilder:validation:Optional
+	CloudRuleIDRef *v1.NamespacedReference `json:"cloudRuleIdRef,omitempty" tf:"-"`
+
+	// Selector for a CloudRule in kion to populate cloudRuleId.
+	// +kubebuilder:validation:Optional
+	CloudRuleIDSelector *v1.NamespacedSelector `json:"cloudRuleIdSelector,omitempty" tf:"-"`
 
 	// provided description of the enforcement.
 	// Optional, user-provided description of the enforcement.
@@ -173,8 +200,17 @@ type ProjectEnforcementParameters struct {
 
 	// (Number) ID of the project under enforcement.
 	// ID of the project under enforcement.
+	// +crossplane:generate:reference:type=github.com/enel1221/provider-kion/apis/namespaced/kion/v1alpha1.Project
 	// +kubebuilder:validation:Optional
 	ProjectID *float64 `json:"projectId,omitempty" tf:"project_id,omitempty"`
+
+	// Reference to a Project in kion to populate projectId.
+	// +kubebuilder:validation:Optional
+	ProjectIDRef *v1.NamespacedReference `json:"projectIdRef,omitempty" tf:"-"`
+
+	// Selector for a Project in kion to populate projectId.
+	// +kubebuilder:validation:Optional
+	ProjectIDSelector *v1.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
 	// (Number) ID of the service related to the enforcement.
 	// ID of the service related to the enforcement.
@@ -248,7 +284,6 @@ type ProjectEnforcementStatus struct {
 type ProjectEnforcement struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.projectId) || (has(self.initProvider) && has(self.initProvider.projectId))",message="spec.forProvider.projectId is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.threshold) || (has(self.initProvider) && has(self.initProvider.threshold))",message="spec.forProvider.threshold is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.timeframe) || (has(self.initProvider) && has(self.initProvider.timeframe))",message="spec.forProvider.timeframe is a required parameter"
 	Spec   ProjectEnforcementSpec   `json:"spec"`

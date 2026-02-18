@@ -22,17 +22,44 @@ type ProjectPermissionMappingInitParameters struct {
 
 	// (Number) ID of the project to manage permission mappings for.
 	// ID of the project to manage permission mappings for.
+	// +crossplane:generate:reference:type=github.com/enel1221/provider-kion/apis/namespaced/kion/v1alpha1.Project
 	ProjectID *float64 `json:"projectId,omitempty" tf:"project_id,omitempty"`
+
+	// Reference to a Project in kion to populate projectId.
+	// +kubebuilder:validation:Optional
+	ProjectIDRef *v1.NamespacedReference `json:"projectIdRef,omitempty" tf:"-"`
+
+	// Selector for a Project in kion to populate projectId.
+	// +kubebuilder:validation:Optional
+	ProjectIDSelector *v1.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
 	// (Set of Number) Set of user group IDs for the permission mapping (must be provided in numerical order).
 	// Set of user group IDs for the permission mapping (must be provided in numerical order).
+	// +crossplane:generate:reference:type=github.com/enel1221/provider-kion/apis/namespaced/kion/v1alpha1.Group
 	// +listType=set
 	UserGroupsIds []*float64 `json:"userGroupsIds,omitempty" tf:"user_groups_ids,omitempty"`
 
+	// References to Group in kion to populate userGroupsIds.
+	// +kubebuilder:validation:Optional
+	UserGroupsIdsRefs []v1.NamespacedReference `json:"userGroupsIdsRefs,omitempty" tf:"-"`
+
+	// Selector for a list of Group in kion to populate userGroupsIds.
+	// +kubebuilder:validation:Optional
+	UserGroupsIdsSelector *v1.NamespacedSelector `json:"userGroupsIdsSelector,omitempty" tf:"-"`
+
 	// (Set of Number) Set of user IDs for the permission mapping (must be provided in numerical order).
 	// Set of user IDs for the permission mapping (must be provided in numerical order).
+	// +crossplane:generate:reference:type=github.com/enel1221/provider-kion/apis/namespaced/kion/v1alpha1.User
 	// +listType=set
 	UserIds []*float64 `json:"userIds,omitempty" tf:"user_ids,omitempty"`
+
+	// References to User in kion to populate userIds.
+	// +kubebuilder:validation:Optional
+	UserIdsRefs []v1.NamespacedReference `json:"userIdsRefs,omitempty" tf:"-"`
+
+	// Selector for a list of User in kion to populate userIds.
+	// +kubebuilder:validation:Optional
+	UserIdsSelector *v1.NamespacedSelector `json:"userIdsSelector,omitempty" tf:"-"`
 }
 
 type ProjectPermissionMappingObservation struct {
@@ -68,20 +95,47 @@ type ProjectPermissionMappingParameters struct {
 
 	// (Number) ID of the project to manage permission mappings for.
 	// ID of the project to manage permission mappings for.
+	// +crossplane:generate:reference:type=github.com/enel1221/provider-kion/apis/namespaced/kion/v1alpha1.Project
 	// +kubebuilder:validation:Optional
 	ProjectID *float64 `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
+	// Reference to a Project in kion to populate projectId.
+	// +kubebuilder:validation:Optional
+	ProjectIDRef *v1.NamespacedReference `json:"projectIdRef,omitempty" tf:"-"`
+
+	// Selector for a Project in kion to populate projectId.
+	// +kubebuilder:validation:Optional
+	ProjectIDSelector *v1.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
+
 	// (Set of Number) Set of user group IDs for the permission mapping (must be provided in numerical order).
 	// Set of user group IDs for the permission mapping (must be provided in numerical order).
+	// +crossplane:generate:reference:type=github.com/enel1221/provider-kion/apis/namespaced/kion/v1alpha1.Group
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	UserGroupsIds []*float64 `json:"userGroupsIds,omitempty" tf:"user_groups_ids,omitempty"`
 
+	// References to Group in kion to populate userGroupsIds.
+	// +kubebuilder:validation:Optional
+	UserGroupsIdsRefs []v1.NamespacedReference `json:"userGroupsIdsRefs,omitempty" tf:"-"`
+
+	// Selector for a list of Group in kion to populate userGroupsIds.
+	// +kubebuilder:validation:Optional
+	UserGroupsIdsSelector *v1.NamespacedSelector `json:"userGroupsIdsSelector,omitempty" tf:"-"`
+
 	// (Set of Number) Set of user IDs for the permission mapping (must be provided in numerical order).
 	// Set of user IDs for the permission mapping (must be provided in numerical order).
+	// +crossplane:generate:reference:type=github.com/enel1221/provider-kion/apis/namespaced/kion/v1alpha1.User
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	UserIds []*float64 `json:"userIds,omitempty" tf:"user_ids,omitempty"`
+
+	// References to User in kion to populate userIds.
+	// +kubebuilder:validation:Optional
+	UserIdsRefs []v1.NamespacedReference `json:"userIdsRefs,omitempty" tf:"-"`
+
+	// Selector for a list of User in kion to populate userIds.
+	// +kubebuilder:validation:Optional
+	UserIdsSelector *v1.NamespacedSelector `json:"userIdsSelector,omitempty" tf:"-"`
 }
 
 // ProjectPermissionMappingSpec defines the desired state of ProjectPermissionMapping
@@ -121,9 +175,6 @@ type ProjectPermissionMapping struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.appRoleId) || (has(self.initProvider) && has(self.initProvider.appRoleId))",message="spec.forProvider.appRoleId is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.projectId) || (has(self.initProvider) && has(self.initProvider.projectId))",message="spec.forProvider.projectId is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.userGroupsIds) || (has(self.initProvider) && has(self.initProvider.userGroupsIds))",message="spec.forProvider.userGroupsIds is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.userIds) || (has(self.initProvider) && has(self.initProvider.userIds))",message="spec.forProvider.userIds is a required parameter"
 	Spec   ProjectPermissionMappingSpec   `json:"spec"`
 	Status ProjectPermissionMappingStatus `json:"status,omitempty"`
 }

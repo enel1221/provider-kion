@@ -29,7 +29,9 @@ spec:
       moveDatecode: 202403
     name: Terraform Complete Example Account
     payerId: 1
-    projectId: 42
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
     skipAccessChecking: false
     startDatecode: 2024-03
     useOrgAccountInfo: true

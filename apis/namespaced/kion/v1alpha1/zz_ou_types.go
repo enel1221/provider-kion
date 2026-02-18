@@ -39,7 +39,16 @@ type OuInitParameters struct {
 	OwnerUsers []OuOwnerUsersInitParameters `json:"ownerUsers,omitempty" tf:"owner_users,omitempty"`
 
 	// (Number)
+	// +crossplane:generate:reference:type=github.com/enel1221/provider-kion/apis/namespaced/kion/v1alpha1.Ou
 	ParentOuID *float64 `json:"parentOuId,omitempty" tf:"parent_ou_id,omitempty"`
+
+	// Reference to a Ou in kion to populate parentOuId.
+	// +kubebuilder:validation:Optional
+	ParentOuIDRef *v1.NamespacedReference `json:"parentOuIdRef,omitempty" tf:"-"`
+
+	// Selector for a Ou in kion to populate parentOuId.
+	// +kubebuilder:validation:Optional
+	ParentOuIDSelector *v1.NamespacedSelector `json:"parentOuIdSelector,omitempty" tf:"-"`
 
 	// (Number)
 	PermissionSchemeID *float64 `json:"permissionSchemeId,omitempty" tf:"permission_scheme_id,omitempty"`
@@ -151,8 +160,17 @@ type OuParameters struct {
 	OwnerUsers []OuOwnerUsersParameters `json:"ownerUsers,omitempty" tf:"owner_users,omitempty"`
 
 	// (Number)
+	// +crossplane:generate:reference:type=github.com/enel1221/provider-kion/apis/namespaced/kion/v1alpha1.Ou
 	// +kubebuilder:validation:Optional
 	ParentOuID *float64 `json:"parentOuId,omitempty" tf:"parent_ou_id,omitempty"`
+
+	// Reference to a Ou in kion to populate parentOuId.
+	// +kubebuilder:validation:Optional
+	ParentOuIDRef *v1.NamespacedReference `json:"parentOuIdRef,omitempty" tf:"-"`
+
+	// Selector for a Ou in kion to populate parentOuId.
+	// +kubebuilder:validation:Optional
+	ParentOuIDSelector *v1.NamespacedSelector `json:"parentOuIdSelector,omitempty" tf:"-"`
 
 	// (Number)
 	// +kubebuilder:validation:Optional
@@ -196,7 +214,6 @@ type Ou struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.name) || (has(self.initProvider) && has(self.initProvider.name))",message="spec.forProvider.name is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.parentOuId) || (has(self.initProvider) && has(self.initProvider.parentOuId))",message="spec.forProvider.parentOuId is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.permissionSchemeId) || (has(self.initProvider) && has(self.initProvider.permissionSchemeId))",message="spec.forProvider.permissionSchemeId is a required parameter"
 	Spec   OuSpec   `json:"spec"`
 	Status OuStatus `json:"status,omitempty"`

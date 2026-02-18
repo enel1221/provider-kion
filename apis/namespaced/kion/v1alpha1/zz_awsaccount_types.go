@@ -78,7 +78,16 @@ type AWSAccountInitParameters struct {
 
 	// (Number) The ID of the Kion project to place this account within. If empty, the account will be placed within the account cache.
 	// The ID of the Kion project to place this account within. If empty, the account will be placed within the account cache.
+	// +crossplane:generate:reference:type=github.com/enel1221/provider-kion/apis/namespaced/kion/v1alpha1.Project
 	ProjectID *float64 `json:"projectId,omitempty" tf:"project_id,omitempty"`
+
+	// Reference to a Project in kion to populate projectId.
+	// +kubebuilder:validation:Optional
+	ProjectIDRef *v1.NamespacedReference `json:"projectIdRef,omitempty" tf:"-"`
+
+	// Selector for a Project in kion to populate projectId.
+	// +kubebuilder:validation:Optional
+	ProjectIDSelector *v1.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
 	// (Boolean) True to skip periodic access checking on the account.
 	// True to skip periodic access checking on the account.
@@ -273,8 +282,17 @@ type AWSAccountParameters struct {
 
 	// (Number) The ID of the Kion project to place this account within. If empty, the account will be placed within the account cache.
 	// The ID of the Kion project to place this account within. If empty, the account will be placed within the account cache.
+	// +crossplane:generate:reference:type=github.com/enel1221/provider-kion/apis/namespaced/kion/v1alpha1.Project
 	// +kubebuilder:validation:Optional
 	ProjectID *float64 `json:"projectId,omitempty" tf:"project_id,omitempty"`
+
+	// Reference to a Project in kion to populate projectId.
+	// +kubebuilder:validation:Optional
+	ProjectIDRef *v1.NamespacedReference `json:"projectIdRef,omitempty" tf:"-"`
+
+	// Selector for a Project in kion to populate projectId.
+	// +kubebuilder:validation:Optional
+	ProjectIDSelector *v1.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
 	// (Boolean) True to skip periodic access checking on the account.
 	// True to skip periodic access checking on the account.

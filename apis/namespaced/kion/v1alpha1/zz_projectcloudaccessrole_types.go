@@ -55,7 +55,16 @@ type ProjectCloudAccessRoleAwsIAMPoliciesParameters struct {
 type ProjectCloudAccessRoleAzureRoleDefinitionsInitParameters struct {
 
 	// (String) The ID of this resource.
+	// +crossplane:generate:reference:type=github.com/enel1221/provider-kion/apis/namespaced/kion/v1alpha1.AzureRole
 	ID *float64 `json:"id,omitempty" tf:"id,omitempty"`
+
+	// Reference to a AzureRole in kion to populate id.
+	// +kubebuilder:validation:Optional
+	IDRef *v1.NamespacedReference `json:"idRef,omitempty" tf:"-"`
+
+	// Selector for a AzureRole in kion to populate id.
+	// +kubebuilder:validation:Optional
+	IDSelector *v1.NamespacedSelector `json:"idSelector,omitempty" tf:"-"`
 }
 
 type ProjectCloudAccessRoleAzureRoleDefinitionsObservation struct {
@@ -67,14 +76,32 @@ type ProjectCloudAccessRoleAzureRoleDefinitionsObservation struct {
 type ProjectCloudAccessRoleAzureRoleDefinitionsParameters struct {
 
 	// (String) The ID of this resource.
+	// +crossplane:generate:reference:type=github.com/enel1221/provider-kion/apis/namespaced/kion/v1alpha1.AzureRole
 	// +kubebuilder:validation:Optional
 	ID *float64 `json:"id,omitempty" tf:"id,omitempty"`
+
+	// Reference to a AzureRole in kion to populate id.
+	// +kubebuilder:validation:Optional
+	IDRef *v1.NamespacedReference `json:"idRef,omitempty" tf:"-"`
+
+	// Selector for a AzureRole in kion to populate id.
+	// +kubebuilder:validation:Optional
+	IDSelector *v1.NamespacedSelector `json:"idSelector,omitempty" tf:"-"`
 }
 
 type ProjectCloudAccessRoleGCPIAMRolesInitParameters struct {
 
 	// (String) The ID of this resource.
+	// +crossplane:generate:reference:type=github.com/enel1221/provider-kion/apis/namespaced/kion/v1alpha1.GCPIAMRole
 	ID *float64 `json:"id,omitempty" tf:"id,omitempty"`
+
+	// Reference to a GCPIAMRole in kion to populate id.
+	// +kubebuilder:validation:Optional
+	IDRef *v1.NamespacedReference `json:"idRef,omitempty" tf:"-"`
+
+	// Selector for a GCPIAMRole in kion to populate id.
+	// +kubebuilder:validation:Optional
+	IDSelector *v1.NamespacedSelector `json:"idSelector,omitempty" tf:"-"`
 }
 
 type ProjectCloudAccessRoleGCPIAMRolesObservation struct {
@@ -86,8 +113,17 @@ type ProjectCloudAccessRoleGCPIAMRolesObservation struct {
 type ProjectCloudAccessRoleGCPIAMRolesParameters struct {
 
 	// (String) The ID of this resource.
+	// +crossplane:generate:reference:type=github.com/enel1221/provider-kion/apis/namespaced/kion/v1alpha1.GCPIAMRole
 	// +kubebuilder:validation:Optional
 	ID *float64 `json:"id,omitempty" tf:"id,omitempty"`
+
+	// Reference to a GCPIAMRole in kion to populate id.
+	// +kubebuilder:validation:Optional
+	IDRef *v1.NamespacedReference `json:"idRef,omitempty" tf:"-"`
+
+	// Selector for a GCPIAMRole in kion to populate id.
+	// +kubebuilder:validation:Optional
+	IDSelector *v1.NamespacedSelector `json:"idSelector,omitempty" tf:"-"`
 }
 
 type ProjectCloudAccessRoleInitParameters struct {
@@ -130,7 +166,16 @@ type ProjectCloudAccessRoleInitParameters struct {
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// (Number)
+	// +crossplane:generate:reference:type=github.com/enel1221/provider-kion/apis/namespaced/kion/v1alpha1.Project
 	ProjectID *float64 `json:"projectId,omitempty" tf:"project_id,omitempty"`
+
+	// Reference to a Project in kion to populate projectId.
+	// +kubebuilder:validation:Optional
+	ProjectIDRef *v1.NamespacedReference `json:"projectIdRef,omitempty" tf:"-"`
+
+	// Selector for a Project in kion to populate projectId.
+	// +kubebuilder:validation:Optional
+	ProjectIDSelector *v1.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
 	// (Boolean)
 	ShortTermAccessKeys *bool `json:"shortTermAccessKeys,omitempty" tf:"short_term_access_keys,omitempty"`
@@ -255,8 +300,17 @@ type ProjectCloudAccessRoleParameters struct {
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// (Number)
+	// +crossplane:generate:reference:type=github.com/enel1221/provider-kion/apis/namespaced/kion/v1alpha1.Project
 	// +kubebuilder:validation:Optional
 	ProjectID *float64 `json:"projectId,omitempty" tf:"project_id,omitempty"`
+
+	// Reference to a Project in kion to populate projectId.
+	// +kubebuilder:validation:Optional
+	ProjectIDRef *v1.NamespacedReference `json:"projectIdRef,omitempty" tf:"-"`
+
+	// Selector for a Project in kion to populate projectId.
+	// +kubebuilder:validation:Optional
+	ProjectIDSelector *v1.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
 	// (Boolean)
 	// +kubebuilder:validation:Optional
@@ -278,7 +332,16 @@ type ProjectCloudAccessRoleParameters struct {
 type ProjectCloudAccessRoleUserGroupsInitParameters struct {
 
 	// (String) The ID of this resource.
+	// +crossplane:generate:reference:type=github.com/enel1221/provider-kion/apis/namespaced/kion/v1alpha1.Group
 	ID *float64 `json:"id,omitempty" tf:"id,omitempty"`
+
+	// Reference to a Group in kion to populate id.
+	// +kubebuilder:validation:Optional
+	IDRef *v1.NamespacedReference `json:"idRef,omitempty" tf:"-"`
+
+	// Selector for a Group in kion to populate id.
+	// +kubebuilder:validation:Optional
+	IDSelector *v1.NamespacedSelector `json:"idSelector,omitempty" tf:"-"`
 }
 
 type ProjectCloudAccessRoleUserGroupsObservation struct {
@@ -290,8 +353,17 @@ type ProjectCloudAccessRoleUserGroupsObservation struct {
 type ProjectCloudAccessRoleUserGroupsParameters struct {
 
 	// (String) The ID of this resource.
+	// +crossplane:generate:reference:type=github.com/enel1221/provider-kion/apis/namespaced/kion/v1alpha1.Group
 	// +kubebuilder:validation:Optional
 	ID *float64 `json:"id,omitempty" tf:"id,omitempty"`
+
+	// Reference to a Group in kion to populate id.
+	// +kubebuilder:validation:Optional
+	IDRef *v1.NamespacedReference `json:"idRef,omitempty" tf:"-"`
+
+	// Selector for a Group in kion to populate id.
+	// +kubebuilder:validation:Optional
+	IDSelector *v1.NamespacedSelector `json:"idSelector,omitempty" tf:"-"`
 }
 
 type ProjectCloudAccessRoleUsersInitParameters struct {
@@ -350,7 +422,6 @@ type ProjectCloudAccessRole struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.name) || (has(self.initProvider) && has(self.initProvider.name))",message="spec.forProvider.name is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.projectId) || (has(self.initProvider) && has(self.initProvider.projectId))",message="spec.forProvider.projectId is a required parameter"
 	Spec   ProjectCloudAccessRoleSpec   `json:"spec"`
 	Status ProjectCloudAccessRoleStatus `json:"status,omitempty"`
 }

@@ -10,10 +10,12 @@ metadata:
 spec:
   forProvider:
     appRoleId: 1
-    fundingSourceId: ${kion_funding_source.complete_example.id}
-    userGroupsIds:
-    - 1
-    - 2
-    userIds:
-    - 1
-    - 2
+    fundingSourceIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: complete_example
+    userGroupsIdsRefs:
+    - name: example
+    - name: example
+    userIdsRefs:
+    - name: example
+    - name: example
