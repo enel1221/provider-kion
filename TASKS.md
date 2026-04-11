@@ -408,7 +408,7 @@ make lint
 
 Uses golangci-lint v1.64.5. Must pass with no errors. The lint binary is cached at `_output/lint/`.
 
-### - [ ] 5.5 Verify clean build (no dirty version)
+### - [x] 5.5 Verify clean build (no dirty version)
 
 ```bash
 make build
@@ -488,7 +488,7 @@ This uses `uptest` to:
 | 2. Add Missing Resources | 2.1, 2.2, 2.3, 2.4 | Complete |
 | 3. Code Regeneration | 3.1, 3.2 | Complete |
 | 4. Examples & Fixtures | 4.1, 4.2, 4.3, 4.4 | Complete |
-| 5. Build & Test | 5.1, 5.2, 5.3, 5.4, 5.5 | 5.5 pending final clean-tree build |
+| 5. Build & Test | 5.1, 5.2, 5.3, 5.4, 5.5 | Complete |
 | 6. Production Readiness | 6.1, 6.2, 6.3, 6.4 | 6.1-6.3 complete, 6.4 pending live env |
 
 ### Key context for subagents
