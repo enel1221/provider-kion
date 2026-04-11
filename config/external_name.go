@@ -11,6 +11,7 @@ import "github.com/crossplane/upjet/v2/pkg/config"
 var ExternalNameConfigs = map[string]config.ExternalName{
 
 	// Kion resources:
+	"kion_app_config":                        config.IdentifierFromProvider,
 	"kion_aws_account":                       config.IdentifierFromProvider,
 	"kion_aws_cloudformation_template":       config.IdentifierFromProvider,
 	"kion_aws_iam_policy":                    config.IdentifierFromProvider,
@@ -21,6 +22,9 @@ var ExternalNameConfigs = map[string]config.ExternalName{
 	"kion_cloud_rule":                        config.IdentifierFromProvider,
 	"kion_compliance_check":                  config.IdentifierFromProvider,
 	"kion_compliance_standard":               config.IdentifierFromProvider,
+	"kion_custom_account":                    config.IdentifierFromProvider,
+	"kion_custom_variable":                   config.IdentifierFromProvider,
+	"kion_custom_variable_override":          config.IdentifierFromProvider,
 	"kion_funding_source":                    config.IdentifierFromProvider,
 	"kion_funding_source_permission_mapping": config.IdentifierFromProvider,
 	"kion_gcp_account":                       config.IdentifierFromProvider,
@@ -33,6 +37,7 @@ var ExternalNameConfigs = map[string]config.ExternalName{
 	"kion_project":                           config.IdentifierFromProvider,
 	"kion_project_cloud_access_role":         config.IdentifierFromProvider,
 	"kion_project_enforcement":               config.IdentifierFromProvider,
+	"kion_project_note":                      config.IdentifierFromProvider,
 	"kion_project_permission_mapping":        config.IdentifierFromProvider,
 	"kion_saml_group_association":            config.IdentifierFromProvider,
 	"kion_service_control_policy":            config.IdentifierFromProvider,

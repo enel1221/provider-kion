@@ -1,0 +1,21 @@
+apiVersion: kion.upbound.io/v1alpha1
+kind: CustomVariable
+metadata:
+  annotations:
+    meta.upbound.io/example-id: kion/v1alpha1/customvariable
+  labels:
+    testing.upbound.io/example-name: string_example
+  name: string-example
+spec:
+  forProvider:
+    defaultValueString: dev
+    description: Environment type for the deployment
+    keyValidationMessage: Key must contain only alphanumeric characters, underscores,
+      and hyphens
+    keyValidationRegex: ^[a-zA-Z0-9_-]+$
+    name: environment
+    ownerUserIds:
+    - 1
+    type: string
+    valueValidationMessage: 'Value must be one of: dev, staging, prod'
+    valueValidationRegex: ^(dev|staging|prod)$

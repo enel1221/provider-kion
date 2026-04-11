@@ -9,7 +9,7 @@ import (
 )
 
 func TestExternalNameConfigs(t *testing.T) {
-	const wantCount = 28
+	const wantCount = 33
 
 	t.Run("HasExpectedCount", func(t *testing.T) {
 		if got := len(ExternalNameConfigs); got != wantCount {
@@ -19,6 +19,7 @@ func TestExternalNameConfigs(t *testing.T) {
 
 	t.Run("AllResources", func(t *testing.T) {
 		expected := []string{
+			"kion_app_config",
 			"kion_aws_account",
 			"kion_aws_cloudformation_template",
 			"kion_aws_iam_policy",
@@ -29,6 +30,9 @@ func TestExternalNameConfigs(t *testing.T) {
 			"kion_cloud_rule",
 			"kion_compliance_check",
 			"kion_compliance_standard",
+			"kion_custom_account",
+			"kion_custom_variable",
+			"kion_custom_variable_override",
 			"kion_funding_source",
 			"kion_funding_source_permission_mapping",
 			"kion_gcp_account",
@@ -41,6 +45,7 @@ func TestExternalNameConfigs(t *testing.T) {
 			"kion_project",
 			"kion_project_cloud_access_role",
 			"kion_project_enforcement",
+			"kion_project_note",
 			"kion_project_permission_mapping",
 			"kion_saml_group_association",
 			"kion_service_control_policy",

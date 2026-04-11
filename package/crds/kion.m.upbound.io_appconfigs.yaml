@@ -1,0 +1,657 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.18.0
+  name: appconfigs.kion.m.upbound.io
+spec:
+  group: kion.m.upbound.io
+  names:
+    categories:
+    - crossplane
+    - managed
+    - kion
+    kind: AppConfig
+    listKind: AppConfigList
+    plural: appconfigs
+    singular: appconfig
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Synced')].status
+      name: SYNCED
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: READY
+      type: string
+    - jsonPath: .metadata.annotations.crossplane\.io/external-name
+      name: EXTERNAL-NAME
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: AppConfig is the Schema for the AppConfigs API.
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: AppConfigSpec defines the desired state of AppConfig
+            properties:
+              forProvider:
+                properties:
+                  allUsersSeeOuNames:
+                    description: |-
+                      (Boolean) Indicates whether all users can see the names of OU's in the organization chart.
+                      Indicates whether all users can see the names of OU's in the organization chart.
+                    type: boolean
+                  allocationMode:
+                    description: |-
+                      (Boolean) Indicates if allocation mode is enabled in the application.
+                      Indicates if allocation mode is enabled in the application.
+                    type: boolean
+                  allowCustomPermissionSchemes:
+                    description: |-
+                      (Boolean) Indicates whether custom permission schemes are allowed or not.
+                      Indicates whether custom permission schemes are allowed or not.
+                    type: boolean
+                  appApiKeyCreationEnabled:
+                    description: |-
+                      (Boolean) Indicates if App API Key creation is enabled.
+                      Indicates if App API Key creation is enabled.
+                    type: boolean
+                  appApiKeyLifespan:
+                    description: |-
+                      (Number) Indicates the lifespan of App API Keys in days.
+                      Indicates the lifespan of App API Keys in days.
+                    type: number
+                  appApiKeyLimit:
+                    description: |-
+                      (Number) Indicates the max amount of App API Keys per user.
+                      Indicates the max amount of App API Keys per user.
+                    type: number
+                  awsAccessKeyCreationEnabled:
+                    description: |-
+                      (Boolean) Indicates whether AWS access keys creation is enabled.
+                      Indicates whether AWS access keys creation is enabled.
+                    type: boolean
+                  budgetMode:
+                    description: |-
+                      (Boolean) Indicates if budget mode is enabled in the application.
+                      Indicates if budget mode is enabled in the application.
+                    type: boolean
+                  cloudRuleGroupOwnershipOnly:
+                    description: |-
+                      (Boolean) Indicates if cloud rules are restricted to User Group ownership only. Setting this to true will remove all users from cloud rules. This cannot be undone.
+                      Indicates if cloud rules are restricted to User Group ownership only. Setting this to true will remove all users from cloud rules. This cannot be undone.
+                    type: boolean
+                  costSavingsAllowTerminate:
+                    description: |-
+                      app.
+                      Indicates whether resource termination is allowed in-app.
+                    type: boolean
+                  costSavingsEnabled:
+                    description: |-
+                      (Boolean) Indicates whether Cost Savings is enabled or not.
+                      Indicates whether Cost Savings is enabled or not.
+                    type: boolean
+                  costSavingsPostTokenLifeHours:
+                    description: |-
+                      (Number) Post token life (hours) for Cloud Custodian webhook actions to execute.
+                      Post token life (hours) for Cloud Custodian webhook actions to execute.
+                    type: number
+                  defaultOrgChartView:
+                    description: |-
+                      (String) Defines the default organization chart view.
+                      Defines the default organization chart view.
+                    type: string
+                  enforceFunding:
+                    description: |-
+                      (Boolean) Indicates whether spend plans or budgets must be created on all projects.
+                      Indicates whether spend plans or budgets must be created on all projects.
+                    type: boolean
+                  enforceFundingSources:
+                    description: |-
+                      (Boolean) Indicates whether every project should have a funding source.
+                      Indicates whether every project should have a funding source.
+                    type: boolean
+                  eventDrivenEnabled:
+                    description: |-
+                      (Boolean) Indicates whether event driven is enabled or not.
+                      Indicates whether event driven is enabled or not.
+                    type: boolean
+                  forecastingEnabled:
+                    description: |-
+                      (Boolean) Indicates whether forecasting is enabled or not.
+                      Indicates whether forecasting is enabled or not.
+                    type: boolean
+                  idmsGroupsAsViewersDefault:
+                    description: |-
+                      (Boolean) Indicates whether, when new groups are created via IDMS, the group will be set as a viewer by default.
+                      Indicates whether, when new groups are created via IDMS, the group will be set as a viewer by default.
+                    type: boolean
+                  reservedInstancesEnabled:
+                    description: |-
+                      (Boolean) Indicates whether reserved instances are enabled or not.
+                      Indicates whether reserved instances are enabled or not.
+                    type: boolean
+                  resourceInventoryEnabled:
+                    description: |-
+                      (Boolean) Indicates whether resource inventory is enabled or not.
+                      Indicates whether resource inventory is enabled or not.
+                    type: boolean
+                  samlDebug:
+                    description: |-
+                      (Boolean) Indicates whether SAML debugging is enabled or not.
+                      Indicates whether SAML debugging is enabled or not.
+                    type: boolean
+                  smtpEnabled:
+                    description: |-
+                      (Boolean) Indicates whether SMTP is enabled or not.
+                      Indicates whether SMTP is enabled or not.
+                    type: boolean
+                  smtpFrom:
+                    description: |-
+                      (String) The SMTP from address.
+                      The SMTP from address.
+                    type: string
+                  smtpHost:
+                    description: |-
+                      (String) The SMTP host.
+                      The SMTP host.
+                    type: string
+                  smtpPasswordSecretRef:
+                    description: |-
+                      (String, Sensitive) The SMTP password.
+                      The SMTP password.
+                    properties:
+                      key:
+                        type: string
+                      name:
+                        description: Name of the secret.
+                        type: string
+                    required:
+                    - key
+                    - name
+                    type: object
+                  smtpPort:
+                    description: |-
+                      (Number) The SMTP port.
+                      The SMTP port.
+                    type: number
+                  smtpSkipVerify:
+                    description: |-
+                      (Boolean) Indicates if the app should skip SMTP verification.
+                      Indicates if the app should skip SMTP verification.
+                    type: boolean
+                  smtpUsername:
+                    description: |-
+                      (String) The SMTP username.
+                      The SMTP username.
+                    type: string
+                  supportedAwsRegions:
+                    description: |-
+                      (List of String) The list of supported AWS regions.
+                      The list of supported AWS regions.
+                    items:
+                      type: string
+                    type: array
+                type: object
+              initProvider:
+                description: |-
+                  THIS IS A BETA FIELD. It will be honored
+                  unless the Management Policies feature flag is disabled.
+                  InitProvider holds the same fields as ForProvider, with the exception
+                  of Identifier and other resource reference fields. The fields that are
+                  in InitProvider are merged into ForProvider when the resource is created.
+                  The same fields are also added to the terraform ignore_changes hook, to
+                  avoid updating them after creation. This is useful for fields that are
+                  required on creation, but we do not desire to update them after creation,
+                  for example because of an external controller is managing them, like an
+                  autoscaler.
+                properties:
+                  allUsersSeeOuNames:
+                    description: |-
+                      (Boolean) Indicates whether all users can see the names of OU's in the organization chart.
+                      Indicates whether all users can see the names of OU's in the organization chart.
+                    type: boolean
+                  allocationMode:
+                    description: |-
+                      (Boolean) Indicates if allocation mode is enabled in the application.
+                      Indicates if allocation mode is enabled in the application.
+                    type: boolean
+                  allowCustomPermissionSchemes:
+                    description: |-
+                      (Boolean) Indicates whether custom permission schemes are allowed or not.
+                      Indicates whether custom permission schemes are allowed or not.
+                    type: boolean
+                  appApiKeyCreationEnabled:
+                    description: |-
+                      (Boolean) Indicates if App API Key creation is enabled.
+                      Indicates if App API Key creation is enabled.
+                    type: boolean
+                  appApiKeyLifespan:
+                    description: |-
+                      (Number) Indicates the lifespan of App API Keys in days.
+                      Indicates the lifespan of App API Keys in days.
+                    type: number
+                  appApiKeyLimit:
+                    description: |-
+                      (Number) Indicates the max amount of App API Keys per user.
+                      Indicates the max amount of App API Keys per user.
+                    type: number
+                  awsAccessKeyCreationEnabled:
+                    description: |-
+                      (Boolean) Indicates whether AWS access keys creation is enabled.
+                      Indicates whether AWS access keys creation is enabled.
+                    type: boolean
+                  budgetMode:
+                    description: |-
+                      (Boolean) Indicates if budget mode is enabled in the application.
+                      Indicates if budget mode is enabled in the application.
+                    type: boolean
+                  cloudRuleGroupOwnershipOnly:
+                    description: |-
+                      (Boolean) Indicates if cloud rules are restricted to User Group ownership only. Setting this to true will remove all users from cloud rules. This cannot be undone.
+                      Indicates if cloud rules are restricted to User Group ownership only. Setting this to true will remove all users from cloud rules. This cannot be undone.
+                    type: boolean
+                  costSavingsAllowTerminate:
+                    description: |-
+                      app.
+                      Indicates whether resource termination is allowed in-app.
+                    type: boolean
+                  costSavingsEnabled:
+                    description: |-
+                      (Boolean) Indicates whether Cost Savings is enabled or not.
+                      Indicates whether Cost Savings is enabled or not.
+                    type: boolean
+                  costSavingsPostTokenLifeHours:
+                    description: |-
+                      (Number) Post token life (hours) for Cloud Custodian webhook actions to execute.
+                      Post token life (hours) for Cloud Custodian webhook actions to execute.
+                    type: number
+                  defaultOrgChartView:
+                    description: |-
+                      (String) Defines the default organization chart view.
+                      Defines the default organization chart view.
+                    type: string
+                  enforceFunding:
+                    description: |-
+                      (Boolean) Indicates whether spend plans or budgets must be created on all projects.
+                      Indicates whether spend plans or budgets must be created on all projects.
+                    type: boolean
+                  enforceFundingSources:
+                    description: |-
+                      (Boolean) Indicates whether every project should have a funding source.
+                      Indicates whether every project should have a funding source.
+                    type: boolean
+                  eventDrivenEnabled:
+                    description: |-
+                      (Boolean) Indicates whether event driven is enabled or not.
+                      Indicates whether event driven is enabled or not.
+                    type: boolean
+                  forecastingEnabled:
+                    description: |-
+                      (Boolean) Indicates whether forecasting is enabled or not.
+                      Indicates whether forecasting is enabled or not.
+                    type: boolean
+                  idmsGroupsAsViewersDefault:
+                    description: |-
+                      (Boolean) Indicates whether, when new groups are created via IDMS, the group will be set as a viewer by default.
+                      Indicates whether, when new groups are created via IDMS, the group will be set as a viewer by default.
+                    type: boolean
+                  reservedInstancesEnabled:
+                    description: |-
+                      (Boolean) Indicates whether reserved instances are enabled or not.
+                      Indicates whether reserved instances are enabled or not.
+                    type: boolean
+                  resourceInventoryEnabled:
+                    description: |-
+                      (Boolean) Indicates whether resource inventory is enabled or not.
+                      Indicates whether resource inventory is enabled or not.
+                    type: boolean
+                  samlDebug:
+                    description: |-
+                      (Boolean) Indicates whether SAML debugging is enabled or not.
+                      Indicates whether SAML debugging is enabled or not.
+                    type: boolean
+                  smtpEnabled:
+                    description: |-
+                      (Boolean) Indicates whether SMTP is enabled or not.
+                      Indicates whether SMTP is enabled or not.
+                    type: boolean
+                  smtpFrom:
+                    description: |-
+                      (String) The SMTP from address.
+                      The SMTP from address.
+                    type: string
+                  smtpHost:
+                    description: |-
+                      (String) The SMTP host.
+                      The SMTP host.
+                    type: string
+                  smtpPasswordSecretRef:
+                    description: |-
+                      (String, Sensitive) The SMTP password.
+                      The SMTP password.
+                    properties:
+                      key:
+                        type: string
+                      name:
+                        description: Name of the secret.
+                        type: string
+                    required:
+                    - key
+                    - name
+                    type: object
+                  smtpPort:
+                    description: |-
+                      (Number) The SMTP port.
+                      The SMTP port.
+                    type: number
+                  smtpSkipVerify:
+                    description: |-
+                      (Boolean) Indicates if the app should skip SMTP verification.
+                      Indicates if the app should skip SMTP verification.
+                    type: boolean
+                  smtpUsername:
+                    description: |-
+                      (String) The SMTP username.
+                      The SMTP username.
+                    type: string
+                  supportedAwsRegions:
+                    description: |-
+                      (List of String) The list of supported AWS regions.
+                      The list of supported AWS regions.
+                    items:
+                      type: string
+                    type: array
+                type: object
+              managementPolicies:
+                default:
+                - '*'
+                description: |-
+                  THIS IS A BETA FIELD. It is on by default but can be opted out
+                  through a Crossplane feature flag.
+                  ManagementPolicies specify the array of actions Crossplane is allowed to
+                  take on the managed and external resources.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md
+                items:
+                  description: |-
+                    A ManagementAction represents an action that the Crossplane controllers
+                    can take on an external resource.
+                  enum:
+                  - Observe
+                  - Create
+                  - Update
+                  - Delete
+                  - LateInitialize
+                  - '*'
+                  type: string
+                type: array
+              providerConfigRef:
+                default:
+                  kind: ClusterProviderConfig
+                  name: default
+                description: |-
+                  ProviderConfigReference specifies how the provider that will be used to
+                  create, observe, update, and delete this managed resource should be
+                  configured.
+                properties:
+                  kind:
+                    description: Kind of the referenced object.
+                    type: string
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                required:
+                - kind
+                - name
+                type: object
+              writeConnectionSecretToRef:
+                description: |-
+                  WriteConnectionSecretToReference specifies the namespace and name of a
+                  Secret to which any connection details for this managed resource should
+                  be written. Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                properties:
+                  name:
+                    description: Name of the secret.
+                    type: string
+                required:
+                - name
+                type: object
+            required:
+            - forProvider
+            type: object
+          status:
+            description: AppConfigStatus defines the observed state of AppConfig.
+            properties:
+              atProvider:
+                properties:
+                  allUsersSeeOuNames:
+                    description: |-
+                      (Boolean) Indicates whether all users can see the names of OU's in the organization chart.
+                      Indicates whether all users can see the names of OU's in the organization chart.
+                    type: boolean
+                  allocationMode:
+                    description: |-
+                      (Boolean) Indicates if allocation mode is enabled in the application.
+                      Indicates if allocation mode is enabled in the application.
+                    type: boolean
+                  allowCustomPermissionSchemes:
+                    description: |-
+                      (Boolean) Indicates whether custom permission schemes are allowed or not.
+                      Indicates whether custom permission schemes are allowed or not.
+                    type: boolean
+                  appApiKeyCreationEnabled:
+                    description: |-
+                      (Boolean) Indicates if App API Key creation is enabled.
+                      Indicates if App API Key creation is enabled.
+                    type: boolean
+                  appApiKeyLifespan:
+                    description: |-
+                      (Number) Indicates the lifespan of App API Keys in days.
+                      Indicates the lifespan of App API Keys in days.
+                    type: number
+                  appApiKeyLimit:
+                    description: |-
+                      (Number) Indicates the max amount of App API Keys per user.
+                      Indicates the max amount of App API Keys per user.
+                    type: number
+                  awsAccessKeyCreationEnabled:
+                    description: |-
+                      (Boolean) Indicates whether AWS access keys creation is enabled.
+                      Indicates whether AWS access keys creation is enabled.
+                    type: boolean
+                  budgetMode:
+                    description: |-
+                      (Boolean) Indicates if budget mode is enabled in the application.
+                      Indicates if budget mode is enabled in the application.
+                    type: boolean
+                  cloudRuleGroupOwnershipOnly:
+                    description: |-
+                      (Boolean) Indicates if cloud rules are restricted to User Group ownership only. Setting this to true will remove all users from cloud rules. This cannot be undone.
+                      Indicates if cloud rules are restricted to User Group ownership only. Setting this to true will remove all users from cloud rules. This cannot be undone.
+                    type: boolean
+                  costSavingsAllowTerminate:
+                    description: |-
+                      app.
+                      Indicates whether resource termination is allowed in-app.
+                    type: boolean
+                  costSavingsEnabled:
+                    description: |-
+                      (Boolean) Indicates whether Cost Savings is enabled or not.
+                      Indicates whether Cost Savings is enabled or not.
+                    type: boolean
+                  costSavingsPostTokenLifeHours:
+                    description: |-
+                      (Number) Post token life (hours) for Cloud Custodian webhook actions to execute.
+                      Post token life (hours) for Cloud Custodian webhook actions to execute.
+                    type: number
+                  defaultOrgChartView:
+                    description: |-
+                      (String) Defines the default organization chart view.
+                      Defines the default organization chart view.
+                    type: string
+                  enforceFunding:
+                    description: |-
+                      (Boolean) Indicates whether spend plans or budgets must be created on all projects.
+                      Indicates whether spend plans or budgets must be created on all projects.
+                    type: boolean
+                  enforceFundingSources:
+                    description: |-
+                      (Boolean) Indicates whether every project should have a funding source.
+                      Indicates whether every project should have a funding source.
+                    type: boolean
+                  eventDrivenEnabled:
+                    description: |-
+                      (Boolean) Indicates whether event driven is enabled or not.
+                      Indicates whether event driven is enabled or not.
+                    type: boolean
+                  forecastingEnabled:
+                    description: |-
+                      (Boolean) Indicates whether forecasting is enabled or not.
+                      Indicates whether forecasting is enabled or not.
+                    type: boolean
+                  id:
+                    description: (String) The ID of this resource.
+                    type: string
+                  idmsGroupsAsViewersDefault:
+                    description: |-
+                      (Boolean) Indicates whether, when new groups are created via IDMS, the group will be set as a viewer by default.
+                      Indicates whether, when new groups are created via IDMS, the group will be set as a viewer by default.
+                    type: boolean
+                  reservedInstancesEnabled:
+                    description: |-
+                      (Boolean) Indicates whether reserved instances are enabled or not.
+                      Indicates whether reserved instances are enabled or not.
+                    type: boolean
+                  resourceInventoryEnabled:
+                    description: |-
+                      (Boolean) Indicates whether resource inventory is enabled or not.
+                      Indicates whether resource inventory is enabled or not.
+                    type: boolean
+                  samlDebug:
+                    description: |-
+                      (Boolean) Indicates whether SAML debugging is enabled or not.
+                      Indicates whether SAML debugging is enabled or not.
+                    type: boolean
+                  smtpEnabled:
+                    description: |-
+                      (Boolean) Indicates whether SMTP is enabled or not.
+                      Indicates whether SMTP is enabled or not.
+                    type: boolean
+                  smtpFrom:
+                    description: |-
+                      (String) The SMTP from address.
+                      The SMTP from address.
+                    type: string
+                  smtpHost:
+                    description: |-
+                      (String) The SMTP host.
+                      The SMTP host.
+                    type: string
+                  smtpPort:
+                    description: |-
+                      (Number) The SMTP port.
+                      The SMTP port.
+                    type: number
+                  smtpSkipVerify:
+                    description: |-
+                      (Boolean) Indicates if the app should skip SMTP verification.
+                      Indicates if the app should skip SMTP verification.
+                    type: boolean
+                  smtpUsername:
+                    description: |-
+                      (String) The SMTP username.
+                      The SMTP username.
+                    type: string
+                  supportedAwsRegions:
+                    description: |-
+                      (List of String) The list of supported AWS regions.
+                      The list of supported AWS regions.
+                    items:
+                      type: string
+                    type: array
+                type: object
+              conditions:
+                description: Conditions of the resource.
+                items:
+                  description: A Condition that may apply to a resource.
+                  properties:
+                    lastTransitionTime:
+                      description: |-
+                        LastTransitionTime is the last time this condition transitioned from one
+                        status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: |-
+                        A Message containing details about this condition's last transition from
+                        one status to another, if any.
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration represents the .metadata.generation that the condition was set based upon.
+                        For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: A Reason for this condition's last transition from
+                        one status to another.
+                      type: string
+                    status:
+                      description: Status of this condition; is it currently True,
+                        False, or Unknown?
+                      type: string
+                    type:
+                      description: |-
+                        Type of this condition. At most one of each condition type may apply to
+                        a resource at any point in time.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+                x-kubernetes-list-map-keys:
+                - type
+                x-kubernetes-list-type: map
+              observedGeneration:
+                description: |-
+                  ObservedGeneration is the latest metadata.generation
+                  which resulted in either a ready state, or stalled due to error
+                  it can not recover from without human intervention.
+                format: int64
+                type: integer
+            type: object
+        required:
+        - spec
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}

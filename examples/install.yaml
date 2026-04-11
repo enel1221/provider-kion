@@ -3,4 +3,4 @@ kind: Provider
 metadata:
   name: provider-kion
 spec:
-  package: ghcr.io/enel1221/provider-kion:0.1.4
+  package: ghcr.io/enel1221/provider-kion:v0.2.0

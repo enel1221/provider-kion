@@ -16,6 +16,7 @@ func TestGetProviderResources(t *testing.T) {
 	// configuration. Resources without an explicit Kind override use upjet's
 	// auto-generated name (not tested here — only explicit overrides).
 	expectedKinds := map[string]string{
+		"kion_app_config":                        "AppConfig",
 		"kion_aws_account":                       "AWSAccount",
 		"kion_aws_iam_policy":                    "AWSIAMPolicy",
 		"kion_azure_account":                     "AzureAccount",
@@ -24,6 +25,9 @@ func TestGetProviderResources(t *testing.T) {
 		"kion_cloud_rule":                        "CloudRule",
 		"kion_compliance_check":                  "ComplianceCheck",
 		"kion_compliance_standard":               "ComplianceStandard",
+		"kion_custom_account":                    "CustomAccount",
+		"kion_custom_variable":                   "CustomVariable",
+		"kion_custom_variable_override":          "CustomVariableOverride",
 		"kion_funding_source":                    "FundingSource",
 		"kion_funding_source_permission_mapping": "FundingSourcePermissionMapping",
 		"kion_gcp_account":                       "GCPAccount",
@@ -32,6 +36,7 @@ func TestGetProviderResources(t *testing.T) {
 		"kion_ou_permission_mapping":             "OUPermissionMapping",
 		"kion_project_cloud_access_role":         "ProjectCloudAccessRole",
 		"kion_project_enforcement":               "ProjectEnforcement",
+		"kion_project_note":                      "ProjectNote",
 		"kion_project_permission_mapping":        "ProjectPermissionMapping",
 		"kion_service_control_policy":            "ServiceControlPolicy",
 		"kion_global_permission_mapping":         "GlobalPermissionMapping",
@@ -101,10 +106,16 @@ func TestGetProviderResources(t *testing.T) {
 			"project_id":    "kion_project",
 			"cloud_rule_id": "kion_cloud_rule",
 		},
+		"kion_custom_account": {
+			"project_id": "kion_project",
+		},
+		"kion_custom_variable_override": {
+			"custom_variable_id": "kion_custom_variable",
+		},
 		"kion_cloud_rule": {
-			"compliance_standards.id":          "kion_compliance_standard",
-			"aws_cloudformation_templates.id":  "kion_aws_cloudformation_template",
-			"aws_iam_policies.id":              "kion_aws_iam_policy",
+			"compliance_standards.id":           "kion_compliance_standard",
+			"aws_cloudformation_templates.id":   "kion_aws_cloudformation_template",
+			"aws_iam_policies.id":               "kion_aws_iam_policy",
 			"azure_arm_template_definitions.id": "kion_azure_arm_template",
 			"azure_policy_definitions.id":       "kion_azure_policy",
 			"azure_role_definitions.id":         "kion_azure_role",
@@ -127,6 +138,9 @@ func TestGetProviderResources(t *testing.T) {
 			"user_groups_ids": "kion_user_group",
 			"user_ids":        "kion_user",
 		},
+		"kion_project_note": {
+			"project_id": "kion_project",
+		},
 		"kion_funding_source_permission_mapping": {
 			"funding_source_id": "kion_funding_source",
 			"user_groups_ids":   "kion_user_group",
@@ -140,13 +154,13 @@ func TestGetProviderResources(t *testing.T) {
 			"user_group_id": "kion_user_group",
 		},
 		"kion_ou_cloud_access_role": {
-			"ou_id":                    "kion_ou",
+			"ou_id":                     "kion_ou",
 			"azure_role_definitions.id": "kion_azure_role",
 			"gcp_iam_roles.id":          "kion_gcp_iam_role",
 			"user_groups.id":            "kion_user_group",
 		},
 		"kion_project_cloud_access_role": {
-			"project_id":               "kion_project",
+			"project_id":                "kion_project",
 			"azure_role_definitions.id": "kion_azure_role",
 			"gcp_iam_roles.id":          "kion_gcp_iam_role",
 			"user_groups.id":            "kion_user_group",

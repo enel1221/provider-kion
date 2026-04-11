@@ -1,0 +1,47 @@
+apiVersion: kion.upbound.io/v1alpha1
+kind: ProjectNote
+metadata:
+  annotations:
+    meta.upbound.io/example-id: kion/v1alpha1/projectnote
+  labels:
+    testing.upbound.io/example-name: project_documentation
+  name: project-documentation
+spec:
+  forProvider:
+    createUserId: 15
+    name: Project Overview and Configuration
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    text: |
+      # Project Overview
+      This project contains infrastructure for the development environment.
+
+      ## Important Contacts
+      - Project Owner: Jane Smith (jane.smith@company.com)
+      - Technical Lead: John Doe (john.doe@company.com)
+      - Security Contact: Sarah Johnson (sarah.johnson@company.com)
+
+      ## Key Information
+      - Environment: Development
+      - Cost Center: IT-1234
+      - Team: Platform Engineering
+      - Start Date: 2024-01-01
+
+      ## Infrastructure Details
+      ### AWS Resources
+      - Region: us-east-1
+      - VPC ID: vpc-abc123def456
+      - Subnet IDs: subnet-123, subnet-456
+      - Security Groups: sg-789, sg-012
+
+      ### Azure Resources
+      - Region: eastus
+      - Resource Group: dev-platform-rg
+      - VNET: platform-vnet
+
+      ## Security Requirements
+      1. All resources must be tagged
+      2. No public-facing resources without security review
+      3. Daily backups required for critical systems
+      4. All changes must go through IaC

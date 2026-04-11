@@ -7,6 +7,9 @@
 package v1alpha1
 
 // Hub marks this type as a conversion hub.
+func (tr *AppConfig) Hub() {}
+
+// Hub marks this type as a conversion hub.
 func (tr *ArmTemplate) Hub() {}
 
 // Hub marks this type as a conversion hub.
@@ -35,6 +38,15 @@ func (tr *ComplianceCheck) Hub() {}
 
 // Hub marks this type as a conversion hub.
 func (tr *ComplianceStandard) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *CustomAccount) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *CustomVariable) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *CustomVariableOverride) Hub() {}
 
 // Hub marks this type as a conversion hub.
 func (tr *FundingSource) Hub() {}
@@ -77,6 +89,9 @@ func (tr *ProjectCloudAccessRole) Hub() {}
 
 // Hub marks this type as a conversion hub.
 func (tr *ProjectEnforcement) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *ProjectNote) Hub() {}
 
 // Hub marks this type as a conversion hub.
 func (tr *ProjectPermissionMapping) Hub() {}

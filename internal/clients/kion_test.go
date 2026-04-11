@@ -30,7 +30,14 @@ func validCredentials() []byte {
 		keyURL:               "https://kion.example.com",
 		keySkipSSLValidation: true,
 	}
-	b, _ := json.Marshal(creds)
+	return mustMarshalJSON(creds)
+}
+
+func mustMarshalJSON(value any) []byte {
+	b, err := json.Marshal(value)
+	if err != nil {
+		panic(err)
+	}
 	return b
 }
 
@@ -180,8 +187,7 @@ func TestTerraformSetupBuilder(t *testing.T) {
 						}
 					case *corev1.Secret:
 						// Only apikey — no url or skipsslvalidation
-						creds, _ := json.Marshal(map[string]any{keyAPIKey: "only-key"})
-						o.Data = map[string][]byte{"credentials": creds}
+						o.Data = map[string][]byte{"credentials": mustMarshalJSON(map[string]any{keyAPIKey: "only-key"})}
 					}
 					return nil
 				},

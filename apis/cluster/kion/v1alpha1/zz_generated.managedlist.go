@@ -26,6 +26,15 @@ func (l *AWSIAMPolicyList) GetItems() []resource.Managed {
 	return items
 }
 
+// GetItems of this AppConfigList.
+func (l *AppConfigList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
 // GetItems of this ArmTemplateList.
 func (l *ArmTemplateList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
@@ -91,6 +100,33 @@ func (l *ComplianceCheckList) GetItems() []resource.Managed {
 
 // GetItems of this ComplianceStandardList.
 func (l *ComplianceStandardList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this CustomAccountList.
+func (l *CustomAccountList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this CustomVariableList.
+func (l *CustomVariableList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this CustomVariableOverrideList.
+func (l *CustomVariableOverrideList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
 	for i := range l.Items {
 		items[i] = &l.Items[i]
@@ -217,6 +253,15 @@ func (l *ProjectEnforcementList) GetItems() []resource.Managed {
 
 // GetItems of this ProjectList.
 func (l *ProjectList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this ProjectNoteList.
+func (l *ProjectNoteList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
 	for i := range l.Items {
 		items[i] = &l.Items[i]

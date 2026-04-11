@@ -1,0 +1,46 @@
+apiVersion: kion.m.upbound.io/v1alpha1
+kind: AppConfig
+metadata:
+  annotations:
+    meta.upbound.io/example-id: kion/v1alpha1/appconfig
+  labels:
+    testing.upbound.io/example-name: main
+  name: main
+  namespace: upbound-system
+spec:
+  forProvider:
+    allUsersSeeOuNames: true
+    allocationMode: true
+    allowCustomPermissionSchemes: true
+    appApiKeyCreationEnabled: true
+    appApiKeyLifespan: 90
+    appApiKeyLimit: 5
+    awsAccessKeyCreationEnabled: true
+    budgetMode: true
+    cloudRuleGroupOwnershipOnly: false
+    costSavingsAllowTerminate: false
+    costSavingsEnabled: true
+    costSavingsPostTokenLifeHours: 24
+    defaultOrgChartView: policy
+    enforceFunding: true
+    enforceFundingSources: true
+    eventDrivenEnabled: false
+    forecastingEnabled: true
+    idmsGroupsAsViewersDefault: false
+    reservedInstancesEnabled: true
+    resourceInventoryEnabled: true
+    samlDebug: false
+    smtpEnabled: true
+    smtpFrom: kion-notifications@company.com
+    smtpHost: smtp.company.com
+    smtpPasswordSecretRef:
+      key: example-key
+      name: example-secret
+    smtpPort: 587
+    smtpSkipVerify: false
+    smtpUsername: kion-service
+    supportedAwsRegions:
+    - us-east-1
+    - us-west-2
+    - eu-west-1
+    - ap-southeast-1

@@ -9,6 +9,7 @@ import (
 
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
+	appconfig "github.com/enel1221/provider-kion/internal/controller/cluster/kion/appconfig"
 	armtemplate "github.com/enel1221/provider-kion/internal/controller/cluster/kion/armtemplate"
 	awsaccount "github.com/enel1221/provider-kion/internal/controller/cluster/kion/awsaccount"
 	awsiampolicy "github.com/enel1221/provider-kion/internal/controller/cluster/kion/awsiampolicy"
@@ -19,6 +20,9 @@ import (
 	cloudrule "github.com/enel1221/provider-kion/internal/controller/cluster/kion/cloudrule"
 	compliancecheck "github.com/enel1221/provider-kion/internal/controller/cluster/kion/compliancecheck"
 	compliancestandard "github.com/enel1221/provider-kion/internal/controller/cluster/kion/compliancestandard"
+	customaccount "github.com/enel1221/provider-kion/internal/controller/cluster/kion/customaccount"
+	customvariable "github.com/enel1221/provider-kion/internal/controller/cluster/kion/customvariable"
+	customvariableoverride "github.com/enel1221/provider-kion/internal/controller/cluster/kion/customvariableoverride"
 	fundingsource "github.com/enel1221/provider-kion/internal/controller/cluster/kion/fundingsource"
 	fundingsourcepermissionmapping "github.com/enel1221/provider-kion/internal/controller/cluster/kion/fundingsourcepermissionmapping"
 	gcpaccount "github.com/enel1221/provider-kion/internal/controller/cluster/kion/gcpaccount"
@@ -33,6 +37,7 @@ import (
 	project "github.com/enel1221/provider-kion/internal/controller/cluster/kion/project"
 	projectcloudaccessrole "github.com/enel1221/provider-kion/internal/controller/cluster/kion/projectcloudaccessrole"
 	projectenforcement "github.com/enel1221/provider-kion/internal/controller/cluster/kion/projectenforcement"
+	projectnote "github.com/enel1221/provider-kion/internal/controller/cluster/kion/projectnote"
 	projectpermissionmapping "github.com/enel1221/provider-kion/internal/controller/cluster/kion/projectpermissionmapping"
 	servicecontrolpolicy "github.com/enel1221/provider-kion/internal/controller/cluster/kion/servicecontrolpolicy"
 	user "github.com/enel1221/provider-kion/internal/controller/cluster/kion/user"
@@ -44,6 +49,7 @@ import (
 // the supplied manager.
 func Setup(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
+		appconfig.Setup,
 		armtemplate.Setup,
 		awsaccount.Setup,
 		awsiampolicy.Setup,
@@ -54,6 +60,9 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		cloudrule.Setup,
 		compliancecheck.Setup,
 		compliancestandard.Setup,
+		customaccount.Setup,
+		customvariable.Setup,
+		customvariableoverride.Setup,
 		fundingsource.Setup,
 		fundingsourcepermissionmapping.Setup,
 		gcpaccount.Setup,
@@ -68,6 +77,7 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		project.Setup,
 		projectcloudaccessrole.Setup,
 		projectenforcement.Setup,
+		projectnote.Setup,
 		projectpermissionmapping.Setup,
 		servicecontrolpolicy.Setup,
 		user.Setup,
@@ -85,6 +95,7 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 // the supplied manager gated.
 func SetupGated(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
+		appconfig.SetupGated,
 		armtemplate.SetupGated,
 		awsaccount.SetupGated,
 		awsiampolicy.SetupGated,
@@ -95,6 +106,9 @@ func SetupGated(mgr ctrl.Manager, o controller.Options) error {
 		cloudrule.SetupGated,
 		compliancecheck.SetupGated,
 		compliancestandard.SetupGated,
+		customaccount.SetupGated,
+		customvariable.SetupGated,
+		customvariableoverride.SetupGated,
 		fundingsource.SetupGated,
 		fundingsourcepermissionmapping.SetupGated,
 		gcpaccount.SetupGated,
@@ -109,6 +123,7 @@ func SetupGated(mgr ctrl.Manager, o controller.Options) error {
 		project.SetupGated,
 		projectcloudaccessrole.SetupGated,
 		projectenforcement.SetupGated,
+		projectnote.SetupGated,
 		projectpermissionmapping.SetupGated,
 		servicecontrolpolicy.SetupGated,
 		user.SetupGated,

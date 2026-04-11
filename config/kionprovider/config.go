@@ -9,6 +9,13 @@ const shortGroup = "kion"
 // Configure registers resource configurators for all supported Kion resources with the provided provider.
 // It assigns a default short group to each resource to assist with grouping and identification within the provider.
 func Configure(p *config.Provider) {
+	// ── App Config ───────────────────────────────────────────────────
+
+	p.AddResourceConfigurator("kion_app_config", func(r *config.Resource) {
+		r.ShortGroup = shortGroup
+		r.Kind = "AppConfig"
+	})
+
 	// ── Accounts ─────────────────────────────────────────────────────
 
 	p.AddResourceConfigurator("kion_aws_account", func(r *config.Resource) {
@@ -31,6 +38,14 @@ func Configure(p *config.Provider) {
 	p.AddResourceConfigurator("kion_gcp_account", func(r *config.Resource) {
 		r.ShortGroup = shortGroup
 		r.Kind = "GCPAccount"
+		r.References["project_id"] = config.Reference{
+			TerraformName: "kion_project",
+		}
+	})
+
+	p.AddResourceConfigurator("kion_custom_account", func(r *config.Resource) {
+		r.ShortGroup = shortGroup
+		r.Kind = "CustomAccount"
 		r.References["project_id"] = config.Reference{
 			TerraformName: "kion_project",
 		}
@@ -140,6 +155,21 @@ func Configure(p *config.Provider) {
 		r.Kind = "ComplianceStandard"
 	})
 
+	// ── Custom Variables ─────────────────────────────────────────────
+
+	p.AddResourceConfigurator("kion_custom_variable", func(r *config.Resource) {
+		r.ShortGroup = shortGroup
+		r.Kind = "CustomVariable"
+	})
+
+	p.AddResourceConfigurator("kion_custom_variable_override", func(r *config.Resource) {
+		r.ShortGroup = shortGroup
+		r.Kind = "CustomVariableOverride"
+		r.References["custom_variable_id"] = config.Reference{
+			TerraformName: "kion_custom_variable",
+		}
+	})
+
 	// ── Funding Source ───────────────────────────────────────────────
 
 	p.AddResourceConfigurator("kion_funding_source", func(r *config.Resource) {
@@ -162,6 +192,14 @@ func Configure(p *config.Provider) {
 		r.ShortGroup = shortGroup
 		r.References["ou_id"] = config.Reference{
 			TerraformName: "kion_ou",
+		}
+	})
+
+	p.AddResourceConfigurator("kion_project_note", func(r *config.Resource) {
+		r.ShortGroup = shortGroup
+		r.Kind = "ProjectNote"
+		r.References["project_id"] = config.Reference{
+			TerraformName: "kion_project",
 		}
 	})
 
