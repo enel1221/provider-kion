@@ -697,14 +697,17 @@ spec:
             - message: spec.forProvider.fundingSourceId is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
                 || ''Update'' in self.managementPolicies) || has(self.forProvider.fundingSourceId)
+                || has(self.forProvider.fundingSourceIdRef) || has(self.forProvider.fundingSourceIdSelector)
                 || (has(self.initProvider) && has(self.initProvider.fundingSourceId))'
             - message: spec.forProvider.userGroupsIds is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
                 || ''Update'' in self.managementPolicies) || has(self.forProvider.userGroupsIds)
+                || has(self.forProvider.userGroupsIdsRefs) || has(self.forProvider.userGroupsIdsSelector)
                 || (has(self.initProvider) && has(self.initProvider.userGroupsIds))'
             - message: spec.forProvider.userIds is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
                 || ''Update'' in self.managementPolicies) || has(self.forProvider.userIds)
+                || has(self.forProvider.userIdsRefs) || has(self.forProvider.userIdsSelector)
                 || (has(self.initProvider) && has(self.initProvider.userIds))'
           status:
             description: FundingSourcePermissionMappingStatus defines the observed

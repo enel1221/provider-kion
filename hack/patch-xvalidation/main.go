@@ -21,6 +21,9 @@ import (
 type rule struct {
 	field       string
 	includeInit bool
+	// refSuffix is "Ref" for singular reference fields or "Refs" for
+	// list-typed reference fields (e.g. userGroupsIdsRefs).
+	refSuffix string
 }
 
 type patch struct {
@@ -32,62 +35,62 @@ type patch struct {
 var patches = []patch{
 	{
 		file: "zz_projectenforcement_types.go", structName: "ProjectEnforcement",
-		rules: []rule{{field: "projectId", includeInit: true}},
+		rules: []rule{{field: "projectId", includeInit: true, refSuffix: "Ref"}},
 	},
 	{
 		file: "zz_oupermissionmapping_types.go", structName: "OUPermissionMapping",
 		rules: []rule{
-			{field: "ouId", includeInit: true},
-			{field: "userGroupsIds", includeInit: true},
-			{field: "userIds", includeInit: true},
+			{field: "ouId", includeInit: true, refSuffix: "Ref"},
+			{field: "userGroupsIds", includeInit: true, refSuffix: "Refs"},
+			{field: "userIds", includeInit: true, refSuffix: "Refs"},
 		},
 	},
 	{
 		file: "zz_projectpermissionmapping_types.go", structName: "ProjectPermissionMapping",
 		rules: []rule{
-			{field: "projectId", includeInit: true},
-			{field: "userGroupsIds", includeInit: true},
-			{field: "userIds", includeInit: true},
+			{field: "projectId", includeInit: true, refSuffix: "Ref"},
+			{field: "userGroupsIds", includeInit: true, refSuffix: "Refs"},
+			{field: "userIds", includeInit: true, refSuffix: "Refs"},
 		},
 	},
 	{
 		file: "zz_fundingsourcepermissionmapping_types.go", structName: "FundingSourcePermissionMapping",
 		rules: []rule{
-			{field: "fundingSourceId", includeInit: true},
-			{field: "userGroupsIds", includeInit: true},
-			{field: "userIds", includeInit: true},
+			{field: "fundingSourceId", includeInit: true, refSuffix: "Ref"},
+			{field: "userGroupsIds", includeInit: true, refSuffix: "Refs"},
+			{field: "userIds", includeInit: true, refSuffix: "Refs"},
 		},
 	},
 	{
 		file: "zz_globalpermissionmapping_types.go", structName: "GlobalPermissionMapping",
 		rules: []rule{
-			{field: "userGroupsIds", includeInit: true},
-			{field: "userIds", includeInit: true},
+			{field: "userGroupsIds", includeInit: true, refSuffix: "Refs"},
+			{field: "userIds", includeInit: true, refSuffix: "Refs"},
 		},
 	},
 	{
 		file: "zz_customvariableoverride_types.go", structName: "CustomVariableOverride",
-		rules: []rule{{field: "customVariableId", includeInit: true}},
+		rules: []rule{{field: "customVariableId", includeInit: true, refSuffix: "Ref"}},
 	},
 	{
 		file: "zz_projectnote_types.go", structName: "ProjectNote",
-		rules: []rule{{field: "projectId", includeInit: true}},
+		rules: []rule{{field: "projectId", includeInit: true, refSuffix: "Ref"}},
 	},
 	{
 		file: "zz_oucloudaccessrole_types.go", structName: "OUCloudAccessRole",
-		rules: []rule{{field: "ouId", includeInit: true}},
+		rules: []rule{{field: "ouId", includeInit: true, refSuffix: "Ref"}},
 	},
 	{
 		file: "zz_projectcloudaccessrole_types.go", structName: "ProjectCloudAccessRole",
-		rules: []rule{{field: "projectId", includeInit: true}},
+		rules: []rule{{field: "projectId", includeInit: true, refSuffix: "Ref"}},
 	},
 	{
 		file: "zz_ou_types.go", structName: "Ou",
-		rules: []rule{{field: "parentOuId", includeInit: true}},
+		rules: []rule{{field: "parentOuId", includeInit: true, refSuffix: "Ref"}},
 	},
 	{
 		file: "zz_project_types.go", structName: "Project",
-		rules: []rule{{field: "ouId", includeInit: true}},
+		rules: []rule{{field: "ouId", includeInit: true, refSuffix: "Ref"}},
 	},
 }
 
@@ -119,20 +122,22 @@ func main() {
 }
 
 func markerLine(r rule) string {
+	refField := r.field + r.refSuffix
+	selField := r.field + "Selector"
 	if r.includeInit {
 		return fmt.Sprintf(
-			"\t// +kubebuilder:validation:XValidation:rule=\"!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.%s) || (has(self.initProvider) && has(self.initProvider.%s))\",message=\"spec.forProvider.%s is a required parameter\"",
-			r.field, r.field, r.field,
+			"\t// +kubebuilder:validation:XValidation:rule=\"!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.%s) || has(self.forProvider.%s) || has(self.forProvider.%s) || (has(self.initProvider) && has(self.initProvider.%s))\",message=\"spec.forProvider.%s is a required parameter\"",
+			r.field, refField, selField, r.field, r.field,
 		)
 	}
 	return fmt.Sprintf(
-		"\t// +kubebuilder:validation:XValidation:rule=\"!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.%s)\",message=\"spec.forProvider.%s is a required parameter\"",
-		r.field, r.field,
+		"\t// +kubebuilder:validation:XValidation:rule=\"!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.%s) || has(self.forProvider.%s) || has(self.forProvider.%s)\",message=\"spec.forProvider.%s is a required parameter\"",
+		r.field, refField, selField, r.field,
 	)
 }
 
 func applyPatch(path string, p patch) error {
-	data, err := os.ReadFile(path)
+	data, err := os.ReadFile(filepath.Clean(path))
 	if err != nil {
 		return fmt.Errorf("read: %w", err)
 	}
@@ -160,7 +165,7 @@ func applyPatch(path string, p patch) error {
 	newLines = append(newLines, toInsert...)
 	newLines = append(newLines, lines[specLineIdx:]...)
 
-	return os.WriteFile(path, []byte(strings.Join(newLines, "\n")), 0644)
+	return os.WriteFile(filepath.Clean(path), []byte(strings.Join(newLines, "\n")), 0600)
 }
 
 func findSpecLine(lines []string, structName string) int {

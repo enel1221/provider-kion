@@ -13,3 +13,4 @@ cover.out
 .kion-tf/
 .upjet/
 .provider-upjet-azuread/
+patch-xvalidation

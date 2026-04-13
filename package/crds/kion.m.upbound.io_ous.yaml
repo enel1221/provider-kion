@@ -393,6 +393,7 @@ spec:
             - message: spec.forProvider.parentOuId is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
                 || ''Update'' in self.managementPolicies) || has(self.forProvider.parentOuId)
+                || has(self.forProvider.parentOuIdRef) || has(self.forProvider.parentOuIdSelector)
                 || (has(self.initProvider) && has(self.initProvider.parentOuId))'
           status:
             description: OuStatus defines the observed state of Ou.

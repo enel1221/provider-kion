@@ -692,14 +692,17 @@ spec:
             - message: spec.forProvider.ouId is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
                 || ''Update'' in self.managementPolicies) || has(self.forProvider.ouId)
+                || has(self.forProvider.ouIdRef) || has(self.forProvider.ouIdSelector)
                 || (has(self.initProvider) && has(self.initProvider.ouId))'
             - message: spec.forProvider.userGroupsIds is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
                 || ''Update'' in self.managementPolicies) || has(self.forProvider.userGroupsIds)
+                || has(self.forProvider.userGroupsIdsRefs) || has(self.forProvider.userGroupsIdsSelector)
                 || (has(self.initProvider) && has(self.initProvider.userGroupsIds))'
             - message: spec.forProvider.userIds is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
                 || ''Update'' in self.managementPolicies) || has(self.forProvider.userIds)
+                || has(self.forProvider.userIdsRefs) || has(self.forProvider.userIdsSelector)
                 || (has(self.initProvider) && has(self.initProvider.userIds))'
           status:
             description: OUPermissionMappingStatus defines the observed state of OUPermissionMapping.

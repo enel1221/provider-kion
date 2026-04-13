@@ -931,6 +931,7 @@ spec:
             - message: spec.forProvider.ouId is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
                 || ''Update'' in self.managementPolicies) || has(self.forProvider.ouId)
+                || has(self.forProvider.ouIdRef) || has(self.forProvider.ouIdSelector)
                 || (has(self.initProvider) && has(self.initProvider.ouId))'
           status:
             description: OUCloudAccessRoleStatus defines the observed state of OUCloudAccessRole.
