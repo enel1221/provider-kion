@@ -172,6 +172,45 @@ jobs:
           flags: unittests
           file: _output/tests/linux_amd64/coverage.txt
 
+  integration-tests:
+    runs-on: ubuntu-24.04
+    needs: detect-noop
+    if: needs.detect-noop.outputs.noop != 'true'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
+        with:
+          submodules: true
+      - name: Setup Go
+        uses: actions/setup-go@0a12ed9d6a96ab950c8f026ed9f722fe0da7ef32 # v5
+        with:
+          go-version: ${{ env.GO_VERSION }}
+      - name: Find the Go Build Cache
+        id: go
+        run: echo "cache=$(make go.cachedir)" >> $GITHUB_OUTPUT
+      - name: Cache the Go Build Cache
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.go.outputs.cache }}
+          key: ${{ runner.os }}-build-integration-tests-${{ hashFiles('**/go.sum') }}
+          restore-keys: ${{ runner.os }}-build-integration-tests-
+      - name: Cache Go Dependencies
+        uses: actions/cache@v4
+        with:
+          path: .work/pkg
+          key: ${{ runner.os }}-pkg-${{ hashFiles('**/go.sum') }}
+          restore-keys: ${{ runner.os }}-pkg-
+      - name: Cache Build Tools
+        uses: actions/cache@v4
+        with:
+          path: .cache/tools
+          key: ${{ runner.os }}-tools-integration-tests-${{ hashFiles('**/go.sum', 'Makefile', 'build/makelib/**/*.mk') }}
+          restore-keys: ${{ runner.os }}-tools-integration-tests-
+      - name: Vendor Dependencies
+        run: make vendor vendor.check
+      - name: Run Integration Tests
+        run: make integration-test
+
   local-deploy:
     runs-on: ubuntu-24.04
     needs: detect-noop
@@ -202,6 +241,12 @@ jobs:
           path: .work/pkg
           key: ${{ runner.os }}-pkg-${{ hashFiles('**/go.sum') }}
           restore-keys: ${{ runner.os }}-pkg-
+      - name: Cache Build Tools
+        uses: actions/cache@v4
+        with:
+          path: .cache/tools
+          key: ${{ runner.os }}-tools-local-deploy-${{ hashFiles('**/go.sum', 'Makefile', 'build/makelib/**/*.mk') }}
+          restore-keys: ${{ runner.os }}-tools-local-deploy-
       - name: Vendor Dependencies
         run: make vendor vendor.check
       - name: Deploying locally built provider package
@@ -215,6 +260,7 @@ jobs:
       - lint
       - check-diff
       - unit-tests
+      - integration-tests
       - local-deploy
     if: needs.detect-noop.outputs.noop != 'true'
     permissions: write-all
