@@ -215,6 +215,7 @@ type Ou struct {
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.name) || (has(self.initProvider) && has(self.initProvider.name))",message="spec.forProvider.name is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.permissionSchemeId) || (has(self.initProvider) && has(self.initProvider.permissionSchemeId))",message="spec.forProvider.permissionSchemeId is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.parentOuId) || (has(self.initProvider) && has(self.initProvider.parentOuId))",message="spec.forProvider.parentOuId is a required parameter"
 	Spec   OuSpec   `json:"spec"`
 	Status OuStatus `json:"status,omitempty"`
 }

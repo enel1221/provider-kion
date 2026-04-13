@@ -154,6 +154,7 @@ type CustomVariableOverride struct {
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.entityId) || (has(self.initProvider) && has(self.initProvider.entityId))",message="spec.forProvider.entityId is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.entityType) || (has(self.initProvider) && has(self.initProvider.entityType))",message="spec.forProvider.entityType is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.customVariableId) || (has(self.initProvider) && has(self.initProvider.customVariableId))",message="spec.forProvider.customVariableId is a required parameter"
 	Spec   CustomVariableOverrideSpec   `json:"spec"`
 	Status CustomVariableOverrideStatus `json:"status,omitempty"`
 }

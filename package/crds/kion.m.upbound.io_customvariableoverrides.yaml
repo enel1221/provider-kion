@@ -357,6 +357,10 @@ spec:
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
                 || ''Update'' in self.managementPolicies) || has(self.forProvider.entityType)
                 || (has(self.initProvider) && has(self.initProvider.entityType))'
+            - message: spec.forProvider.customVariableId is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.customVariableId)
+                || (has(self.initProvider) && has(self.initProvider.customVariableId))'
           status:
             description: CustomVariableOverrideStatus defines the observed state of
               CustomVariableOverride.

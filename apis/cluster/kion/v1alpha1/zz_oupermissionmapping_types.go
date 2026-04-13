@@ -174,6 +174,9 @@ type OUPermissionMapping struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.appRoleId) || (has(self.initProvider) && has(self.initProvider.appRoleId))",message="spec.forProvider.appRoleId is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.ouId) || (has(self.initProvider) && has(self.initProvider.ouId))",message="spec.forProvider.ouId is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.userGroupsIds) || (has(self.initProvider) && has(self.initProvider.userGroupsIds))",message="spec.forProvider.userGroupsIds is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.userIds) || (has(self.initProvider) && has(self.initProvider.userIds))",message="spec.forProvider.userIds is a required parameter"
 	Spec   OUPermissionMappingSpec   `json:"spec"`
 	Status OUPermissionMappingStatus `json:"status,omitempty"`
 }

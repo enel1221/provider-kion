@@ -175,6 +175,9 @@ type ProjectPermissionMapping struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.appRoleId) || (has(self.initProvider) && has(self.initProvider.appRoleId))",message="spec.forProvider.appRoleId is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.projectId) || (has(self.initProvider) && has(self.initProvider.projectId))",message="spec.forProvider.projectId is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.userGroupsIds) || (has(self.initProvider) && has(self.initProvider.userGroupsIds))",message="spec.forProvider.userGroupsIds is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.userIds) || (has(self.initProvider) && has(self.initProvider.userIds))",message="spec.forProvider.userIds is a required parameter"
 	Spec   ProjectPermissionMappingSpec   `json:"spec"`
 	Status ProjectPermissionMappingStatus `json:"status,omitempty"`
 }

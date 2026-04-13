@@ -220,13 +220,14 @@ integration-test: $(SETUP_ENVTEST)
 
 LOCAL_XPKG_DIGEST ?= sha256:0000000000000000000000000000000000000000000000000000000000000000
 
-repo.local.xpkg.sync.provider: local.xpkg.init $(CROSSPLANE_CLI)
+repo.local.xpkg.sync.provider.%: local.xpkg.init $(UP)
 	@$(INFO) copying local xpkg cache to Crossplane pod
 	@mkdir -p $(XPKG_OUTPUT_DIR)/cache/xpkg.crossplane.internal/dev
 	@# Extract each .xpkg under both cache keys Crossplane uses for packagePullPolicy=Never.
-	@for pkg in $(XPKG_OUTPUT_DIR)/linux_*/*; do \
+	@for pkg in $(XPKG_OUTPUT_DIR)/linux_*/$*-$(VERSION).xpkg; do \
+		[ -e "$$pkg" ] || continue; \
 		pkgname=$$(basename $$pkg | sed 's/-v\([0-9]*\.[0-9]*\.[0-9]*.*\)\.xpkg//'); \
-		$(CROSSPLANE_CLI) xpkg extract --from-xpkg $$pkg -o "$(XPKG_OUTPUT_DIR)/cache/xpkg.crossplane.internal/dev/$$pkgname@$(LOCAL_XPKG_DIGEST).gz"; \
+		$(UP) xpkg xp-extract --from-xpkg $$pkg -o "$(XPKG_OUTPUT_DIR)/cache/xpkg.crossplane.internal/dev/$$pkgname@$(LOCAL_XPKG_DIGEST).gz"; \
 		friendlyid=$$(printf '%.50s-%.12s' "xpkg.crossplane.internal/dev/$$pkgname" "$(LOCAL_XPKG_DIGEST)" | sed 's/[^a-z0-9]/-/g' | cut -c1-63 | sed 's/-*$$//'); \
 		cp "$(XPKG_OUTPUT_DIR)/cache/xpkg.crossplane.internal/dev/$$pkgname@$(LOCAL_XPKG_DIGEST).gz" "$(XPKG_OUTPUT_DIR)/cache/$$friendlyid.gz"; \
 	done
@@ -234,7 +235,7 @@ repo.local.xpkg.sync.provider: local.xpkg.init $(CROSSPLANE_CLI)
 		$(KUBECTL) -n $(CROSSPLANE_NAMESPACE) cp $(XPKG_OUTPUT_DIR)/cache -c dev $$XPPOD:/tmp
 	@$(OK) copying local xpkg cache to Crossplane pod
 
-repo.local.xpkg.deploy.provider.%: $(KIND) repo.local.xpkg.sync.provider
+repo.local.xpkg.deploy.provider.%: $(KIND) repo.local.xpkg.sync.provider.%
 	@$(INFO) deploying provider package $* $(VERSION)
 	@$(KIND) load docker-image $(BUILD_REGISTRY)/$*-$(ARCH) -n $(KIND_CLUSTER_NAME)
 	@echo '{"apiVersion":"pkg.crossplane.io/v1beta1","kind":"DeploymentRuntimeConfig","metadata":{"name":"runtimeconfig-$*"},"spec":{"deploymentTemplate":{"spec":{"selector":{},"strategy":{},"template":{"spec":{"containers":[{"args":["--debug"],"image":"$(BUILD_REGISTRY)/$*-$(ARCH)","name":"package-runtime"}]}}}}}}' | $(KUBECTL) apply -f -

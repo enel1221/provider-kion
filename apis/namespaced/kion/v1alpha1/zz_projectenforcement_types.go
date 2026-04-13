@@ -286,6 +286,7 @@ type ProjectEnforcement struct {
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.threshold) || (has(self.initProvider) && has(self.initProvider.threshold))",message="spec.forProvider.threshold is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.timeframe) || (has(self.initProvider) && has(self.initProvider.timeframe))",message="spec.forProvider.timeframe is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.projectId) || (has(self.initProvider) && has(self.initProvider.projectId))",message="spec.forProvider.projectId is a required parameter"
 	Spec   ProjectEnforcementSpec   `json:"spec"`
 	Status ProjectEnforcementStatus `json:"status,omitempty"`
 }

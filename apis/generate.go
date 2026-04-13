@@ -24,6 +24,9 @@ Copyright 2021 Upbound Inc.
 // Run Upjet generator
 //go:generate go run ../cmd/generator/main.go ..
 
+// Restore XValidation markers for required-but-referenced fields
+//go:generate go run ../hack/patch-xvalidation .
+
 // Generate deepcopy methodsets and CRD manifests
 //go:generate go run -tags generate sigs.k8s.io/controller-tools/cmd/controller-gen object:headerFile=../hack/boilerplate.go.txt paths=./... crd:allowDangerousTypes=true,crdVersions=v1 output:artifacts:config=../package/crds
 

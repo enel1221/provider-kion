@@ -41,6 +41,11 @@ func runSuite(m *testing.M) int {
 	utilruntime.Must(clusterapis.AddToScheme(testScheme))
 	utilruntime.Must(namespacedapis.AddToScheme(testScheme))
 
+	if !hasEnvtestAssets() {
+		fmt.Fprintln(os.Stderr, "skipping integration tests: envtest assets are not configured; run make integration-test")
+		return 0
+	}
+
 	repoRoot, err := repositoryRoot()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "failed to resolve repository root: %v\n", err)
@@ -71,6 +76,20 @@ func runSuite(m *testing.M) int {
 		return 1
 	}
 	return code
+}
+
+func hasEnvtestAssets() bool {
+	if os.Getenv("KUBEBUILDER_ASSETS") != "" {
+		return true
+	}
+
+	required := []string{"TEST_ASSET_ETCD", "TEST_ASSET_KUBE_APISERVER", "TEST_ASSET_KUBECTL"}
+	for _, key := range required {
+		if os.Getenv(key) == "" {
+			return false
+		}
+	}
+	return true
 }
 
 func repositoryRoot() (string, error) {
