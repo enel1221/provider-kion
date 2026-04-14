@@ -24,3 +24,19 @@ spec:
       name: provider-secret
       namespace: upbound-system
       key: credentials
+EOF
+
+echo "Creating a namespaced provider config..."
+cat <<EOF | ${KUBECTL} apply -f -
+apiVersion: kion.m.upbound.io/v1beta1
+kind: ProviderConfig
+metadata:
+  name: default
+  namespace: upbound-system
+spec:
+  credentials:
+    source: Secret
+    secretRef:
+      name: provider-secret
+      key: credentials
+EOF

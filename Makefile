@@ -12,10 +12,10 @@ TERRAFORM_VERSION_VALID := $(shell [ "$(TERRAFORM_VERSION)" = "`printf "$(TERRAF
 
 export TERRAFORM_PROVIDER_SOURCE ?= kionsoftware/kion
 export TERRAFORM_PROVIDER_REPO ?= https://github.com/kionsoftware/terraform-provider-kion
-export TERRAFORM_PROVIDER_VERSION ?= 0.3.30
+export TERRAFORM_PROVIDER_VERSION ?= 0.3.33
 export TERRAFORM_PROVIDER_DOWNLOAD_NAME ?= terraform-provider-kion
 export TERRAFORM_PROVIDER_DOWNLOAD_URL_PREFIX ?= ${TERRAFORM_PROVIDER_REPO}/releases/download/v$(TERRAFORM_PROVIDER_VERSION)
-export TERRAFORM_NATIVE_PROVIDER_BINARY ?= terraform-provider-kion_v0.3.30
+export TERRAFORM_NATIVE_PROVIDER_BINARY ?= terraform-provider-kion_v0.3.33
 export TERRAFORM_DOCS_PATH ?= docs/resources
 
 
@@ -43,6 +43,7 @@ NPROCS ?= 1
 # parallel can lead to high CPU utilization. by default we reduce the parallelism
 # to half the number of CPU cores.
 GO_TEST_PARALLEL := $(shell echo $$(( $(NPROCS) / 2 )))
+INTEGRATION_TEST_PARALLEL := $(shell if [ "$(GO_TEST_PARALLEL)" -gt 0 ] 2>/dev/null; then echo "$(GO_TEST_PARALLEL)"; else echo 1; fi)
 
 GO_REQUIRED_VERSION ?= 1.24.11
 GOLANGCILINT_VERSION ?= 1.64.5
@@ -58,6 +59,9 @@ KIND_VERSION = v0.15.0
 UP_VERSION = v0.28.0
 UP_CHANNEL = stable
 UPTEST_VERSION = v1.3.0
+SETUP_ENVTEST_VERSION ?= release-0.19
+SETUP_ENVTEST := $(TOOLS_HOST_DIR)/setup-envtest-$(SETUP_ENVTEST_VERSION)
+ENVTEST_K8S_VERSION ?= 1.33.0
 -include build/makelib/k8s_tools.mk
 
 # ====================================================================================
@@ -137,6 +141,17 @@ pull-docs:
 generate.init: $(TERRAFORM_PROVIDER_SCHEMA) pull-docs
 
 .PHONY: $(TERRAFORM_PROVIDER_SCHEMA) pull-docs check-terraform-version
+
+# ====================================================================================
+# Setup envtest for integration tests
+
+$(SETUP_ENVTEST):
+	@$(INFO) installing setup-envtest $(SETUP_ENVTEST_VERSION)
+	@mkdir -p $(TOOLS_HOST_DIR)
+	@GOBIN=$(TOOLS_HOST_DIR) go install sigs.k8s.io/controller-runtime/tools/setup-envtest@$(SETUP_ENVTEST_VERSION)
+	@mv $(TOOLS_HOST_DIR)/setup-envtest $(SETUP_ENVTEST)
+	@$(OK) installing setup-envtest $(SETUP_ENVTEST_VERSION)
+
 # ====================================================================================
 # Targets
 
@@ -171,7 +186,7 @@ run: go.build
 
 # ====================================================================================
 # End to End Testing
-CROSSPLANE_VERSION = 1.16.0
+CROSSPLANE_VERSION = 2.0.0
 CROSSPLANE_NAMESPACE = upbound-system
 -include build/makelib/local.xpkg.mk
 -include build/makelib/controlplane.mk
@@ -195,7 +210,37 @@ uptest: $(UPTEST) $(KUBECTL) $(KUTTL)
 	@KUBECTL=$(KUBECTL) KUTTL=$(KUTTL) $(UPTEST) e2e "${UPTEST_EXAMPLE_LIST}" --data-source="${UPTEST_DATASOURCE_PATH}" --setup-script=cluster/test/setup.sh --default-conditions="Test" || $(FAIL)
 	@$(OK) running automated tests
 
-local-deploy: build controlplane.up local.xpkg.deploy.provider.$(PROJECT_NAME)
+integration-test: $(SETUP_ENVTEST)
+	@$(INFO) running envtest-based integration tests
+	@KUBEBUILDER_ASSETS="$$($(SETUP_ENVTEST) use $(ENVTEST_K8S_VERSION) --bin-dir $(TOOLS_HOST_DIR)/envtest -p path)" \
+		go test ./internal/controller/integration/... -count=1 -parallel $(INTEGRATION_TEST_PARALLEL) -timeout 10m -v || $(FAIL)
+	@$(OK) running envtest-based integration tests
+
+LOCAL_XPKG_DIGEST ?= sha256:0000000000000000000000000000000000000000000000000000000000000000
+
+repo.local.xpkg.sync.provider.%: local.xpkg.init $(UP)
+	@$(INFO) copying local xpkg cache to Crossplane pod
+	@mkdir -p $(XPKG_OUTPUT_DIR)/cache/xpkg.crossplane.internal/dev
+	@# Extract each .xpkg under both cache keys Crossplane uses for packagePullPolicy=Never.
+	@for pkg in $(XPKG_OUTPUT_DIR)/linux_*/$*-$(VERSION).xpkg; do \
+		[ -e "$$pkg" ] || continue; \
+		pkgname=$$(basename $$pkg | sed 's/-v\([0-9]*\.[0-9]*\.[0-9]*.*\)\.xpkg//'); \
+		$(UP) xpkg xp-extract --from-xpkg $$pkg -o "$(XPKG_OUTPUT_DIR)/cache/xpkg.crossplane.internal/dev/$$pkgname@$(LOCAL_XPKG_DIGEST).gz"; \
+		friendlyid=$$(printf '%.50s-%.12s' "xpkg.crossplane.internal/dev/$$pkgname" "$(LOCAL_XPKG_DIGEST)" | sed 's/[^a-z0-9]/-/g' | cut -c1-63 | sed 's/-*$$//'); \
+		cp "$(XPKG_OUTPUT_DIR)/cache/xpkg.crossplane.internal/dev/$$pkgname@$(LOCAL_XPKG_DIGEST).gz" "$(XPKG_OUTPUT_DIR)/cache/$$friendlyid.gz"; \
+	done
+	@XPPOD=$$($(KUBECTL) -n $(CROSSPLANE_NAMESPACE) get pod -l app=crossplane,patched=true -o jsonpath="{.items[0].metadata.name}"); \
+		$(KUBECTL) -n $(CROSSPLANE_NAMESPACE) cp $(XPKG_OUTPUT_DIR)/cache -c dev $$XPPOD:/tmp
+	@$(OK) copying local xpkg cache to Crossplane pod
+
+repo.local.xpkg.deploy.provider.%: $(KIND) repo.local.xpkg.sync.provider.%
+	@$(INFO) deploying provider package $* $(VERSION)
+	@$(KIND) load docker-image $(BUILD_REGISTRY)/$*-$(ARCH) -n $(KIND_CLUSTER_NAME)
+	@echo '{"apiVersion":"pkg.crossplane.io/v1beta1","kind":"DeploymentRuntimeConfig","metadata":{"name":"runtimeconfig-$*"},"spec":{"deploymentTemplate":{"spec":{"selector":{},"strategy":{},"template":{"spec":{"containers":[{"args":["--debug"],"image":"$(BUILD_REGISTRY)/$*-$(ARCH)","name":"package-runtime"}]}}}}}}' | $(KUBECTL) apply -f -
+	@echo '{"apiVersion":"pkg.crossplane.io/v1","kind":"Provider","metadata":{"name":"$*"},"spec":{"package":"xpkg.crossplane.internal/dev/$*@$(LOCAL_XPKG_DIGEST)","skipDependencyResolution": $(XPKG_SKIP_DEP_RESOLUTION), "packagePullPolicy":"Never","runtimeConfigRef":{"name":"runtimeconfig-$*"}}}' | $(KUBECTL) apply -f -
+	@$(OK) deploying provider package $* $(VERSION)
+
+local-deploy: build controlplane.up repo.local.xpkg.deploy.provider.$(PROJECT_NAME)
 	@$(INFO) running locally built provider
 	@$(KUBECTL) wait provider.pkg $(PROJECT_NAME) --for condition=Healthy --timeout 5m
 	@$(KUBECTL) -n upbound-system wait --for=condition=Available deployment --all --timeout=5m
@@ -238,6 +283,7 @@ schema-version-diff:
 define CROSSPLANE_MAKE_HELP
 Crossplane Targets:
     cobertura             Generate a coverage report for cobertura applying exclusions on generated files.
+	integration-test      Run envtest-based integration tests without a live Kion environment.
     submodules            Update the submodules, such as the common build scripts.
     run                   Run crossplane locally, out-of-cluster. Useful for development.
 

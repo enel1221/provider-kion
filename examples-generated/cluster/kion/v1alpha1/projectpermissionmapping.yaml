@@ -1,0 +1,20 @@
+apiVersion: kion.upbound.io/v1alpha1
+kind: ProjectPermissionMapping
+metadata:
+  annotations:
+    meta.upbound.io/example-id: kion/v1alpha1/projectpermissionmapping
+  labels:
+    testing.upbound.io/example-name: admin_permissions
+  name: admin-permissions
+spec:
+  forProvider:
+    appRoleId: 1
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    userGroupsIdsRefs:
+    - name: example
+    - name: example
+    userIdsRefs:
+    - name: example
+    - name: example

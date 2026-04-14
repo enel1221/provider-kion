@@ -1,0 +1,21 @@
+apiVersion: kion.upbound.io/v1alpha1
+kind: OUPermissionMapping
+metadata:
+  annotations:
+    meta.upbound.io/example-id: kion/v1alpha1/oupermissionmapping
+  labels:
+    testing.upbound.io/example-name: admin_permissions
+  name: admin-permissions
+spec:
+  forProvider:
+    appRoleId: 1
+    ouIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    userGroupsIdsRefs:
+    - name: example
+    - name: example
+    userIdsRefs:
+    - name: example
+    - name: example
+    - name: example

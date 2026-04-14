@@ -19,10 +19,13 @@ Copyright 2021 Upbound Inc.
 //go:generate rm -rf ../examples-generated
 
 // Generate documentation from Terraform docs.
-//go:generate go run github.com/crossplane/upjet/cmd/scraper -n ${TERRAFORM_PROVIDER_SOURCE} -r ../.work/${TERRAFORM_PROVIDER_SOURCE}/${TERRAFORM_DOCS_PATH} -o ../config/provider-metadata.yaml
+//go:generate go run github.com/crossplane/upjet/v2/cmd/scraper -n ${TERRAFORM_PROVIDER_SOURCE} -r ../.work/${TERRAFORM_PROVIDER_SOURCE}/${TERRAFORM_DOCS_PATH} -o ../config/provider-metadata.yaml
 
 // Run Upjet generator
 //go:generate go run ../cmd/generator/main.go ..
+
+// Restore XValidation markers for required-but-referenced fields
+//go:generate go run ../hack/patch-xvalidation .
 
 // Generate deepcopy methodsets and CRD manifests
 //go:generate go run -tags generate sigs.k8s.io/controller-tools/cmd/controller-gen object:headerFile=../hack/boilerplate.go.txt paths=./... crd:allowDangerousTypes=true,crdVersions=v1 output:artifacts:config=../package/crds

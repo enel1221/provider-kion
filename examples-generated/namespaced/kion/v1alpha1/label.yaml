@@ -1,0 +1,14 @@
+apiVersion: kion.m.upbound.io/v1alpha1
+kind: Label
+metadata:
+  annotations:
+    meta.upbound.io/example-id: kion/v1alpha1/label
+  labels:
+    testing.upbound.io/example-name: env_production
+  name: env-production
+  namespace: upbound-system
+spec:
+  forProvider:
+    color: '#FF0000'
+    key: Environment
+    value: Production

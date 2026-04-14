@@ -10,3 +10,7 @@ cover.out
 .vscode/
 .idea/
 .dev/
+.kion-tf/
+.upjet/
+.provider-upjet-azuread/
+patch-xvalidation

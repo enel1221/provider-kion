@@ -1,0 +1,26 @@
+apiVersion: kion.m.upbound.io/v1alpha1
+kind: ProjectEnforcement
+metadata:
+  annotations:
+    meta.upbound.io/example-id: kion/v1alpha1/projectenforcement
+  labels:
+    testing.upbound.io/example-name: dev_budget_enforcement
+  name: dev-budget-enforcement
+  namespace: upbound-system
+spec:
+  forProvider:
+    description: Monthly budget enforcement for development project
+    enabled: true
+    notificationFrequency: daily
+    overburn: true
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    threshold: 5000
+    thresholdType: dollar
+    timeframe: month
+    userGroupIds:
+    - 25
+    userIds:
+    - 15
+    - 16

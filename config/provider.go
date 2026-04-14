@@ -4,7 +4,7 @@ import (
 	// Note(turkenh): we are importing this to embed provider schema document
 	_ "embed"
 
-	ujconfig "github.com/crossplane/upjet/pkg/config"
+	ujconfig "github.com/crossplane/upjet/v2/pkg/config"
 
 	"github.com/enel1221/provider-kion/config/kionprovider"
 )
@@ -35,6 +35,14 @@ func GetProvider() *ujconfig.Provider {
 		ujconfig.WithDefaultResourceOptions(
 			ExternalNameConfigurations(),
 		),
+		ujconfig.WithBasePackages(ujconfig.BasePackages{
+			APIVersion: []string{
+				"v1beta1",
+			},
+			ControllerMap: map[string]string{
+				"providerconfig": ujconfig.PackageNameConfig,
+			},
+		}),
 	)
 
 	// Register your single-file config, which configures *all* Kion resources/data sources

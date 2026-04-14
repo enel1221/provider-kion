@@ -1,0 +1,17 @@
+apiVersion: kion.m.upbound.io/v1alpha1
+kind: CustomVariableOverride
+metadata:
+  annotations:
+    meta.upbound.io/example-id: kion/v1alpha1/customvariableoverride
+  labels:
+    testing.upbound.io/example-name: project_string_override
+  name: project-string-override
+  namespace: upbound-system
+spec:
+  forProvider:
+    customVariableIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: string_example
+    entityId: "123"
+    entityType: project
+    valueString: prod
