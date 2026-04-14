@@ -152,8 +152,6 @@ $(SETUP_ENVTEST):
 	@mv $(TOOLS_HOST_DIR)/setup-envtest $(SETUP_ENVTEST)
 	@$(OK) installing setup-envtest $(SETUP_ENVTEST_VERSION)
 
-.PHONY: $(SETUP_ENVTEST)
-
 # ====================================================================================
 # Targets
 
