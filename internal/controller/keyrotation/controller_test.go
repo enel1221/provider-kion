@@ -118,7 +118,9 @@ func TestCallRotate(t *testing.T) {
 				resp.Status = 201
 				resp.Data.ID = 42
 				resp.Data.Key = "new-key-abc"
-				json.NewEncoder(w).Encode(resp) //nolint:errcheck
+				if err := json.NewEncoder(w).Encode(resp); err != nil {
+					t.Fatalf("encode response: %v", err)
+				}
 			},
 			wantKey: "new-key-abc",
 		},
@@ -172,8 +174,11 @@ func TestCallRotate(t *testing.T) {
 }
 
 // newFakeSecret creates a Secret with the given credentials and annotations.
-func newFakeSecret(ns, name string, creds map[string]interface{}, annotations map[string]string) *corev1.Secret {
-	raw, _ := json.Marshal(creds)
+func newFakeSecret(ns, name string, creds map[string]string, annotations map[string]string) *corev1.Secret {
+	raw, err := json.Marshal(creds)
+	if err != nil {
+		panic(err)
+	}
 	return &corev1.Secret{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:        name,
@@ -197,7 +202,7 @@ func TestReconcile(t *testing.T) {
 	}{
 		"SuccessfulRotation": {
 			secret: newFakeSecret("default", "creds",
-				map[string]interface{}{"apikey": "old-key", "url": "PLACEHOLDER"},
+				map[string]string{"apikey": "old-key", "url": "PLACEHOLDER"},
 				map[string]string{AnnotationRotate: "true"},
 			),
 			serverStatus: http.StatusCreated,
@@ -207,7 +212,7 @@ func TestReconcile(t *testing.T) {
 		},
 		"RotationNotYetDue": {
 			secret: newFakeSecret("default", "creds",
-				map[string]interface{}{"apikey": "old-key", "url": "PLACEHOLDER"},
+				map[string]string{"apikey": "old-key", "url": "PLACEHOLDER"},
 				map[string]string{
 					AnnotationRotate:       "true",
 					AnnotationLastRotation: time.Now().UTC().Format(time.RFC3339),
@@ -218,21 +223,21 @@ func TestReconcile(t *testing.T) {
 		},
 		"MissingAPIKey": {
 			secret: newFakeSecret("default", "creds",
-				map[string]interface{}{"url": "PLACEHOLDER"},
+				map[string]string{"url": "PLACEHOLDER"},
 				map[string]string{AnnotationRotate: "true"},
 			),
 			wantStatus: "error: credentials JSON must contain non-empty apikey and url",
 		},
 		"AnnotationDisabled": {
 			secret: newFakeSecret("default", "creds",
-				map[string]interface{}{"apikey": "old-key", "url": "PLACEHOLDER"},
+				map[string]string{"apikey": "old-key", "url": "PLACEHOLDER"},
 				map[string]string{AnnotationRotate: "false"},
 			),
 			// should be a no-op
 		},
 		"KionAPIError": {
 			secret: newFakeSecret("default", "creds",
-				map[string]interface{}{"apikey": "old-key", "url": "PLACEHOLDER"},
+				map[string]string{"apikey": "old-key", "url": "PLACEHOLDER"},
 				map[string]string{AnnotationRotate: "true"},
 			),
 			serverStatus: http.StatusUnauthorized,
@@ -254,19 +259,22 @@ func TestReconcile(t *testing.T) {
 					resp.Status = tc.serverStatus
 					resp.Data.Key = tc.serverKey
 					resp.Data.ID = 1
-					json.NewEncoder(w).Encode(resp) //nolint:errcheck
+					if err := json.NewEncoder(w).Encode(resp); err != nil {
+						w.WriteHeader(http.StatusInternalServerError)
+					}
 				}
 			}))
 			defer server.Close()
 
 			// Patch the Secret's url to point at our test server.
 			if tc.secret.Data != nil {
-				var creds map[string]interface{}
-				json.Unmarshal(tc.secret.Data["credentials"], &creds) //nolint:errcheck
-				if _, ok := creds["url"]; ok {
-					creds["url"] = server.URL
-					raw, _ := json.Marshal(creds)
-					tc.secret.Data["credentials"] = raw
+				var creds map[string]string
+				if err := json.Unmarshal(tc.secret.Data["credentials"], &creds); err == nil {
+					if _, ok := creds["url"]; ok {
+						creds["url"] = server.URL
+						raw, _ := json.Marshal(creds)
+						tc.secret.Data["credentials"] = raw
+					}
 				}
 			}
 
@@ -309,11 +317,11 @@ func TestReconcile(t *testing.T) {
 			}
 
 			if tc.wantNewKey != "" {
-				var creds map[string]interface{}
+				var creds map[string]string
 				if err := json.Unmarshal(updated.Data["credentials"], &creds); err != nil {
 					t.Fatalf("unmarshal updated creds: %v", err)
 				}
-				if got, _ := creds["apikey"].(string); got != tc.wantNewKey {
+				if got := creds["apikey"]; got != tc.wantNewKey {
 					t.Errorf("apikey = %q, want %q", got, tc.wantNewKey)
 				}
 				if updated.Annotations[AnnotationLastRotation] == "" {
