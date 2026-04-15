@@ -29,6 +29,62 @@ Notice that in this example Provider resource is referencing ControllerConfig wi
 
 You can see the API reference [here](https://doc.crds.dev/github.com/enel1221/provider-kion).
 
+## API Key Rotation
+
+Kion API keys expire (typically every 14 days). This provider includes a
+built-in controller that automatically rotates the key before it expires by
+calling the Kion `POST /api/v3/app-api-key/rotate` endpoint and updating the
+Secret in-place.
+
+> **Reference:** The full Kion API documentation is available at
+> [https://kion.ccmo.socom.mil/swagger/](https://kion.ccmo.socom.mil/swagger/)
+
+### Enabling Rotation
+
+Add annotations to the credentials Secret referenced by your ProviderConfig:
+
+```yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: kion-creds
+  namespace: crossplane-system
+  annotations:
+    kion.upbound.io/rotate: "true"
+    kion.upbound.io/rotation-interval: "168h"  # optional, default 7 days
+type: Opaque
+stringData:
+  credentials: |
+    {
+      "apikey": "YOUR_KION_API_KEY",
+      "url": "https://kion.ccmo.socom.mil",
+      "skipsslvalidation": "false"
+    }
+```
+
+### Annotations
+
+| Annotation | Set By | Description |
+|---|---|---|
+| `kion.upbound.io/rotate` | User | Set to `"true"` to enable automatic rotation |
+| `kion.upbound.io/rotation-interval` | User | Go duration string (default `168h` = 7 days) |
+| `kion.upbound.io/credentials-key` | User | Override the Secret data key (default `credentials`) |
+| `kion.upbound.io/last-rotation` | Controller | RFC3339 timestamp of the last successful rotation |
+| `kion.upbound.io/rotation-status` | Controller | `success` or `error: <message>` |
+
+### How It Works
+
+1. The controller watches Secrets with `kion.upbound.io/rotate: "true"`.
+2. When the rotation interval elapses, it calls the Kion rotate API with the
+   current key.
+3. The new key is written back into the Secret, and `last-rotation` /
+   `rotation-status` annotations are updated.
+4. All existing ProviderConfigs referencing that Secret pick up the new key
+   automatically on their next reconcile.
+
+A complete example is available at
+[`examples/providerconfig/secret-with-rotation.yaml`](examples/providerconfig/secret-with-rotation.yaml).
+
 ## Developing
 
 Run code-generation pipeline:

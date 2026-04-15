@@ -38,6 +38,7 @@ import (
 	resolverapis "github.com/enel1221/provider-kion/internal/apis"
 	"github.com/enel1221/provider-kion/internal/clients"
 	clustercontroller "github.com/enel1221/provider-kion/internal/controller/cluster"
+	"github.com/enel1221/provider-kion/internal/controller/keyrotation"
 	namespacedcontroller "github.com/enel1221/provider-kion/internal/controller/namespaced"
 	"github.com/enel1221/provider-kion/internal/features"
 )
@@ -168,6 +169,7 @@ func main() {
 	kingpin.FatalIfError(customresourcesgate.Setup(mgr, namespacedOpts.Options), "Cannot setup CRD gate")
 	kingpin.FatalIfError(clustercontroller.SetupGated(mgr, clusterOpts), "Cannot setup cluster-scoped Kion controllers")
 	kingpin.FatalIfError(namespacedcontroller.SetupGated(mgr, namespacedOpts), "Cannot setup namespaced Kion controllers")
+	kingpin.FatalIfError(keyrotation.Setup(mgr, log), "Cannot setup API key rotation controller")
 	kingpin.FatalIfError(mgr.Start(ctrl.SetupSignalHandler()), "Cannot start controller manager")
 }
 
