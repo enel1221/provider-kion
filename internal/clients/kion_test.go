@@ -21,6 +21,7 @@ import (
 
 	clusterv1beta1 "github.com/enel1221/provider-kion/apis/cluster/v1beta1"
 	namespacedv1beta1 "github.com/enel1221/provider-kion/apis/namespaced/v1beta1"
+	"github.com/enel1221/provider-kion/internal/testconfig"
 )
 
 // validCredentials returns a JSON-encoded credential blob for testing.
@@ -42,25 +43,22 @@ func mustMarshalJSON(value any) []byte {
 }
 
 func TestTerraformSetupBuilder(t *testing.T) {
-	type args struct {
-		version         string
-		providerSource  string
-		providerVersion string
-	}
 	type want struct {
 		configuration terraform.ProviderConfiguration
 		err           error
 	}
+	terraformCfg, err := testconfig.LoadTerraformConfig()
+	if err != nil {
+		t.Fatalf("failed to load terraform test config: %v", err)
+	}
 	cases := map[string]struct {
 		reason string
-		args   args
 		mg     xpresource.Managed
 		kube   client.Client
 		want   want
 	}{
 		"LegacyManagedSecretCredentials": {
 			reason: "Should extract credentials from a Secret for a legacy (cluster-scoped) managed resource.",
-			args:   args{version: "0.0.1", providerSource: "registry.terraform.io/kionsoftware/kion", providerVersion: "0.3.31"},
 			mg: &fake.LegacyManaged{
 				ObjectMeta: metav1.ObjectMeta{Name: "test-mr"},
 				LegacyProviderConfigReferencer: fake.LegacyProviderConfigReferencer{
@@ -105,7 +103,6 @@ func TestTerraformSetupBuilder(t *testing.T) {
 		},
 		"LegacyManagedNilProviderConfigRef": {
 			reason: "Should return an error when providerConfigRef is nil.",
-			args:   args{version: "0.0.1", providerSource: "test", providerVersion: "0.0.1"},
 			mg: &fake.LegacyManaged{
 				ObjectMeta: metav1.ObjectMeta{Name: "test-mr"},
 				LegacyProviderConfigReferencer: fake.LegacyProviderConfigReferencer{
@@ -119,7 +116,6 @@ func TestTerraformSetupBuilder(t *testing.T) {
 		},
 		"LegacyManagedInvalidCredentialJSON": {
 			reason: "Should return an error when credential data is not valid JSON.",
-			args:   args{version: "0.0.1", providerSource: "test", providerVersion: "0.0.1"},
 			mg: &fake.LegacyManaged{
 				ObjectMeta: metav1.ObjectMeta{Name: "test-mr"},
 				LegacyProviderConfigReferencer: fake.LegacyProviderConfigReferencer{
@@ -160,7 +156,6 @@ func TestTerraformSetupBuilder(t *testing.T) {
 		},
 		"PartialCredentials": {
 			reason: "Should populate only the keys present in the credential JSON.",
-			args:   args{version: "0.0.1", providerSource: "test", providerVersion: "0.0.1"},
 			mg: &fake.LegacyManaged{
 				ObjectMeta: metav1.ObjectMeta{Name: "test-mr"},
 				LegacyProviderConfigReferencer: fake.LegacyProviderConfigReferencer{
@@ -204,7 +199,7 @@ func TestTerraformSetupBuilder(t *testing.T) {
 
 	for name, tc := range cases {
 		t.Run(name, func(t *testing.T) {
-			setupFn := TerraformSetupBuilder(tc.args.version, tc.args.providerSource, tc.args.providerVersion)
+			setupFn := TerraformSetupBuilder(terraformCfg.Version, terraformCfg.ProviderSource, terraformCfg.ProviderVersion)
 			ps, err := setupFn(context.Background(), tc.kube, tc.mg)
 
 			if tc.want.err != nil {

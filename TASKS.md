@@ -3,6 +3,20 @@
 > **Branch**: `feat-v2-upgrade`
 > **Current state**: Dependencies migrated (crossplane-runtime v2, upjet v2.2.0, Go 1.24.11). Dual API structure (cluster/namespaced) generated for 28 resources. Binary builds, lint passes. 5 more commits needed to be production-ready.
 
+## Quick Terraform Provider Update Checklist
+
+1. Update `TERRAFORM_PROVIDER_VERSION` and `TERRAFORM_NATIVE_PROVIDER_BINARY` in `Makefile`.
+2. Run `make generate.init`.
+3. If `make generate.init` reuses the old provider lock, remove `.work/terraform` and rerun.
+4. Run `make generate`.
+5. Run `go mod tidy`.
+6. Run `go test ./config/... ./internal/...`.
+7. Run `make lint`.
+8. Run `go build ./...`.
+9. Run `make build`.
+
+The test suite now loads Terraform version and source values from environment or the top-level `Makefile`, so routine Terraform provider bumps should not require test-file edits.
+
 ---
 
 ## Phase 1: Upgrade Terraform Provider (0.3.31 → 0.3.33)

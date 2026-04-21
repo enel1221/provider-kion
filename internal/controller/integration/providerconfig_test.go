@@ -17,7 +17,19 @@ import (
 	namespacedkionv1alpha1 "github.com/enel1221/provider-kion/apis/namespaced/kion/v1alpha1"
 	namespacedv1beta1 "github.com/enel1221/provider-kion/apis/namespaced/v1beta1"
 	"github.com/enel1221/provider-kion/internal/clients"
+	"github.com/enel1221/provider-kion/internal/testconfig"
 )
+
+func newTerraformSetupFn(t *testing.T) terraform.SetupFn {
+	t.Helper()
+
+	terraformCfg, err := testconfig.LoadTerraformConfig()
+	if err != nil {
+		t.Fatalf("failed to load terraform test config: %v", err)
+	}
+
+	return clients.TerraformSetupBuilder(terraformCfg.Version, terraformCfg.ProviderSource, terraformCfg.ProviderVersion)
+}
 
 func TestTerraformSetupBuilderLegacyProviderConfig(t *testing.T) {
 	ctx, cancel := testContext(t)
@@ -79,7 +91,7 @@ func TestTerraformSetupBuilderLegacyProviderConfig(t *testing.T) {
 	}
 	managed.GetObjectKind().SetGroupVersionKind(clusterkionv1alpha1.AppConfig_GroupVersionKind)
 
-	setupFn := clients.TerraformSetupBuilder("1.5.7", "kionsoftware/kion", "0.3.33")
+	setupFn := newTerraformSetupFn(t)
 	setup, err := setupFn(ctx, k8sClient, managed)
 	if err != nil {
 		t.Fatalf("TerraformSetupBuilder returned unexpected error: %v", err)
@@ -168,7 +180,7 @@ func TestTerraformSetupBuilderNamespacedProviderConfig(t *testing.T) {
 	}
 	managed.GetObjectKind().SetGroupVersionKind(namespacedkionv1alpha1.AppConfig_GroupVersionKind)
 
-	setupFn := clients.TerraformSetupBuilder("1.5.7", "kionsoftware/kion", "0.3.33")
+	setupFn := newTerraformSetupFn(t)
 	setup, err := setupFn(ctx, k8sClient, managed)
 	if err != nil {
 		t.Fatalf("TerraformSetupBuilder returned unexpected error: %v", err)
@@ -259,7 +271,7 @@ func TestTerraformSetupBuilderClusterProviderConfig(t *testing.T) {
 	}
 	managed.GetObjectKind().SetGroupVersionKind(namespacedkionv1alpha1.AppConfig_GroupVersionKind)
 
-	setupFn := clients.TerraformSetupBuilder("1.5.7", "kionsoftware/kion", "0.3.33")
+	setupFn := newTerraformSetupFn(t)
 	setup, err := setupFn(ctx, k8sClient, managed)
 	if err != nil {
 		t.Fatalf("TerraformSetupBuilder returned unexpected error: %v", err)
@@ -316,7 +328,7 @@ func TestTerraformSetupBuilderMissingSecret(t *testing.T) {
 	}
 	managed.GetObjectKind().SetGroupVersionKind(namespacedkionv1alpha1.AppConfig_GroupVersionKind)
 
-	setupFn := clients.TerraformSetupBuilder("1.5.7", "kionsoftware/kion", "0.3.33")
+	setupFn := newTerraformSetupFn(t)
 	_, err := setupFn(ctx, k8sClient, managed)
 	if err == nil {
 		t.Fatal("expected TerraformSetupBuilder to fail when the referenced secret is missing")
