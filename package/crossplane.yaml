@@ -5,3 +5,6 @@ metadata:
 spec:
   crossplane:
     version: ">=v2.0.0"
+  capabilities:
+    # Required by Crossplane Runtime's customresourcesgate safe-start controller.
+    - safe-start

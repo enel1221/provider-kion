@@ -1,36 +1,72 @@
-# provider-kion agent notes
+# AGENTS.md
 
-## Output discipline
+## Purpose
+This repository is a Crossplane provider for Kion built with Upjet from Kion's
+official Terraform provider. Agents working here should preserve the generated
+pipeline, keep manual config changes minimal and intentional, and avoid casual
+edits to generated APIs or CRDs.
 
-- Avoid streaming high-volume command output into VS Code. For generation, lint, build, and other noisy targets, redirect output to files under `.work/` and inspect the log files instead.
-- Prefer commands like:
-  - `make generate.init > .work/generate-init.log 2>&1`
-  - `make generate > .work/generate.log 2>&1`
-  - `make lint > .work/lint.log 2>&1`
-  - `make build > .work/build.log 2>&1`
+## Read First
+Before editing code, read:
+- `README.md`
+- `Makefile`
+- the relevant file under `config/`
+- the nearest generated or controller code for the resource being changed
 
-## Terraform generation trap
+## Repo Priorities
+- Treat `config/` as the primary handwritten source of truth for provider
+  resource behavior.
+- Expect most API, controller, CRD, example, and package changes to be
+  generation outputs rather than hand-edited files.
+- Preserve both cluster-scoped and namespaced provider support unless the task
+  explicitly changes that contract.
+- Keep the Kion API key rotation controller working alongside the generated
+  provider behavior.
 
-- If `make generate.init` fails after changing `TERRAFORM_PROVIDER_VERSION`, check for a stale lock in `.work/terraform/.terraform.lock.hcl`.
-- The usual fix in this repo is to remove `.work/terraform` and rerun `make generate.init`.
+## Key Areas
+- `config/`: handwritten Upjet resource mapping, external-name behavior, and
+  provider setup
+- `cmd/generator/`: generation entrypoint
+- `cmd/provider/`: provider runtime entrypoint
+- `internal/clients/`: Kion client behavior
+- `internal/controller/keyrotation/`: Kion API key rotation controller
+- `internal/controller/integration/`: envtest-backed integration coverage
+- `apis/`, `package/`, `examples-generated/`: generated outputs
 
-## Expected workflow
+## Safety Rules
+- Safe by default: repo inspection, focused edits in handwritten code,
+  generation to local files, unit/integration tests, and local builds.
+- Ask first: cluster deployment targets such as `local-deploy`, `e2e`, `uptest`,
+  `controlplane.up`, image pushes, and any credentialed registry or Upbound
+  publication flow.
+- Avoid hand-editing generated `zz_*.go`, generated CRDs, or generated examples
+  unless the task is explicitly about a post-generation fix and the reason is
+  documented.
 
-- When adding or upgrading Terraform resources, update the hand-maintained config first:
-  - `config/external_name.go`
-  - `config/kionprovider/config.go`
-  - `config/external_name_test.go`
-  - `config/provider_test.go`
-- Then run validation in this order:
-  1. `make generate.init`
-  2. `make generate`
-  3. `go mod tidy`
-  4. `go test ./config/... ./internal/...`
-  5. `make lint`
-  6. `go build ./...`
-  7. `make build`
+## Standard Workflow
+1. Change handwritten config or controller code first.
+2. Run the generation pipeline if the task affects provider schema or resource
+   mappings.
+3. Validate with focused Go tests before broader make targets.
+4. Summarize which outputs were regenerated and what deployment/runtime paths
+   were not exercised.
 
-## Repo-specific expectations
+## Release Guardrails
+- Before releasing a provider package, run the package metadata tests. SafeStart
+  requires `package/crossplane.yaml` to declare the `safe-start` capability;
+  Crossplane's RBAC manager turns that capability into `get`, `list`, and
+  `watch` on `customresourcedefinitions.apiextensions.k8s.io`.
+- Keep the package builder pinned to a version that preserves package
+  capabilities in the xpkg metadata. `up v0.28.0` drops capabilities and will
+  recreate the SafeStart RBAC failure even when `crossplane.yaml` is correct.
+- Run the local CI-equivalent checks before pushing release fixes:
+  `make vendor vendor.check`, `make lint`, `make test`,
+  `make integration-test`, `make check-diff`, `make build`, and
+  `make local-deploy`.
+- After pushing, verify the GitHub Actions run on the pushed commit before
+  tagging. Release tags use the `vX.Y.Z` format and should be followed by an
+  explicit package pull check from `ghcr.io/enel1221/provider-kion:vX.Y.Z`.
 
-- This provider maintains both cluster-scoped and namespaced APIs. Resource additions should result in generated changes under both `apis/cluster` and `apis/namespaced`, both controller trees, and both CRD groups.
-- Keep the cluster-scoped ProviderConfig example for compatibility, and maintain a namespaced ProviderConfig example and e2e setup path alongside it.
+## Source Of Truth
+Detailed repo guidance lives under `.codex/`. More specific guidance there
+overrides this file for the area being changed.

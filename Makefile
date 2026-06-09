@@ -49,14 +49,14 @@ GO_REQUIRED_VERSION ?= 1.24.11
 GOLANGCILINT_VERSION ?= 1.64.5
 GO_STATIC_PACKAGES = $(GO_PROJECT)/cmd/provider $(GO_PROJECT)/cmd/generator
 GO_LDFLAGS += -X $(GO_PROJECT)/internal/version.Version=$(VERSION)
-GO_SUBDIRS += cmd internal apis
+GO_SUBDIRS += cmd internal apis package
 -include build/makelib/golang.mk
 
 # ====================================================================================
 # Setup Kubernetes tools
 
 KIND_VERSION = v0.15.0
-UP_VERSION = v0.28.0
+UP_VERSION = v0.44.3
 UP_CHANNEL = stable
 UPTEST_VERSION = v1.3.0
 SETUP_ENVTEST_VERSION ?= release-0.19
@@ -229,6 +229,7 @@ repo.local.xpkg.sync.provider.%: local.xpkg.init $(UP)
 		friendlyid=$$(printf '%.50s-%.12s' "xpkg.crossplane.internal/dev/$$pkgname" "$(LOCAL_XPKG_DIGEST)" | sed 's/[^a-z0-9]/-/g' | cut -c1-63 | sed 's/-*$$//'); \
 		cp "$(XPKG_OUTPUT_DIR)/cache/xpkg.crossplane.internal/dev/$$pkgname@$(LOCAL_XPKG_DIGEST).gz" "$(XPKG_OUTPUT_DIR)/cache/$$friendlyid.gz"; \
 	done
+	@chmod -R a+rX $(XPKG_OUTPUT_DIR)/cache
 	@XPPOD=$$($(KUBECTL) -n $(CROSSPLANE_NAMESPACE) get pod -l app=crossplane,patched=true -o jsonpath="{.items[0].metadata.name}"); \
 		$(KUBECTL) -n $(CROSSPLANE_NAMESPACE) cp $(XPKG_OUTPUT_DIR)/cache -c dev $$XPPOD:/tmp
 	@$(OK) copying local xpkg cache to Crossplane pod
@@ -244,6 +245,17 @@ local-deploy: build controlplane.up repo.local.xpkg.deploy.provider.$(PROJECT_NA
 	@$(INFO) running locally built provider
 	@$(KUBECTL) wait provider.pkg $(PROJECT_NAME) --for condition=Healthy --timeout 5m
 	@$(KUBECTL) -n upbound-system wait --for=condition=Available deployment --all --timeout=5m
+	@revision=$$($(KUBECTL) get provider.pkg $(PROJECT_NAME) -o jsonpath="{.status.currentRevision}"); \
+		role="crossplane:provider:$$revision:system"; \
+		found="false"; \
+		for _ in $$(seq 1 60); do \
+			if $(KUBECTL) get clusterrole "$$role" -o jsonpath='{range .rules[*]}{.apiGroups}{"|"}{.resources}{"|"}{.verbs}{"\n"}{end}' 2>/dev/null | grep -E 'apiextensions.k8s.io.*customresourcedefinitions.*get.*list.*watch' >/dev/null; then \
+				found="true"; \
+				break; \
+			fi; \
+			sleep 5; \
+		done; \
+		[ "$$found" = "true" ] || (echo "provider system ClusterRole is missing SafeStart CRD read permissions" 1>&2; false)
 	@$(OK) running locally built provider
 
 e2e: local-deploy uptest
