@@ -328,6 +328,7 @@ jobs:
           path: _output/**
       - name: Publish Artifacts
         run: |
+          export REGISTRY_ORGS=ghcr.io/enel1221
           export XPKG_REG_ORGS=ghcr.io/enel1221
           make publish VERSION=${{ env.VERSION }} BRANCH_NAME=${GITHUB_REF##*/}
 

@@ -67,7 +67,9 @@ Before editing code, read:
   tagging. Release tags use the `vX.Y.Z` format and should be followed by an
   explicit package pull check from `ghcr.io/enel1221/provider-kion:vX.Y.Z`.
   The release publish filter must include `v%`; otherwise tag workflows create
-  GitHub releases without publishing matching GHCR package tags.
+  GitHub releases without publishing matching GHCR package tags. The CI publish
+  job must set both `REGISTRY_ORGS` and `XPKG_REG_ORGS` to GHCR so image and
+  package publication use the registry that the workflow logs in to.
 
 ## Source Of Truth
 Detailed repo guidance lives under `.codex/`. More specific guidance there

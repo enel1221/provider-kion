@@ -41,6 +41,8 @@
      capabilities in the xpkg metadata.
    - `Makefile` keeps `RELEASE_BRANCH_FILTER` matching `v%` so tag workflows
      publish versioned GHCR package tags.
+   - `.github/workflows/ci.yml` sets both `REGISTRY_ORGS` and `XPKG_REG_ORGS`
+     to `ghcr.io/enel1221` in the publish job.
 3. Run local validation before pushing:
    - `make vendor vendor.check`
    - `make lint`

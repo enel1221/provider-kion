@@ -4,6 +4,7 @@ import (
 	"os"
 	"regexp"
 	"strconv"
+	"strings"
 	"testing"
 
 	"gopkg.in/yaml.v3"
@@ -65,6 +66,19 @@ func TestReleaseTagsPublishArtifacts(t *testing.T) {
 
 	if !hasString(regexp.MustCompile(`\s+`).Split(matches[1], -1), "v%") {
 		t.Fatal("release tags must match RELEASE_BRANCH_FILTER so tag workflows publish versioned packages")
+	}
+
+	workflow, err := os.ReadFile("../.github/workflows/ci.yml")
+	if err != nil {
+		t.Fatalf("read CI workflow: %v", err)
+	}
+	for _, want := range []string{
+		"export REGISTRY_ORGS=ghcr.io/enel1221",
+		"export XPKG_REG_ORGS=ghcr.io/enel1221",
+	} {
+		if !strings.Contains(string(workflow), want) {
+			t.Fatalf("CI publish job must include %q", want)
+		}
 	}
 }
 
