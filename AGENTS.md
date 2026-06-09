@@ -66,6 +66,8 @@ Before editing code, read:
 - After pushing, verify the GitHub Actions run on the pushed commit before
   tagging. Release tags use the `vX.Y.Z` format and should be followed by an
   explicit package pull check from `ghcr.io/enel1221/provider-kion:vX.Y.Z`.
+  The release publish filter must include `v%`; otherwise tag workflows create
+  GitHub releases without publishing matching GHCR package tags.
 
 ## Source Of Truth
 Detailed repo guidance lives under `.codex/`. More specific guidance there

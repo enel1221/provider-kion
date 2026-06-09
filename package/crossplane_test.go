@@ -52,6 +52,22 @@ func TestPackageBuilderPreservesCapabilities(t *testing.T) {
 	}
 }
 
+func TestReleaseTagsPublishArtifacts(t *testing.T) {
+	raw, err := os.ReadFile("../Makefile")
+	if err != nil {
+		t.Fatalf("read Makefile: %v", err)
+	}
+
+	matches := regexp.MustCompile(`(?m)^RELEASE_BRANCH_FILTER\s*\?=\s*(.+)$`).FindStringSubmatch(string(raw))
+	if matches == nil {
+		t.Fatal("Makefile must define RELEASE_BRANCH_FILTER before including xpkg.mk")
+	}
+
+	if !hasString(regexp.MustCompile(`\s+`).Split(matches[1], -1), "v%") {
+		t.Fatal("release tags must match RELEASE_BRANCH_FILTER so tag workflows publish versioned packages")
+	}
+}
+
 func hasString(values []string, want string) bool {
 	for _, value := range values {
 		if value == want {

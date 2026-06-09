@@ -39,6 +39,8 @@
      CRD read permissions from the `safe-start` capability.
    - `Makefile` pins `UP_VERSION` to a package builder that preserves
      capabilities in the xpkg metadata.
+   - `Makefile` keeps `RELEASE_BRANCH_FILTER` matching `v%` so tag workflows
+     publish versioned GHCR package tags.
 3. Run local validation before pushing:
    - `make vendor vendor.check`
    - `make lint`
@@ -54,5 +56,5 @@
 6. Create the release tag, for example `v1.0.4`, and wait for the tag workflow
    to publish artifacts and the GitHub release.
 7. Verify the released package is pullable from GHCR, for example:
-   - `up xpkg pull ghcr.io/enel1221/provider-kion:v1.0.4`
-   - or another OCI/package pull that proves the tag resolves and downloads.
+   - `oras manifest fetch ghcr.io/enel1221/provider-kion:v1.0.4`
+   - `oras pull ghcr.io/enel1221/provider-kion:v1.0.4 -o /tmp/provider-kion-v1.0.4`

@@ -78,6 +78,8 @@ XPKG_REG_ORGS ?= xpkg.upbound.io/upbound
 # NOTE(hasheddan): skip promoting on xpkg.upbound.io as channel tags are
 # inferred.
 XPKG_REG_ORGS_NO_PROMOTE ?= xpkg.upbound.io/upbound
+# Tags such as v1.0.4 must publish versioned GHCR packages during release.
+RELEASE_BRANCH_FILTER ?= main master release-% v%
 XPKGS = $(PROJECT_NAME)
 -include build/makelib/xpkg.mk
 
