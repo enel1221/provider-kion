@@ -601,8 +601,8 @@ resources:
                       "id": 1
                     }
                   ],
-                  "parameters": "{\n    \"tagName\": {\n        \"type\": \"String\",\n        \"metadata\": {\n            \"displayName\": \"Tag Name\",\n            \"description\": \"Name of the tag to enforce\"\n        },\n        \"defaultValue\": \"environment\"\n    }\n}\n",
-                  "policy": "{\n    \"if\": {\n        \"allOf\": [\n            {\n                \"field\": \"type\",\n                \"equals\": \"Microsoft.Resources/subscriptions/resourceGroups\"\n            },\n            {\n                \"field\": \"tags['environment']\",\n                \"exists\": \"false\"\n            }\n        ]\n    },\n    \"then\": {\n        \"effect\": \"deny\"\n    }\n}\n"
+                  "parameters": "{\n    \"tagName\": {\n        \"value\": \"environment\"\n    }\n}\n",
+                  "policy": "{\n    \"displayName\": \"Require Environment Tag\",\n    \"mode\": \"All\",\n    \"policyRule\": {\n        \"if\": {\n            \"allOf\": [\n                {\n                    \"field\": \"type\",\n                    \"equals\": \"Microsoft.Resources/subscriptions/resourceGroups\"\n                },\n                {\n                    \"field\": \"tags[parameters('tagName')]\",\n                    \"exists\": \"false\"\n                }\n            ]\n        },\n        \"then\": {\n            \"effect\": \"deny\"\n        }\n    },\n    \"parameters\": {\n        \"tagName\": {\n            \"type\": \"String\",\n            \"metadata\": {\n                \"displayName\": \"Tag Name\",\n                \"description\": \"Name of the tag to enforce\"\n            },\n            \"defaultValue\": \"environment\"\n        }\n    }\n}\n"
                 }
             - name: allowed_vms
               manifest: |-
@@ -614,8 +614,8 @@ resources:
                       "id": 2
                     }
                   ],
-                  "parameters": "{\n    \"allowedSkus\": {\n        \"type\": \"Array\",\n        \"metadata\": {\n            \"displayName\": \"Allowed VM SKUs\",\n            \"description\": \"List of allowed VM SKUs\"\n        },\n        \"defaultValue\": [\n            \"Standard_D2s_v3\",\n            \"Standard_D4s_v3\",\n            \"Standard_D8s_v3\"\n        ]\n    }\n}\n",
-                  "policy": "{\n    \"if\": {\n        \"allOf\": [\n            {\n                \"field\": \"type\",\n                \"equals\": \"Microsoft.Compute/virtualMachines\"\n            },\n            {\n                \"not\": {\n                    \"field\": \"Microsoft.Compute/virtualMachines/sku.name\",\n                    \"in\": \"[parameters('allowedSkus')]\"\n                }\n            }\n        ]\n    },\n    \"then\": {\n        \"effect\": \"deny\"\n    }\n}\n"
+                  "parameters": "{\n    \"allowedSkus\": {\n        \"value\": [\n            \"Standard_D2s_v3\",\n            \"Standard_D4s_v3\",\n            \"Standard_D8s_v3\"\n        ]\n    }\n}\n",
+                  "policy": "{\n    \"displayName\": \"Allowed VM SKUs\",\n    \"mode\": \"All\",\n    \"policyRule\": {\n        \"if\": {\n            \"allOf\": [\n                {\n                    \"field\": \"type\",\n                    \"equals\": \"Microsoft.Compute/virtualMachines\"\n                },\n                {\n                    \"not\": {\n                        \"field\": \"Microsoft.Compute/virtualMachines/sku.name\",\n                        \"in\": \"[parameters('allowedSkus')]\"\n                    }\n                }\n            ]\n        },\n        \"then\": {\n            \"effect\": \"deny\"\n        }\n    },\n    \"parameters\": {\n        \"allowedSkus\": {\n            \"type\": \"Array\",\n            \"metadata\": {\n                \"displayName\": \"Allowed VM SKUs\",\n                \"description\": \"List of allowed VM SKUs\"\n            },\n            \"defaultValue\": [\n                \"Standard_D2s_v3\",\n                \"Standard_D4s_v3\",\n                \"Standard_D8s_v3\"\n            ]\n        }\n    }\n}\n"
                 }
             - name: storage_encryption
               manifest: |-
@@ -632,7 +632,7 @@ resources:
                       "id": 1
                     }
                   ],
-                  "policy": "{\n    \"if\": {\n        \"allOf\": [\n            {\n                \"field\": \"type\",\n                \"equals\": \"Microsoft.Storage/storageAccounts\"\n            },\n            {\n                \"not\": {\n                    \"allOf\": [\n                        {\n                            \"field\": \"Microsoft.Storage/storageAccounts/supportsHttpsTrafficOnly\",\n                            \"equals\": \"true\"\n                        },\n                        {\n                            \"field\": \"Microsoft.Storage/storageAccounts/minimumTlsVersion\",\n                            \"equals\": \"TLS1_2\"\n                        },\n                        {\n                            \"field\": \"Microsoft.Storage/storageAccounts/encryption.services.blob.enabled\",\n                            \"equals\": \"true\"\n                        }\n                    ]\n                }\n            }\n        ]\n    },\n    \"then\": {\n        \"effect\": \"deny\"\n    }\n}\n"
+                  "policy": "{\n    \"displayName\": \"Storage Encryption Requirements\",\n    \"mode\": \"All\",\n    \"policyRule\": {\n        \"if\": {\n            \"allOf\": [\n                {\n                    \"field\": \"type\",\n                    \"equals\": \"Microsoft.Storage/storageAccounts\"\n                },\n                {\n                    \"not\": {\n                        \"allOf\": [\n                            {\n                                \"field\": \"Microsoft.Storage/storageAccounts/supportsHttpsTrafficOnly\",\n                                \"equals\": \"true\"\n                            },\n                            {\n                                \"field\": \"Microsoft.Storage/storageAccounts/minimumTlsVersion\",\n                                \"equals\": \"TLS1_2\"\n                            },\n                            {\n                                \"field\": \"Microsoft.Storage/storageAccounts/encryption.services.blob.enabled\",\n                                \"equals\": \"true\"\n                            }\n                        ]\n                    }\n                }\n            ]\n        },\n        \"then\": {\n            \"effect\": \"deny\"\n        }\n    }\n}\n"
                 }
             - name: nsg_rules
               manifest: |-
@@ -644,8 +644,8 @@ resources:
                       "id": 1
                     }
                   ],
-                  "parameters": "{\n    \"restrictedPorts\": {\n        \"type\": \"Array\",\n        \"metadata\": {\n            \"displayName\": \"Restricted Ports\",\n            \"description\": \"Ports that should not be exposed\"\n        },\n        \"defaultValue\": [\n            \"22\",\n            \"3389\",\n            \"161\",\n            \"162\"\n        ]\n    }\n}\n",
-                  "policy": "{\n    \"if\": {\n        \"allOf\": [\n            {\n                \"field\": \"type\",\n                \"equals\": \"Microsoft.Network/networkSecurityGroups/securityRules\"\n            },\n            {\n                \"anyOf\": [\n                    {\n                        \"allOf\": [\n                            {\n                                \"field\": \"Microsoft.Network/networkSecurityGroups/securityRules/access\",\n                                \"equals\": \"Allow\"\n                            },\n                            {\n                                \"field\": \"Microsoft.Network/networkSecurityGroups/securityRules/direction\",\n                                \"equals\": \"Inbound\"\n                            },\n                            {\n                                \"field\": \"Microsoft.Network/networkSecurityGroups/securityRules/sourceAddressPrefix\",\n                                \"equals\": \"*\"\n                            }\n                        ]\n                    },\n                    {\n                        \"field\": \"Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRange\",\n                        \"in\": \"[parameters('restrictedPorts')]\"\n                    }\n                ]\n            }\n        ]\n    },\n    \"then\": {\n        \"effect\": \"deny\"\n    }\n}\n"
+                  "parameters": "{\n    \"restrictedPorts\": {\n        \"value\": [\n            \"22\",\n            \"3389\",\n            \"161\",\n            \"162\"\n        ]\n    }\n}\n",
+                  "policy": "{\n    \"displayName\": \"NSG Security Requirements\",\n    \"mode\": \"All\",\n    \"policyRule\": {\n        \"if\": {\n            \"allOf\": [\n                {\n                    \"field\": \"type\",\n                    \"equals\": \"Microsoft.Network/networkSecurityGroups/securityRules\"\n                },\n                {\n                    \"anyOf\": [\n                        {\n                            \"allOf\": [\n                                {\n                                    \"field\": \"Microsoft.Network/networkSecurityGroups/securityRules/access\",\n                                    \"equals\": \"Allow\"\n                                },\n                                {\n                                    \"field\": \"Microsoft.Network/networkSecurityGroups/securityRules/direction\",\n                                    \"equals\": \"Inbound\"\n                                },\n                                {\n                                    \"field\": \"Microsoft.Network/networkSecurityGroups/securityRules/sourceAddressPrefix\",\n                                    \"equals\": \"*\"\n                                }\n                            ]\n                        },\n                        {\n                            \"field\": \"Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRange\",\n                            \"in\": \"[parameters('restrictedPorts')]\"\n                        }\n                    ]\n                }\n            ]\n        },\n        \"then\": {\n            \"effect\": \"deny\"\n        }\n    },\n    \"parameters\": {\n        \"restrictedPorts\": {\n            \"type\": \"Array\",\n            \"metadata\": {\n                \"displayName\": \"Restricted Ports\",\n                \"description\": \"Ports that should not be exposed\"\n            },\n            \"defaultValue\": [\n                \"22\",\n                \"3389\",\n                \"161\",\n                \"162\"\n            ]\n        }\n    }\n}\n"
                 }
         argumentDocs:
             azure_managed_policy_def_id: (String)
@@ -2048,24 +2048,48 @@ resources:
                   ],
                   "permission_scheme_id": 3
                 }
+            - name: existing_project
+              manifest: |-
+                {
+                  "labels": {
+                    "Department": "Engineering"
+                  },
+                  "move_ou_settings": [
+                    {
+                      "cloud_rule_setting": "convert",
+                      "financial_setting": "move"
+                    }
+                  ],
+                  "name": "My Project",
+                  "ou_id": 11,
+                  "owner_user_group_ids": [
+                    {
+                      "id": 1
+                    }
+                  ],
+                  "permission_scheme_id": 1
+                }
         argumentDocs:
             amount: (Number) Total amount for the budget. This is required if data is not specified. Budget entries are created between start_datecode and end_datecode (exclusive) with the amount evenly distributed across the months. When monthly data is provided, the sum of all monthly amounts must equal this value.
             archived: (Boolean)
             auto_pay: (Boolean)
             budget: (Block Set) (see below for nested schema)
+            cloud_rule_setting: (String) One of "convert" or "remove". If "convert", inherited cloud rules from the old OU are converted to local cloud rules on the project. If "remove", cloud rules are removed from the project.
             data: (Block Set) Total amount for the budget. This is required if data is not specified. Budget entries are created between start_datecode and end_datecode (exclusive) with the amount evenly distributed across the months. (see below for nested schema)
             datecode: (String) Year and month for the budget data entry (i.e 2023-01).
             default_aws_region: (String)
             description: (String)
             end_datecode: (String) Year and month the budget ends. This is an exclusive date.
+            financial_setting: '(String) One of "preserve" or "move". If "preserve", financial history stays with the original OU and a new project is created in the destination OU (WARNING: this changes the project ID). If "move", financial history transfers to the new OU and the project keeps its same ID (recommended). Default: "move".'
             funding_order: (Number)
             funding_source_id: (Number) ID of funding source for the budget entry.
             funding_source_ids: (Set of Number) Funding source IDs to use when data is not specified. This value is ignored is data is specified. If specified, the amount is distributed evenly across months and funding sources. Funding sources will be processed in order from first to last.
             id: (String) The ID of this resource.
             labels: (Map of String) A map of labels to assign to the project. The labels must already exist in Kion.
             last_updated: (String)
+            move_ou_settings: '(Block Set, Max: 1) Parameters used when moving a project between OUs. These settings are required when changing the ou_id. (see below for nested schema)'
             name: (String)
-            ou_id: (Number)
+            ou_id: (Number) The ID of the OU to place this project within. Can be changed to move the project to a different OU using the move_ou_settings.
             owner_user_group_ids: (Block Set) Must provide at least the owner_user_groups field or the owner_users field. (see below for nested schema)
             owner_user_ids: (Block Set) Must provide at least the owner_user_groups field or the owner_users field. (see below for nested schema)
             permission_scheme_id: (Number)

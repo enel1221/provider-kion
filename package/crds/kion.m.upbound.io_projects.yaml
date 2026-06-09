@@ -136,23 +136,20 @@ spec:
                     description: (String)
                     type: string
                   moveOuSettings:
-                    description: Parameters used when moving a project between OUs.
-                      These settings are required when changing the ou_id.
+                    description: |-
+                      (Block Set, Max: 1) Parameters used when moving a project between OUs. These settings are required when changing the ou_id. (see below for nested schema)
+                      Parameters used when moving a project between OUs. These settings are required when changing the ou_id.
                     items:
                       properties:
                         cloudRuleSetting:
-                          description: One of "convert" or "remove". If "convert",
-                            inherited cloud rules from the old OU are converted to
-                            local cloud rules on the project. If "remove", cloud rules
-                            are removed from the project.
+                          description: |-
+                            (String) One of "convert" or "remove". If "convert", inherited cloud rules from the old OU are converted to local cloud rules on the project. If "remove", cloud rules are removed from the project.
+                            One of "convert" or "remove". If "convert", inherited cloud rules from the old OU are converted to local cloud rules on the project. If "remove", cloud rules are removed from the project.
                           type: string
                         financialSetting:
-                          description: 'One of "preserve" or "move". If "preserve",
-                            financial history stays with the original OU and a new
-                            project is created in the destination OU (WARNING: this
-                            changes the project ID). If "move", financial history
-                            transfers to the new OU and the project keeps its same
-                            ID (recommended). Default: "move".'
+                          description: |-
+                            (String) One of "preserve" or "move". If "preserve", financial history stays with the original OU and a new project is created in the destination OU (WARNING: this changes the project ID). If "move", financial history transfers to the new OU and the project keeps its same ID (recommended). Default: "move".
+                            One of "preserve" or "move". If "preserve", financial history stays with the original OU and a new project is created in the destination OU (WARNING: this changes the project ID). If "move", financial history transfers to the new OU and the project keeps its same ID (recommended). Default: "move".
                           type: string
                       type: object
                     type: array
@@ -161,7 +158,7 @@ spec:
                     type: string
                   ouId:
                     description: |-
-                      (Number)
+                      (Number) The ID of the OU to place this project within. Can be changed to move the project to a different OU using the move_ou_settings.
                       The ID of the OU to place this project within. Can be changed to move the project to a different OU using the move_ou_settings.
                     type: number
                   ouIdRef:
@@ -389,23 +386,20 @@ spec:
                     description: (String)
                     type: string
                   moveOuSettings:
-                    description: Parameters used when moving a project between OUs.
-                      These settings are required when changing the ou_id.
+                    description: |-
+                      (Block Set, Max: 1) Parameters used when moving a project between OUs. These settings are required when changing the ou_id. (see below for nested schema)
+                      Parameters used when moving a project between OUs. These settings are required when changing the ou_id.
                     items:
                       properties:
                         cloudRuleSetting:
-                          description: One of "convert" or "remove". If "convert",
-                            inherited cloud rules from the old OU are converted to
-                            local cloud rules on the project. If "remove", cloud rules
-                            are removed from the project.
+                          description: |-
+                            (String) One of "convert" or "remove". If "convert", inherited cloud rules from the old OU are converted to local cloud rules on the project. If "remove", cloud rules are removed from the project.
+                            One of "convert" or "remove". If "convert", inherited cloud rules from the old OU are converted to local cloud rules on the project. If "remove", cloud rules are removed from the project.
                           type: string
                         financialSetting:
-                          description: 'One of "preserve" or "move". If "preserve",
-                            financial history stays with the original OU and a new
-                            project is created in the destination OU (WARNING: this
-                            changes the project ID). If "move", financial history
-                            transfers to the new OU and the project keeps its same
-                            ID (recommended). Default: "move".'
+                          description: |-
+                            (String) One of "preserve" or "move". If "preserve", financial history stays with the original OU and a new project is created in the destination OU (WARNING: this changes the project ID). If "move", financial history transfers to the new OU and the project keeps its same ID (recommended). Default: "move".
+                            One of "preserve" or "move". If "preserve", financial history stays with the original OU and a new project is created in the destination OU (WARNING: this changes the project ID). If "move", financial history transfers to the new OU and the project keeps its same ID (recommended). Default: "move".
                           type: string
                       type: object
                     type: array
@@ -414,7 +408,7 @@ spec:
                     type: string
                   ouId:
                     description: |-
-                      (Number)
+                      (Number) The ID of the OU to place this project within. Can be changed to move the project to a different OU using the move_ou_settings.
                       The ID of the OU to place this project within. Can be changed to move the project to a different OU using the move_ou_settings.
                     type: number
                   ouIdRef:
@@ -712,23 +706,20 @@ spec:
                     description: (String)
                     type: string
                   moveOuSettings:
-                    description: Parameters used when moving a project between OUs.
-                      These settings are required when changing the ou_id.
+                    description: |-
+                      (Block Set, Max: 1) Parameters used when moving a project between OUs. These settings are required when changing the ou_id. (see below for nested schema)
+                      Parameters used when moving a project between OUs. These settings are required when changing the ou_id.
                     items:
                       properties:
                         cloudRuleSetting:
-                          description: One of "convert" or "remove". If "convert",
-                            inherited cloud rules from the old OU are converted to
-                            local cloud rules on the project. If "remove", cloud rules
-                            are removed from the project.
+                          description: |-
+                            (String) One of "convert" or "remove". If "convert", inherited cloud rules from the old OU are converted to local cloud rules on the project. If "remove", cloud rules are removed from the project.
+                            One of "convert" or "remove". If "convert", inherited cloud rules from the old OU are converted to local cloud rules on the project. If "remove", cloud rules are removed from the project.
                           type: string
                         financialSetting:
-                          description: 'One of "preserve" or "move". If "preserve",
-                            financial history stays with the original OU and a new
-                            project is created in the destination OU (WARNING: this
-                            changes the project ID). If "move", financial history
-                            transfers to the new OU and the project keeps its same
-                            ID (recommended). Default: "move".'
+                          description: |-
+                            (String) One of "preserve" or "move". If "preserve", financial history stays with the original OU and a new project is created in the destination OU (WARNING: this changes the project ID). If "move", financial history transfers to the new OU and the project keeps its same ID (recommended). Default: "move".
+                            One of "preserve" or "move". If "preserve", financial history stays with the original OU and a new project is created in the destination OU (WARNING: this changes the project ID). If "move", financial history transfers to the new OU and the project keeps its same ID (recommended). Default: "move".
                           type: string
                       type: object
                     type: array
@@ -737,7 +728,7 @@ spec:
                     type: string
                   ouId:
                     description: |-
-                      (Number)
+                      (Number) The ID of the OU to place this project within. Can be changed to move the project to a different OU using the move_ou_settings.
                       The ID of the OU to place this project within. Can be changed to move the project to a different OU using the move_ou_settings.
                     type: number
                   ownerUserGroupIds:

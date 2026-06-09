@@ -153,28 +153,34 @@ type DataParameters struct {
 
 type MoveOuSettingsInitParameters struct {
 
+	// (String) One of "convert" or "remove". If "convert", inherited cloud rules from the old OU are converted to local cloud rules on the project. If "remove", cloud rules are removed from the project.
 	// One of "convert" or "remove". If "convert", inherited cloud rules from the old OU are converted to local cloud rules on the project. If "remove", cloud rules are removed from the project.
 	CloudRuleSetting *string `json:"cloudRuleSetting,omitempty" tf:"cloud_rule_setting,omitempty"`
 
+	// (String) One of "preserve" or "move". If "preserve", financial history stays with the original OU and a new project is created in the destination OU (WARNING: this changes the project ID). If "move", financial history transfers to the new OU and the project keeps its same ID (recommended). Default: "move".
 	// One of "preserve" or "move". If "preserve", financial history stays with the original OU and a new project is created in the destination OU (WARNING: this changes the project ID). If "move", financial history transfers to the new OU and the project keeps its same ID (recommended). Default: "move".
 	FinancialSetting *string `json:"financialSetting,omitempty" tf:"financial_setting,omitempty"`
 }
 
 type MoveOuSettingsObservation struct {
 
+	// (String) One of "convert" or "remove". If "convert", inherited cloud rules from the old OU are converted to local cloud rules on the project. If "remove", cloud rules are removed from the project.
 	// One of "convert" or "remove". If "convert", inherited cloud rules from the old OU are converted to local cloud rules on the project. If "remove", cloud rules are removed from the project.
 	CloudRuleSetting *string `json:"cloudRuleSetting,omitempty" tf:"cloud_rule_setting,omitempty"`
 
+	// (String) One of "preserve" or "move". If "preserve", financial history stays with the original OU and a new project is created in the destination OU (WARNING: this changes the project ID). If "move", financial history transfers to the new OU and the project keeps its same ID (recommended). Default: "move".
 	// One of "preserve" or "move". If "preserve", financial history stays with the original OU and a new project is created in the destination OU (WARNING: this changes the project ID). If "move", financial history transfers to the new OU and the project keeps its same ID (recommended). Default: "move".
 	FinancialSetting *string `json:"financialSetting,omitempty" tf:"financial_setting,omitempty"`
 }
 
 type MoveOuSettingsParameters struct {
 
+	// (String) One of "convert" or "remove". If "convert", inherited cloud rules from the old OU are converted to local cloud rules on the project. If "remove", cloud rules are removed from the project.
 	// One of "convert" or "remove". If "convert", inherited cloud rules from the old OU are converted to local cloud rules on the project. If "remove", cloud rules are removed from the project.
 	// +kubebuilder:validation:Optional
 	CloudRuleSetting *string `json:"cloudRuleSetting,omitempty" tf:"cloud_rule_setting,omitempty"`
 
+	// (String) One of "preserve" or "move". If "preserve", financial history stays with the original OU and a new project is created in the destination OU (WARNING: this changes the project ID). If "move", financial history transfers to the new OU and the project keeps its same ID (recommended). Default: "move".
 	// One of "preserve" or "move". If "preserve", financial history stays with the original OU and a new project is created in the destination OU (WARNING: this changes the project ID). If "move", financial history transfers to the new OU and the project keeps its same ID (recommended). Default: "move".
 	// +kubebuilder:validation:Optional
 	FinancialSetting *string `json:"financialSetting,omitempty" tf:"financial_setting,omitempty"`
@@ -299,13 +305,14 @@ type ProjectInitParameters struct {
 	// (String)
 	LastUpdated *string `json:"lastUpdated,omitempty" tf:"last_updated,omitempty"`
 
+	// (Block Set, Max: 1) Parameters used when moving a project between OUs. These settings are required when changing the ou_id. (see below for nested schema)
 	// Parameters used when moving a project between OUs. These settings are required when changing the ou_id.
 	MoveOuSettings []MoveOuSettingsInitParameters `json:"moveOuSettings,omitempty" tf:"move_ou_settings,omitempty"`
 
 	// (String)
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
-	// (Number)
+	// (Number) The ID of the OU to place this project within. Can be changed to move the project to a different OU using the move_ou_settings.
 	// The ID of the OU to place this project within. Can be changed to move the project to a different OU using the move_ou_settings.
 	// +crossplane:generate:reference:type=github.com/enel1221/provider-kion/apis/cluster/kion/v1alpha1.Ou
 	OuID *float64 `json:"ouId,omitempty" tf:"ou_id,omitempty"`
@@ -361,13 +368,14 @@ type ProjectObservation struct {
 	// (String)
 	LastUpdated *string `json:"lastUpdated,omitempty" tf:"last_updated,omitempty"`
 
+	// (Block Set, Max: 1) Parameters used when moving a project between OUs. These settings are required when changing the ou_id. (see below for nested schema)
 	// Parameters used when moving a project between OUs. These settings are required when changing the ou_id.
 	MoveOuSettings []MoveOuSettingsObservation `json:"moveOuSettings,omitempty" tf:"move_ou_settings,omitempty"`
 
 	// (String)
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
-	// (Number)
+	// (Number) The ID of the OU to place this project within. Can be changed to move the project to a different OU using the move_ou_settings.
 	// The ID of the OU to place this project within. Can be changed to move the project to a different OU using the move_ou_settings.
 	OuID *float64 `json:"ouId,omitempty" tf:"ou_id,omitempty"`
 
@@ -414,6 +422,7 @@ type ProjectParameters struct {
 	// +kubebuilder:validation:Optional
 	LastUpdated *string `json:"lastUpdated,omitempty" tf:"last_updated,omitempty"`
 
+	// (Block Set, Max: 1) Parameters used when moving a project between OUs. These settings are required when changing the ou_id. (see below for nested schema)
 	// Parameters used when moving a project between OUs. These settings are required when changing the ou_id.
 	// +kubebuilder:validation:Optional
 	MoveOuSettings []MoveOuSettingsParameters `json:"moveOuSettings,omitempty" tf:"move_ou_settings,omitempty"`
@@ -422,7 +431,7 @@ type ProjectParameters struct {
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
-	// (Number)
+	// (Number) The ID of the OU to place this project within. Can be changed to move the project to a different OU using the move_ou_settings.
 	// The ID of the OU to place this project within. Can be changed to move the project to a different OU using the move_ou_settings.
 	// +crossplane:generate:reference:type=github.com/enel1221/provider-kion/apis/cluster/kion/v1alpha1.Ou
 	// +kubebuilder:validation:Optional
